@@ -1,0 +1,37 @@
+/* Setup */
+@import 'setup/vars.css';
+@import 'setup/typography.css';
+
+/* Base */
+@import 'base/base.css';
+@import 'base/helpers.css';
+@import 'base/layout.css';
+@import 'base/forms.css';
+
+/* Components */
+@import 'cmps/CarIndex.css';
+@import 'cmps/AppHeader.css';
+@import 'cmps/AppFooter.css';
+@import 'cmps/ToggleBtn.css';
+@import 'cmps/UserMsg.css';
+
+@import 'cmps/CarFilter.css';
+@import 'cmps/CarList.css';
+@import 'cmps/CarPreview.css';
+
+@import 'cmps/ShoppingCart.css';
+@import 'cmps/float-text-input.css';
+
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.app > * {
+    width: 100%;
+}
+
+main {
+    flex-grow: 1;
+}
