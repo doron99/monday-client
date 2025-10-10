@@ -56,7 +56,7 @@ export function AppHeader() {
                 left: '0'
             }}>
                 <input
-                    type="checkbox"
+                    type="checkbox "
                     checked={isChecked}
                     onChange={handleCheckboxChange}
                     title="is dev"
