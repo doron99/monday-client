@@ -9,6 +9,8 @@ import {setDev} from '../store/actions/dev-tool.actions.js'
 import {useState} from 'react'
 // const { NavLink } = ReactRouterDOM
 // const { useSelector, useDispatch } = ReactRedux
+import { CiSearch } from "react-icons/ci";
+import { IoIosNotifications } from "react-icons/io";
 
 export function AppHeader() {
     const dispatch = useDispatch()
@@ -65,6 +67,8 @@ export function AppHeader() {
                 <nav className="app-nav">
                     <NavLink to="/toy" >Toys</NavLink>
                     <a onClick={onToggleCart} href="#">🛒 Cart</a>
+<CiSearch style={{width: '100%', height: '2rem'}}/>
+<IoIosNotifications style={{width: '100%', height: '2rem'}}/>
 
                 </nav>
                 {user ? (
