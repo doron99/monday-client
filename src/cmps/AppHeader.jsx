@@ -16,9 +16,12 @@ export function AppHeader() {
     const dispatch = useDispatch()
     const user = useSelector(storeState => storeState.userModule.loggedInUser)
     const isDev = useSelector(storeState => storeState.devToolModule.isDev)
-
+    const [ismodalOpen, setIsModalOpen] = useState(false);
     // console.log('user:', user)
-
+    function openUpdateModal() {
+        // console.log("update modal");
+        setIsModalOpen(true);
+    }
     function onLogout() {
         logout()
             .then(() => {
@@ -62,14 +65,19 @@ export function AppHeader() {
             {/* <button type='button' onClick={() => setDevTool(false)}>set false</button> */}
              
 
-            <section className="header-container" style={{display:'flex'}}>
+            <section className="header-container" >
                 <h5>Monday</h5>
                 <nav className="app-nav">
-                    <NavLink to="/toy" >Toys</NavLink>
-                    <a onClick={onToggleCart} href="#">🛒 Cart</a>
-<CiSearch style={{width: '100%', height: '2rem'}}/>
-<IoIosNotifications style={{width: '100%', height: '2rem'}}/>
-
+                    <CiSearch onClick={() => console.log('test')} style={{width: '100%', height: '2rem'}}/>
+                    <IoIosNotifications onClick={() => openUpdateModal()} style={{width: '100%', height: '2rem'}}/>
+                {ismodalOpen && (
+        <div className="priority-modal">
+            asdasdasda <button type='button' onClick={() => setIsModalOpen(false)}>close</button>
+          {/* {boardPriority.map((p) => (
+            <div onClick={() => updateTask(p)}>{p}</div>
+          ))} */}
+        </div>
+      )}
                 </nav>
                 {user ? (
                 < section >

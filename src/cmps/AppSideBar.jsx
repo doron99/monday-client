@@ -16,7 +16,7 @@ export function AppSideBar() {
     const isDev = useSelector(storeState => storeState.devToolModule.isDev)
 
     return (
-       <aside style={{height:'100vh',width:'200px',background:'#cdcdff'}}>
+       <aside className='app-sidebar' >
         sidebar
        </aside>
     )

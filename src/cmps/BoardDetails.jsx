@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router'
+import { BoardList } from './BoardList'
 
 
 export function BoardDetails() {
-    const isDev = useSelector(storeState => storeState.devToolModule.isDev)
-
+    //const isDev = useSelector(storeState => storeState.devToolModule.isDev)
+    console.log('asdasdas')
     return (
-        <div style={{height:'100vh',width:'100%',background:'#e1e1e1'}}>
-            board details
+        <div className='board-details'>
+            board-details
         </div>
            
           

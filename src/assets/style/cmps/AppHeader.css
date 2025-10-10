@@ -1,10 +1,18 @@
 .app-header {
     background-color: var(--clr1);
-    color: var(--clr1bg);
-    /* padding-block: 1em; */
+    /* color: var(--clr1bg); */
+    background:#e2f0e7
+    
 }
-
+.app-header h5,svg {
+    color:black;
+}
+.header-container {
+    display: flex;
+    align-items: center;
+}
 .app-nav {
+    margin-left:auto;
     display: flex;
     gap: 15px;
 }

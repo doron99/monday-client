@@ -1,0 +1,8 @@
+.app-sidebar {
+    background: #fdfdfd;
+    height:100vh;
+    width:200px;
+    border-radius: 10px;
+    margin:5px;
+    border:1px solid black;
+}

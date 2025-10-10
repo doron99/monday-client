@@ -11,7 +11,9 @@ import { store } from './store/store.js'
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
 
-import { HomePage } from './pages/HomePage.jsx'
+import { WelcomePage } from './pages/WelcomePage.jsx'
+import { AppModal } from './cmps/AppModal.jsx'
+import { BoardIndex } from './pages/BoardIndex.jsx'
 
 
 
@@ -24,7 +26,11 @@ export default function App() {
                     <AppHeader />
                     <main className='main-layout'>
                         <Routes>
-                            <Route element={<HomePage />} path="/" />
+                            <Route path="/" element={<WelcomePage />}  />
+                            <Route path="/board/:boardId?" element={<BoardIndex />}  />
+
+                            {/* <Route element={<HomePage />} path="/" /> */}
+
                             {/* <Route element={<AboutUs />} path="/about" />
                             <Route element={<UserDetails />} path="/user/:userId" />
                             <Route element={<ToyIndex />} path="/toy" />
@@ -36,6 +42,7 @@ export default function App() {
                     <AppFooter />
                 </section>
             </Router>
+            <AppModal />
         </Provider>
 
     )

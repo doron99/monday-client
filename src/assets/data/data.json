@@ -1,0 +1,195 @@
+[
+  {
+    "_id": "b101",
+    "title": "Robot dev proj",
+    "isStarred": false,
+    "archivedAt": 1589983468418,
+    "createdBy": {
+      "_id": "u101",
+      "fullname": "Abi Abambi",
+      "imgUrl": "http://some-img"
+    },
+    "style": {
+      "color": "red"
+    },
+    "labels": [
+      {
+        "id": "l101",
+        "title": "Done",
+        "color": "#61bd4f"
+      },
+      {
+        "id": "l102",
+        "title": "Progress",
+        "color": "#61bd33"
+      }
+    ],
+    "members": [
+      {
+        "_id": "u101",
+        "fullname": "Tal Taltal",
+        "imgUrl": "https://www.google.com"
+      },
+      {
+        "_id": "u102",
+        "fullname": "Josh Ga",
+        "imgUrl": "https://www.google.com"
+      }
+    ],
+    "groups": [
+      {
+        "id": "g101",
+        "title": "Group 1",
+        "archivedAt": 1589983468418,
+        "tasks": [
+          {
+            "id": "t101",
+            "side": "left",
+            "taskTitle": "Replace logo",
+            "status": "notStarted",
+            "priority": "low",
+            "members": [],
+            "date": null
+          },
+          {
+            "id": "t102",
+            "side": "left",
+            "taskTitle": "Add Samples",
+            "status": "notStarted",
+            "priority": "low",
+            "members": [],
+            "date": null
+          }
+        ],
+        "style": {
+          "color": "red"
+        }
+      },
+      {
+        "id": "g102",
+        "title": "Group 2",
+        "tasks": [
+          {
+            "id": "t103",
+            "side": "right",
+            "taskTitle": "Do that",
+            "status": "archived",
+            "priority": "low",
+            "members": [],
+            "date": null
+          },
+          {
+            "id": "t104",
+            "side": "right",
+            "taskTitle": "Help me",
+            "status": "inProgress",
+            "priority": "high",
+            "members": ["u101"],
+            "date": "2024-09-24"
+          }
+        ],
+        "style": {
+          "color": "#61bd33"
+        }
+      }
+    ],
+    "activities": [],
+    "cmpOrder": ["side", "taskTitle", "status", "priority", "date", "members"]
+  },
+  {
+    "_id": "b102",
+    "title": "AI Research",
+    "isStarred": true,
+    "archivedAt": null,
+    "createdBy": {
+      "_id": "u102",
+      "fullname": "Dana D.",
+      "imgUrl": "http://another-img"
+    },
+    "style": {
+      "backgroundImage": "https://example.com/bg.jpg"
+    },
+    "labels": [
+      {
+        "id": "l103",
+        "title": "Review",
+        "color": "#ff9f1a"
+      },
+      {
+        "id": "l104",
+        "title": "Blocked",
+        "color": "#eb5a46"
+      }
+    ],
+    "members": [
+      {
+        "_id": "u103",
+        "fullname": "Alex Smith",
+        "imgUrl": "https://example.com/img1.jpg"
+      },
+      {
+        "_id": "u104",
+        "fullname": "Jamie Lane",
+        "imgUrl": "https://example.com/img2.jpg"
+      }
+    ],
+    "groups": [
+      {
+        "id": "g201",
+        "title": "Initial Research",
+        "tasks": [
+          {
+            "id": "t201",
+            "side": "left",
+            "taskTitle": "Collect data",
+            "status": "notStarted",
+            "priority": "medium",
+            "members": ["u103"],
+            "date": "2025-01-15"
+          },
+          {
+            "id": "t202",
+            "side": "left",
+            "taskTitle": "Analyze results",
+            "status": "notStarted",
+            "priority": "medium",
+            "members": [],
+            "date": null
+          }
+        ],
+        "style": {
+          "color": "green"
+        }
+      },
+      {
+        "id": "g202",
+        "title": "Implementation",
+        "tasks": [
+          {
+            "id": "t203",
+            "side": "right",
+            "taskTitle": "Set up environment",
+            "status": "notStarted",
+            "priority": "medium",
+            "members": ["u103"],
+            "date": "2025-02-15"
+          },
+          {
+            "id": "t204",
+            "side": "right",
+            "taskTitle": "Develop model",
+            "status": "inProgress",
+            "priority": "high",
+            "members": ["u103", "u104"],
+            "date": "2025-03-01"
+          }
+        ],
+        "style": {
+          "color": "#61bd4f"
+        }
+      }
+    ],
+    "activities": [],
+    "cmpOrder": ["side", "taskTitle", "status", "priority", "members", "date"]
+  }
+]
