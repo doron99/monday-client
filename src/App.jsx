@@ -12,11 +12,7 @@ import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
 
 import { HomePage } from './pages/HomePage.jsx'
-import { AboutUs } from './pages/AboutUs.jsx'
-import { UserDetails } from './pages/UserDetails.jsx'
-import { ToyIndex } from './pages/ToyIndex.jsx'
-import { ToyEdit } from './pages/ToyEdit.jsx'
-import { ToyDetails } from './pages/ToyDetails.jsx'
+
 
 
 export default function App() {
@@ -29,11 +25,11 @@ export default function App() {
                     <main className='main-layout'>
                         <Routes>
                             <Route element={<HomePage />} path="/" />
-                            <Route element={<AboutUs />} path="/about" />
+                            {/* <Route element={<AboutUs />} path="/about" />
                             <Route element={<UserDetails />} path="/user/:userId" />
                             <Route element={<ToyIndex />} path="/toy" />
                             <Route element={<ToyEdit />} path="/toy/edit/:toyId?" />
-                            <Route element={<ToyDetails />} path="/toy/:toyId" />
+                            <Route element={<ToyDetails />} path="/toy/:toyId" /> */}
 
                         </Routes>
                     </main>

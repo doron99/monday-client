@@ -11,15 +11,16 @@ export function HomePage() {
     const [_count, setCount] = useState(10)
     const count = useSelector(storeState => storeState.userModule.count)
 
-    function changeCount(diff) {
-        // setCount(count => count + diff)
-        // dispatch({ type: INCREMENT })
-        dispatch({ type: CHANGE_BY, diff })
-    }
+    // function changeCount(diff) {
+    //     // setCount(count => count + diff)
+    //     // dispatch({ type: INCREMENT })
+    //     dispatch({ type: CHANGE_BY, diff })
+    // }
 
     return (
         <section>
-            <h2>
+            HomePage
+            {/* <h2>
                 Count {count}
                 <button onClick={() => {
                     changeCount(1)
@@ -27,7 +28,7 @@ export function HomePage() {
                 <button onClick={() => {
                     changeCount(10)
                 }}>+10</button>
-            </h2 >
+            </h2 > */}
             {/* <img src={'../assets/img/logo.png'} /> */}
             {/* <img src={imgUrl} /> */}
             {/* <img src="./logo.png" /> */}

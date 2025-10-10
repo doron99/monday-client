@@ -1,4 +1,4 @@
-import { toyService } from "../../services/toy.service.js"
+import { boardService } from "../../services/board.service.js"
 
 //* Toys
 export const SET_TOYS = 'SET_TOYS'
@@ -21,11 +21,11 @@ const initialState = {
     isCartShown: false,
     shoppingCart: [],
     isLoading: false,
-    filterBy: toyService.getDefaultFilter(),
+    filterBy: boardService.getDefaultFilter(),
     lastToys: []
 }
 
-export function toyReducer(state = initialState, action = {}) {
+export function boardReducer(state = initialState, action = {}) {
     switch (action.type) {
         //* Cars
         case SET_TOYS:
