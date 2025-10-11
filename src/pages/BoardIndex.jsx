@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { BoardList } from '../cmps/BoardList.jsx'
 import { BoardDetails } from '../cmps/BoardDetails.jsx'
-import { AppSideBar } from '../cmps/AppSidebar.jsx'
+import { AppSideBar } from '../cmps/AppSideBar.jsx'
 
 
 export function BoardIndex() {

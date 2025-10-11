@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { CHANGE_BY } from "../store/reducers/user.reducer.js"
 import { useState } from "react"
 import imgUrl from "../assets/img/logo.png"
-import { AppSideBar } from "../cmps/AppSidebar.jsx"
+import { AppSideBar } from "../cmps/AppSideBar.jsx"
 import { BoardDetails } from "../cmps/BoardDetails.jsx"
 import { useNavigate } from "react-router"
 // const { useState } = React
@@ -20,8 +20,8 @@ export function WelcomePage() {
     return (
         <main >
             <button type="button" onClick={() => navigate('/board')}>go</button>
-           {/* <AppSideBar />
-           <BoardDetails /> */}
+           <AppSideBar />
+           <BoardDetails /> 
         </main>
     )
 }
