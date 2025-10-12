@@ -185,7 +185,7 @@ async function query() {
     boards = [...boardsData]
     
     for (const board of boards) {
-      await storageService.post(STORAGE_KEY, board)
+      await storageService.initFirstTime(STORAGE_KEY, board)
     }
   }
 

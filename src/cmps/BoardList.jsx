@@ -1,21 +1,18 @@
 import { useDispatch, useSelector } from 'react-redux'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BoardPreview } from './BoardPreview';
+import { boardService } from '../services/board.service';
 
 export function BoardList() {
-
     const isDev = useSelector(storeState => storeState.devToolModule.isDev)
-    const [list, setList] = useState([{id:'',name:'Board 0',isStarred:false},
-        {id:'1',name:'Board 1',isStarred:false},
-        {id:'2',name:'Board 2',isStarred:true},
-        {id:'3',name:'Board 3',isStarred:true},
-        {id:'4',name:'ssss',isStarred:true},
-        {id:'5',name:'dddd',isStarred:false},
-        {id:'6',name:'asdas',isStarred:false},
-        {id:'7',name:'ssss',isStarred:false},
-        {id:'8',name:'dddd',isStarred:false}]);
-
+    const [list, setList] = useState([]);
+    useEffect(() => {
+        boardService.query().then(list => {
+            console.log('list',list)
+            setList(list);
+        })
+    },[])
     const toggleStar = (id) => {
     setList(prevList =>
         prevList.map(item =>
@@ -28,7 +25,7 @@ export function BoardList() {
             <div className='board-list'  >
                 {list.map(boardPreview => {
                     return (
-                    <BoardPreview key={boardPreview.id} boardPreview={boardPreview} toggleStar={toggleStar} />
+                    <BoardPreview key={boardPreview._id} boardPreview={boardPreview} toggleStar={toggleStar} />
                 )})}
             </div>
         </div>

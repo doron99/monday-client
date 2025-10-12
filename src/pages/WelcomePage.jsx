@@ -19,9 +19,12 @@ export function WelcomePage() {
 
     return (
         <main >
+            Welcome page
+            <br/>
             <button type="button" onClick={() => navigate('/board')}>go</button>
+            {/* <button type="button" onClick={() => navigate('/board')}>go</button>
            <AppSideBar />
-           <BoardDetails /> 
+           <BoardDetails />  */}
         </main>
     )
 }

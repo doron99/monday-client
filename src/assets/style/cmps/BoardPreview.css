@@ -6,6 +6,7 @@
     background: aliceblue;
     border-radius: 7px;
     border: 1px solid rgb(155, 155, 155);
+    cursor: pointer;
 }
 .board-preview img .img-cover {
     aspect-ratio:16/9;
