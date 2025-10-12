@@ -16,9 +16,13 @@
 @import 'cmps/AppSideBar.css';
 @import 'cmps/AppModal.css';
 @import 'cmps/BoardList.css';
+@import 'cmps/GroupPreview.css';
 
-@import 'pages/BoardDetails.css';
+
+/* Pages */
 @import 'pages/BoardIndex.css';
+@import 'pages/BoardDetails.css';
+
 
 
 
