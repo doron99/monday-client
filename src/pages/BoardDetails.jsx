@@ -1,8 +1,8 @@
-import { boardService } from "../services/board.service.js";
+//import { boardService } from "../services/board.service.js";
 import { useEffect, useState } from "react";
-import { BoardHeader } from "./BoardHeader";
-import { useParams } from "react-router";
-import { GroupPreview } from "./GroupPreview.jsx";
+import { BoardHeader } from "../cmps/BoardHeader.jsx";
+import { useParams, Outlet } from "react-router";
+import { GroupPreview } from "../cmps/GroupPreview.jsx";
 // import { useDispatch, useSelector } from "react-redux";
 
 
@@ -106,11 +106,12 @@ const boardDemo =   {
 
 
 export function BoardDetails() {
-  const [board, setBoard] = useState(null);
-  const [selectedTasks, setSelectedTasks] = useState([]);
+//const [board, setBoard] = useState(null);
+const [selectedTasks, setSelectedTasks] = useState([]);
 //   const [isFooterDisplayed, setisFooterDisplayed] = useState(false);
 
   const { boardId } = useParams();
+  console.log(boardId);
 
 //   useEffect(() => {
 //     console.log("board details mounted");
@@ -129,24 +130,25 @@ export function BoardDetails() {
 
   function toggleSelectedTask(groupId, taskId) {
     console.log(groupId, taskId);
-    const groupIdx = board.groups.findIndex((g) => g.id === groupId);
-    const task = board.groups[groupIdx].tasks.filter((t) => t.id === taskId);
+    // const groupIdx = board.groups.findIndex((g) => g.id === groupId);
+    // const task = board.groups[groupIdx].tasks.filter((t) => t.id === taskId);
 
-    setSelectedTasks((state) => {
-      if (state.includes(task[0].id)) {
-        return state.filter((t) => t.taskId !== task[0].id);
-      } else {
-        return [
-          ...state,
-          { taskId: task[0].id, color: board.groups[groupIdx].style.color },
-        ];
-      }
-    });
+    // setSelectedTasks((state) => {
+    //   if (state.includes(task[0].id)) {
+    //     return state.filter((t) => t.taskId !== task[0].id);
+    //   } else {
+    //     return [
+    //       ...state,
+    //       { taskId: task[0].id, color: board.groups[groupIdx].style.color },
+    //     ];
+    //   }
+    // });
   }
 
-  useEffect(() => {
-    loadBoard();
-  }, []);
+  // useEffect(() => {
+  //   console.log('in use effect');
+  //   loadBoard();
+  // }, []);
 
   // useEffect(() => {}, [groupsMap]);
 
@@ -163,12 +165,12 @@ export function BoardDetails() {
     // setBoard(updatedBoard);
   }
 
-  async function loadBoard() {
-    const board = await boardService.getById(boardId);
-    setBoard(board);
-
-    console.log('loaded');
-  }
+  // async function loadBoard() {
+  //   const board = await boardService.getById(boardId);
+  //   setBoard(board);
+    
+  //   console.log('loaded');
+  // }
 
   const uid = () => Math.random().toString(36).slice(2);
   const labels = [null, "task", "status", "priority", "date", "members"];
@@ -199,9 +201,10 @@ export function BoardDetails() {
           />
         ))}
       </section>
+      
+      {/* Outlet for TaskDetails modal */}
+      <Outlet />
     </div>
   );
 };
-
-
 

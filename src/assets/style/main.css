@@ -23,9 +23,11 @@
 /* Pages */
 @import 'pages/BoardIndex.css';
 @import 'pages/BoardDetails.css';
+@import 'pages/WelcomePage.css';
 
 
-
+/* Layouts */
+@import 'layouts/MainPageLayout.css';
 
 .app {
     display: flex;
@@ -40,3 +42,5 @@
 main {
     flex-grow: 1;
 }
+
+

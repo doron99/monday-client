@@ -1,51 +1,40 @@
-// const Router = ReactRouterDOM.BrowserRouter
-// const Router = ReactRouterDOM.HashRouter
-// const { Route, Routes } = ReactRouterDOM
-// const { Provider } = ReactRedux
+import "./assets/style/main.css";
 
-import './assets/style/main.css'
-import { HashRouter as Router, Route, Routes } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { store } from './store/store.js'
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 
-import { AppHeader } from './cmps/AppHeader.jsx'
-import { AppFooter } from './cmps/AppFooter.jsx'
+import { AppHeader } from "./cmps/AppHeader.jsx";
+import { AppFooter } from "./cmps/AppFooter.jsx";
+import { AppModal } from "./cmps/AppModal.jsx";
 
-import { WelcomePage } from './pages/WelcomePage.jsx'
-import { AppModal } from './cmps/AppModal.jsx'
-import { BoardIndex } from './pages/BoardIndex.jsx'
+import { WelcomePage } from "./pages/WelcomePage.jsx";
+import { BoardDetails } from "./pages/BoardDetails.jsx";
+import { TaskDetails } from "./pages/TaskDetails.jsx";
+import { Login } from "./pages/Login.jsx";
+import { BoardIndex } from "./pages/BoardIndex.jsx";
+import { MainPageLayout } from "./layouts/MainPageLayout.jsx";
 
 
+export default function App() {    
+  return (
+    <>
+      <section className="app">
+        <AppHeader />
+        <main className="main-layout">
+            <Routes>
+                    <Route path="/" element={<WelcomePage />} />
+                    <Route path="/login" element={<Login />} />
 
-export default function App() {
-
-    return (
-        <Provider store={store}>
-            <Router>
-                <section className="app">
-                    <AppHeader />
-                    <main className='main-layout'>
-                        <Routes>
-                            <Route path="/" element={<WelcomePage />}  />
-                            <Route path="/board/:boardId?" element={<BoardIndex />}  />
-
-                            {/* <Route element={<HomePage />} path="/" /> */}
-
-                            {/* <Route element={<AboutUs />} path="/about" />
-                            <Route element={<UserDetails />} path="/user/:userId" />
-                            <Route element={<ToyIndex />} path="/toy" />
-                            <Route element={<ToyEdit />} path="/toy/edit/:toyId?" />
-                            <Route element={<ToyDetails />} path="/toy/:toyId" /> */}
-
-                        </Routes>
-                    </main>
-                    <AppFooter />
-                </section>
-            </Router>
-            <AppModal />
-        </Provider>
-
-    )
+                    {/* Board routes with shared layout */}
+                    <Route path="/board" element={<MainPageLayout />}>
+                    <Route index element={<BoardIndex />} />
+                        <Route path=":boardId" element={<BoardDetails />}>
+                                <Route path=":groupId/:taskId" element={<TaskDetails />} />
+                        </Route>
+                    </Route>
+            </Routes>
+        </main>
+      </section>
+      <AppModal />
+    </>
+  );
 }
-
-
