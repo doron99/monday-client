@@ -1,0 +1,309 @@
+
+.group-preview {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e6e9ef;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  border-left: 4px solid #579bfc;
+}
+
+.group-preview:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Group Header */
+.group-header {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  min-height: 48px;
+}
+
+.group-header::before {
+  content: '▼';
+  font-size: 12px;
+  margin-right: 8px;
+  transition: transform 0.2s ease;
+}
+
+.color-indicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.color-indicator:hover {
+  transform: scale(1.1);
+}
+
+.group-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #323338;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  min-width: 150px;
+  flex-grow: 1;
+  line-height: 1.2;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.group-title:focus {
+  outline: 1px solid #323338;
+  outline-offset: 1px;
+}
+
+/* Color Modal */
+.color-list {
+  position: absolute;
+  top: 60px;
+  left: 24px;
+  background: #ffffff;
+  border: 1px solid #e6e9ef;
+  border-radius: 12px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  z-index: 1000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.color-list .color-indicator {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+
+.color-list .color-indicator:hover {
+  transform: scale(1.2);
+}
+
+/* Labels Grid - Table Header */
+.labels-grid {
+  display: grid;
+  grid-template-columns: 40px 3fr 1fr 1fr 1fr 1fr 1fr;
+  border-bottom: 1px solid #e6e9ef;
+  font-size: 11px;
+  font-weight: 500;
+  color: #676879;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  /* position: sticky;
+  top: 0; */
+}
+
+.labels-grid > div {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid #e6e9ef;
+  transition: background-color 0.2s ease;
+  min-height: 32px;
+}
+
+.labels-grid > div:hover {
+  background-color: rgba(87, 155, 252, 0.05);
+}
+
+/* Task Grid - Table Rows */
+.group.grid {
+  display: grid;
+  grid-template-columns: 40px 3fr 1fr 1fr 1fr 1fr 1fr;
+  border-bottom: 1px solid #e6e9ef;
+  transition: all 0.2s ease;
+}
+
+/* Hover on the whole line */
+.group.grid:hover {
+  background:#f0f1f3;
+}
+
+.grid-item {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid #e6e9ef;
+  min-height: 40px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/*Hover on specific item for future use*/
+.grid-item:hover {
+  background-color: rgba(87, 155, 252, 0.1);
+}
+
+/* Specific Grid Item Alignment */
+.grid-item.side {
+  justify-content: center;
+}
+
+.grid-item.status,
+.grid-item.priority,
+.grid-item.members,
+.grid-item.date {
+  justify-content: center;
+}
+
+/* Progress Grid - Summary Row */
+.progress-grid {
+  display: grid;
+  grid-template-columns: 40px 3fr 1fr 1fr 1fr 1fr 1fr;
+  font-size: 12px;
+}
+
+.progress-grid > div {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #e6e9ef;
+  min-height: 32px;
+}
+
+.progress-grid .with-status,
+.progress-grid .with-priority,
+.progress-grid .with-date {
+  background:#579bfc;
+  color: white;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 10px 15px;
+  transition: all 0.2s ease;
+}
+
+.progress-grid .with-status:hover,
+.progress-grid .with-priority:hover,
+.progress-grid .with-date:hover {
+  transform: translateY(-2px);
+}
+
+/* Side Component (checkbox) */
+.grid-item.side input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #c4c4c4;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  background: #ffffff;
+  position: relative;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.grid-item.side input[type="checkbox"]:checked {
+  background: #579bfc;
+  border-color: #579bfc;
+}
+
+.grid-item.side input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* Task Title */
+.grid-item.taskTitle input,
+.grid-item.taskTitle [contentEditable],
+.grid-item.taskTitle span {
+  font-size: 14px;
+  color: #323338;
+  font-weight: 400;
+  line-height: 1.3;
+  border: none;
+  background: transparent;
+  outline: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.grid-item.taskTitle input:focus,
+.grid-item.taskTitle [contentEditable]:focus {
+  background: #f8f9fb;
+  outline: 1px solid #323338;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .labels-grid,
+  .group.grid,
+  .progress-grid {
+    grid-template-columns: 35px 1.8fr 100px 120px 120px 90px 120px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .labels-grid,
+  .group.grid,
+  .progress-grid {
+    grid-template-columns: 35px 1.5fr 90px 100px 100px 80px 100px;
+  }
+  
+  .grid-item {
+    padding: 6px 10px;
+    min-height: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .labels-grid,
+  .group.grid,
+  .progress-grid {
+    grid-template-columns: 30px 1fr 70px 80px 80px 60px 80px;
+  }
+  
+  .grid-item {
+    padding: 4px 8px;
+    font-size: 12px;
+    min-height: 32px;
+  }
+  
+  .group-header {
+    padding: 8px 12px;
+  }
+  
+  .group-title {
+    font-size: 14px;
+  }
+  
+  .grid-item.side input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+
