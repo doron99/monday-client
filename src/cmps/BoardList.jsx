@@ -1,15 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux'
-import boards from "../assets/data/data.json";
-import BoardPreview from '../assets/svgs/board-preview.svg';
-import { LuPanelLeft } from "react-icons/lu";
-import { FaRegStar } from "react-icons/fa";
-import { FaStar } from "react-icons/fa";
-import { FiCodepen } from "react-icons/fi";
 
 import { useState } from 'react';
+import { BoardPreview } from './BoardPreview';
 
 export function BoardList() {
-    const src = new URL(`../assets/svgs/board-preview.svg`, import.meta.url).href;
 
     const isDev = useSelector(storeState => storeState.devToolModule.isDev)
     const [list, setList] = useState([{id:'',name:'Board 0',isStarred:false},
@@ -32,35 +26,11 @@ export function BoardList() {
     return (
         <div className='board-list-container' >
             <div className='board-list'  >
-                {list.map(x => {
-                    return <div className='board-list-item'>
-                        <img className='img-cover' src={BoardPreview}  />
-                        <div className='board-list-item-details'>
-                            <div style={styles.itemDetailsLeftSide}>
-                                <LuPanelLeft style={styles.constSize}/>
-                                <span style={styles.boardNameStyle}>{x.name}</span>
-                            </div>
-                            <div 
-                                onClick={() => toggleStar(x.id)} 
-                                style={styles.itemDetailsRightSide}>
-                            {!x.isStarred 
-                                ? <FaRegStar style={styles.constSize} /> 
-                                : <FaStar style={styles.selectedStar} />}
-                            </div>
-                            
-
-                        </div>
-                       
-                    </div>
-                })}
+                {list.map(boardPreview => {
+                    return (
+                    <BoardPreview key={boardPreview.id} boardPreview={boardPreview} toggleStar={toggleStar} />
+                )})}
             </div>
         </div>
     )
-}
-const styles ={
-    constSize:{fontSize: '1.5rem' },
-    boardNameStyle:{fontWeight:'bold',fontSize:'1.5rem', marginLeft:'10px'},
-    itemDetailsLeftSide:{display:'flex',alignItems:'center'},
-    itemDetailsRightSide:{ cursor: 'pointer' },
-    selectedStar:{ fontSize: '1.5rem', color: '#ffcb00' }
 }
