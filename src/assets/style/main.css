@@ -16,6 +16,7 @@
 @import 'cmps/AppSideBar.css';
 @import 'cmps/AppModal.css';
 @import 'cmps/BoardList.css';
+@import 'cmps/BoardPreview.css';
 
 @import 'pages/BoardDetails.css';
 @import 'pages/BoardIndex.css';
