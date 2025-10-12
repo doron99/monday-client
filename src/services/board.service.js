@@ -173,13 +173,12 @@ export const boardService = {
   remove,
   save,
   getEmptyBoard,
-  getDefaultFilter,
   getFavorites,
-  getFilterFromSearchParams,
+  getDefaultFilter,
 }
 
 
-async function query(filterBy = {}) {
+async function query() {
   let boards = await storageService.query(STORAGE_KEY)
 
   if (!boards || !boards.length) {
@@ -194,9 +193,11 @@ async function query(filterBy = {}) {
 }
 
 
-function getFavorites() {
-  return query() 
+async function getFavorites() {
+  const boards = await query()
+  return boards.filter(board => board.isStarred)
 }
+
 
 function getById(boardId) {
   return storageService.get(STORAGE_KEY, boardId)
@@ -232,13 +233,6 @@ function getEmptyBoard() {
   }
 }
 
-
 function getDefaultFilter() {
   return { txt: '', isStarred: false }
-}
-
-function getFilterFromSearchParams(searchParams) {
-  const txt = searchParams.get('txt') || ''
-  const isStarred = searchParams.get('isStarred') === 'true'
-  return { txt, isStarred }
 }
