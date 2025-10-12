@@ -18,10 +18,10 @@ export function AppSideBar() {
   async function loadBoards() {
     try {
       const allBoards = await boardService.query()
+      const favs = await boardService.getFavorites()
 
-      const favs = allBoards.filter(board => board.isStarred)
+      setBoards(allBoards)
       setFavorites(favs)
-      setBoards(allBoards) 
     } catch (err) {
       console.error("Failed to load boards:", err)
     }
@@ -38,7 +38,7 @@ export function AppSideBar() {
   const goToBoard = () => {
     navigate('/board') 
   }
-  
+
   const isBoardActive = () => {
     return location.pathname.startsWith('/board')
   }
@@ -48,8 +48,7 @@ export function AppSideBar() {
       <aside className={`sidebar ${isOpen ? "open" : "closed"}`}>
         {isOpen && (
           <div className="sidebar-content">
-            <div className="sidebar-header">
-            </div>
+            <div className="sidebar-header"></div>
 
             <nav className="sidebar-nav">
               <div 
