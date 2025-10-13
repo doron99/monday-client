@@ -6,12 +6,11 @@
 
 .sidebar {
   width: 260px;
-  background-color: #f9fafc;
-  border-right: 1px solid #ddd;
+  background-color: #f6f7fb;
+  border-right: 1px solid #e1e4eb;
   padding: 20px;
   height: 100%;
   transition: width 0.35s ease, padding 0.3s ease, opacity 0.25s ease;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.03);
   overflow: hidden;
 }
 
@@ -22,44 +21,35 @@
   border: none;
   opacity: 0;
   pointer-events: none;
-  transition: width 0.35s ease, opacity 0.25s ease;
 }
 
 .sidebar-toggle {
-  position: absolute;
+  position: fixed;
   top: 50%;
-  left: 260px;
-  transform: translate(-50%, -50%);
-  width: 38px;
-  height: 38px;
-  background-color: white;
-  border: 1px solid #ccc;
+  left: 266px; 
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  background-color: #fff;
+  border: 1px solid #d0d4e4;
   border-radius: 50%;
   font-size: 18px;
-  font-weight: bold;
   cursor: pointer;
-  z-index: 10;
+  z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: left 0.3s ease, background 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  transition: left 0.35s ease, background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .sidebar-toggle:hover {
-  background-color: #f4f6fb;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  background-color: #f4f6fa;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 .sidebar-container.closed .sidebar-toggle {
-  left: 0;
-}
-
-.sidebar-header {
-  font-weight: 700;
-  font-size: 20px;
-  color: #333;
-  margin-bottom: 20px;
+  left: 12px;
 }
 
 .sidebar-nav .nav-item {
@@ -68,19 +58,19 @@
   gap: 10px;
   padding: 10px;
   border-radius: 8px;
-  color: #333;
+  color: #323338;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .sidebar-nav .nav-item:hover {
-  background-color: #ebf3ff;
-  transform: translateX(2px);
+  background-color: #edf2fa;
 }
 
 .sidebar-nav .nav-item.active {
-  background-color: #dbeafe; 
+  background-color: #e3f2ff;
   font-weight: 500;
+  color: #0073ea;
 }
 
 .favorites,
@@ -95,8 +85,9 @@
   gap: 8px;
   font-weight: 600;
   margin-bottom: 8px;
-  color: #333;
-  cursor: pointer; 
+  color: #323338;
+  cursor: pointer;
+  user-select: none;
 }
 
 .workspace-item {
@@ -104,35 +95,40 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
-  white-space: nowrap; 
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: #323338;
 }
+
 .workspace-item span {
-  white-space: nowrap; 
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   flex-grow: 1;
+  font-size: 14px;
 }
 
 .add-btn {
-  background: #007bff;
-  color: white;
+  background: #0073ea; 
   border: none;
-  border-radius: 6px;
-  width: 26px;
-  height: 26px;
-  font-size: 18px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
-  flex-shrink: 0; 
+  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 .add-btn:hover {
-  background: #005ec2;
+  background: #0060c5;
+  transform: scale(1.05);
+}
+
+.add-icon {
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1;
 }
 
 .sidebar ul {
@@ -146,13 +142,67 @@
   align-items: center;
   gap: 8px;
   padding: 6px 0;
-  color: #444;
+  color: #323338;
+  font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
+
 .sidebar ul li:hover {
-  background-color: #eee;
+  background-color: #edf2fa;
   border-radius: 4px;
+}
+
+.empty {
+  color: #999;
+  font-style: italic;
+  padding-left: 4px;
+}
+
+.icon {
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+/* 🏠 Home */
+.home-icon {
+  color: #ff642e; 
+}
+
+/* 🗓️ My work */
+.work-icon {
+  color: #5a5ef8; 
+}
+
+/* ⭐ Favorites */
+.star-icon {
+  color: #f6c700; 
+}
+
+/* ▼ / ▶ Chevron */
+.chevron-icon {
+  color: #676879;
+}
+
+/* 🧩 Workspaces */
+.workspace-icon {
+  color: #00ca72; 
+}
+
+/* 👤 Workspace user */
+.user-icon {
+  color: #6024fa; 
+}
+
+/* 📋 Boards / items */
+.board-icon {
+  color: #00c4cc; 
+}
+
+/* 📋 Workspace item icon */
+.workspace-item-icon {
+  color: #6024fa;
 }
