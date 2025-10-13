@@ -15,11 +15,20 @@
 
 @import 'cmps/AppSideBar.css';
 @import 'cmps/AppModal.css';
+@import 'cmps/BoardList.css';
+@import 'cmps/GroupPreview.css';
+@import 'cmps/BoardPreview.css';
+@import 'cmps/ContextMenu.css';
 
-@import 'pages/BoardDetails.css';
+
+/* Pages */
 @import 'pages/BoardIndex.css';
+@import 'pages/BoardDetails.css';
+@import 'pages/WelcomePage.css';
 
 
+/* Layouts */
+@import 'layouts/MainPageLayout.css';
 
 .app {
     display: flex;
@@ -34,3 +43,5 @@
 main {
     flex-grow: 1;
 }
+
+

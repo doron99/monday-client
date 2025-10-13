@@ -25,7 +25,7 @@ async function query() {
       boards = [...boardsData]
 
       for (const board of boards) {
-        await storageService.post(STORAGE_KEY , board)
+        await storageService.post(STORAGE_KEY, board)
       }
     }
 
@@ -35,6 +35,7 @@ async function query() {
     throw err
   }
 }
+
 
 
 async function getById(boardId) {

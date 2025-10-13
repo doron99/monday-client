@@ -1,0 +1,5 @@
+/* main app page layout with sidebar */
+.main-page-layout {
+    display: flex;
+    height: 100%;
+}

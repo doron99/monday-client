@@ -1,0 +1,32 @@
+
+.board-preview {
+    margin:5px;
+    border:1px solid black;
+    padding: 5px;
+    background: aliceblue;
+    border-radius: 7px;
+    border: 1px solid rgb(155, 155, 155);
+    cursor: pointer;
+}
+.board-preview img .img-cover {
+    aspect-ratio:16/9;
+    min-width: 100%;
+}
+.board-preview:hover {
+    box-shadow: 0 4px 20px rgba(37, 37, 37, 0.8);
+    border: 1px solid rgb(255, 255, 255);
+}
+.board-preview-details {
+    display:flex;
+    justify-content:space-between;
+    margin-top:0.5rem;
+}
+.board-preview-details-left {
+    display:flex;
+    align-items:center;
+}
+.board-preview-details-right {
+    cursor: pointer;
+}
+
+

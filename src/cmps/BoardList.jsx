@@ -1,29 +1,33 @@
 import { useDispatch, useSelector } from 'react-redux'
 
+import { useEffect, useState } from 'react';
+import { BoardPreview } from './BoardPreview';
+import { boardService } from '../services/board.service';
 
 export function BoardList() {
     const isDev = useSelector(storeState => storeState.devToolModule.isDev)
-    const list = [{id:'',name:'asdas'},{id:'',name:'ssss'},{id:'',name:'dddd'},{id:'',name:'asdas'},{id:'',name:'ssss'},{id:'',name:'dddd'},{id:'',name:'asdas'},{id:'',name:'ssss'},{id:'',name:'dddd'}]
+    const [list, setList] = useState([]);
+    useEffect(() => {
+        boardService.query().then(list => {
+            console.log('list',list)
+            setList(list);
+        })
+    },[])
+    const toggleStar = (id) => {
+    setList(prevList =>
+        prevList.map(item =>
+            item.id === id ? { ...item, isStarred: !item.isStarred } : item
+        )
+        );
+    };
     return (
-        <div className='board-details'>
-            sdfsd
-        
-        <div  style={{
-            display:'grid',
-            gridTemplateColumns:'auto auto auto',
-            gap:'20px',padding:'30px'
-            }} >
-            {list.map(x => {
-                return <div style={styles.gridItem}>
-                    x.name
-                </div>
-            })}
-        </div>
+        <div className='board-list-container' >
+            <div className='board-list'  >
+                {list.map(boardPreview => {
+                    return (
+                    <BoardPreview key={boardPreview._id} boardPreview={boardPreview} toggleStar={toggleStar} />
+                )})}
+            </div>
         </div>
     )
-}
-const styles = {
-    gridItem:{
-        background:'blue'
-    }
 }
