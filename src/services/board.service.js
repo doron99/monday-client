@@ -13,6 +13,7 @@ export const boardService = {
   updateBoard,
   getFavorites,
   getEmptyBoard,
+  getDefaultFilter
 }
 
 async function query() {
@@ -135,4 +136,8 @@ function getEmptyBoard() {
     members: [],
     activities: [],
   }
+}
+
+function getDefaultFilter() {
+  return { txt: '', isStarred: false }
 }
