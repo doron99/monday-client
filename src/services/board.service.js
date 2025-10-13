@@ -1,5 +1,6 @@
 import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
+import boardsData from '../assets/data/data.json'
 
 const BOARD_KEY = 'boardDB'
 
@@ -15,12 +16,24 @@ export const boardService = {
 
 async function query() {
   try {
-    return await storageService.query(BOARD_KEY)
+    let boards = await storageService.query(BOARD_KEY)
+
+    if (!boards || !boards.length) {
+      console.log('Loading boards from data.json...')
+      boards = [...boardsData]
+
+      for (const board of boards) {
+        await storageService.post(BOARD_KEY, board)
+      }
+    }
+
+    return boards
   } catch (err) {
     console.error('Cannot load boards:', err)
     throw err
   }
 }
+
 
 async function getById(boardId) {
   try {
