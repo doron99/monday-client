@@ -30,7 +30,12 @@ export function showErrorMsg(txt) {
     showUserMsg({txt, type: 'error'})
 }
 
-
+export function openContextMenu(e,msg) {
+    eventBusService.emit('open-context-menu', {e,msg})
+}
+export function onContextMenuSelect(e,msg) {
+    eventBusService.emit('on-context-menu-select', {e,msg})
+}
 // Service Testing:
 
 // Example for using the service 

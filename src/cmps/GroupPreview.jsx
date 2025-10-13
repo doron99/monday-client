@@ -5,7 +5,7 @@ import { Status } from "./dynamicCmps/Status.jsx";
 import { TaskTitle } from "./dynamicCmps/TaskTitle.jsx";
 import { Priority } from "./dynamicCmps/Priority.jsx";
 import { useState, useEffect } from "react";
-
+import {eventBusService} from '../services/event-bus.service.js'
 export function GroupPreview({
   labels,
   group,
@@ -37,7 +37,13 @@ export function GroupPreview({
     "#808080",
     "#FF6347",
   ];
-
+  useEffect(() => {
+      const unsubscribe = eventBusService.on('on-context-menu-select', (msg) => {
+          console.log('msg',msg)
+          
+      })
+      return unsubscribe
+  }, [])
   function onTaskUpdate(taskId, updatedInfo) {
     if (updatedInfo.key === "side") {
       console.log("sise");
