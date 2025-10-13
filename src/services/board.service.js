@@ -1,8 +1,9 @@
 import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
 import boardsData from '../assets/data/data.json'
+import { userService } from './user.service.js'
 
-const BOARD_KEY = 'boardDB'
+const STORAGE_KEY  = 'boardDB'
 
 export const boardService = {
   query,
@@ -16,14 +17,14 @@ export const boardService = {
 
 async function query() {
   try {
-    let boards = await storageService.query(BOARD_KEY)
+    let boards = await storageService.query(STORAGE_KEY)
 
     if (!boards || !boards.length) {
       console.log('Loading boards from data.json...')
       boards = [...boardsData]
 
       for (const board of boards) {
-        await storageService.post(BOARD_KEY, board)
+        await storageService.post(STORAGE_KEY , board)
       }
     }
 
@@ -37,7 +38,7 @@ async function query() {
 
 async function getById(boardId) {
   try {
-    return await storageService.get(BOARD_KEY, boardId)
+    return await storageService.get(STORAGE_KEY , boardId)
   } catch (err) {
     console.error('Cannot get board:', err)
     throw err
@@ -46,7 +47,7 @@ async function getById(boardId) {
 
 async function remove(boardId) {
   try {
-    await storageService.remove(BOARD_KEY, boardId)
+    await storageService.remove(STORAGE_KEY , boardId)
   } catch (err) {
     console.error('Cannot remove board:', err)
     throw err
@@ -56,7 +57,7 @@ async function remove(boardId) {
 async function save(board) {
   try {
     if (board._id) {
-      return await storageService.put(BOARD_KEY, board)
+      return await storageService.put(STORAGE_KEY, board)
     } else {
       board._id = utilService.makeId()
       board.createdAt = Date.now()
@@ -64,7 +65,7 @@ async function save(board) {
       board.isStarred = false
       board.groups = []
       board.activities = []
-      return await storageService.post(BOARD_KEY, board)
+      return await storageService.post(STORAGE_KEY, board)
     }
   } catch (err) {
     console.error('Cannot save board:', err)
@@ -106,17 +107,17 @@ function updateBoard(board, gid, tid, { key, value }) {
   }
 }
 
-function createActivity(boardId, groupId, taskId, type, value, prevValue) {
+function getEmptyBoard() {
   return {
-    id: utilService.makeId(),
+    title: '',
+    isStarred: false,
     createdAt: Date.now(),
-    byMember: { username: 'logged-user' },
-    boardId,
-    groupId,
-    taskId,
-    type,
-    value,
-    prevValue,
+    createdBy: userService.getLoggedinUser() || { fullname: 'Guest' },
+    style: {},
+    labels: [],
+    members: [],
+    groups: [],
+    activities: [],
   }
 }
 
