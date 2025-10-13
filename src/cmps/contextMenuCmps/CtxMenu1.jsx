@@ -6,7 +6,7 @@ export function CtxMenu1({ onAction }) {
                             icon: '👁️',
                             onClick: () => {
                                 //alert('Action 1 executed');
-                                onAction({data:{a:'a',b:'b'}});
+                                onAction({data:{priority:'a'}});
                             },
                             isSpacer: false
                         },
@@ -15,7 +15,7 @@ export function CtxMenu1({ onAction }) {
                             icon: '✏️',
                             onClick: () => {
                                 //alert('Action 2 executed');
-                                _resetContextMenu();
+                                onAction({data:{priority:'b'}});
                             },
                             isSpacer: false
                         }

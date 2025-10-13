@@ -5,7 +5,7 @@ import { Status } from "./dynamicCmps/Status.jsx";
 import { TaskTitle } from "./dynamicCmps/TaskTitle.jsx";
 import { Priority } from "./dynamicCmps/Priority.jsx";
 import { useState, useEffect } from "react";
-import {eventBusService} from '../services/event-bus.service.js'
+import {eventBusService,openContextMenu} from '../services/event-bus.service.js'
 export function GroupPreview({
   labels,
   group,
@@ -110,6 +110,7 @@ export function GroupPreview({
           <section className="group grid" key={`task-${task.id}`}>
             {cmpOrder.map((cmp, idx) => (
               <section
+                onClick={(e) => {openContextMenu(e,'asd');}} 
                 className={`grid-item ${cmp}`}
                 key={`task-${task.id}-cmp-${idx}`}
               >

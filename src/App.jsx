@@ -99,7 +99,8 @@ export default function App() {
     // }, []);
     function handleOnAction({ data }) {
         console.log('something', data);
-        eventBusService.onContextMenuSelect(data);
+        _resetContextMenu();
+        onContextMenuSelect(data);
     }
     useEffect(() => {
             const unsubscribe = eventBusService.on('open-context-menu', (msg) => {
