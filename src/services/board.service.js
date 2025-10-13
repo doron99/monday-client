@@ -128,17 +128,6 @@ async function getFavorites() {
   return boards.filter(board => board.isStarred)
 }
 
-function getEmptyBoard() {
-  return {
-    title: 'New Board',
-    createdAt: Date.now(),
-    isStarred: false,
-    groups: [],
-    members: [],
-    activities: [],
-  }
-}
-
 function getDefaultFilter() {
   return { txt: '', isStarred: false }
 }
