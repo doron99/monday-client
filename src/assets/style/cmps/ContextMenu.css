@@ -11,8 +11,16 @@
     border: 1px solid #aaa;
     font-size: 0.875rem;
     width: 100%;
-    max-width: 250px;
+    max-width: 200px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+    
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 24px 24px 16px;
+    background: #fff;
 }
 .context-menu.active {
     visibility: visible;

@@ -14,18 +14,18 @@ import { BoardIndex } from './pages/BoardIndex.jsx'
 import { ContextMenu } from './cmps/ContextMenu.jsx'
 import { useEffect, useRef, useState } from 'react'
 import { Provider } from "react-redux";
-import {CtxMenu1} from './cmps/contextMenuCmps/CtxMenu1.jsx'
-import { openContextMenu,eventBusService, onContextMenuSelect } from "./services/event-bus.service.js"
+import { openContextMenu,eventBusService, onContextMenuSelect, setBackdrop } from "./services/event-bus.service.js"
 
 
 
 export default function App() {    
     const contextMenuRef = useRef(null)
-    const [contextMenu,setContextMenu] = useState(
-        {position: {
-            x:0,
-            y:0},
-            toggled:false});
+    const [isBackdrop,setIsBackdrop] = useState(false);
+    // const [contextMenu,setContextMenu] = useState(
+    //     {position: {
+    //         x:0,
+    //         y:0},
+    //         toggled:false});
     // const contextMenuItems =[
     //                     {
     //                         text: 'Do Something',
@@ -46,39 +46,39 @@ export default function App() {
     //                         isSpacer: false
     //                     }
     //                 ]
-    function handleOnContextMenu(e, rightClickPerson) {
-        e.preventDefault();
-        const contextMenuAttr = contextMenuRef.current.getBoundingClientRect();
-        const isLeft = e.clientX < window.innerWidth / 2;
-        let x;
-        let y = e.clientY;
-        if (isLeft) {
-            x = e.clientX;
-        } else {
-            x = e.clientX - contextMenuAttr.width;
-        }
-        const t = {
-            position: {
-                x,
-                y,
-            },
-            toggled: true,
-        }
-        console.log(t);
-        setContextMenu(t);
-        console.log(rightClickPerson);
-    }
-    function _resetContextMenu() {
-        console.log('_resetContextMenu')
-        const t = {
-            position: {
-                x:0,y:0
-            },
-            toggled: false,
-        }
-        console.log(t);
-        setContextMenu(t);
-    }
+    // function handleOnContextMenu(e, rightClickPerson) {
+    //     e.preventDefault();
+    //     const contextMenuAttr = contextMenuRef.current.getBoundingClientRect();
+    //     const isLeft = e.clientX < window.innerWidth / 2;
+    //     let x;
+    //     let y = e.clientY;
+    //     if (isLeft) {
+    //         x = e.clientX;
+    //     } else {
+    //         x = e.clientX - contextMenuAttr.width;
+    //     }
+    //     const t = {
+    //         position: {
+    //             x,
+    //             y,
+    //         },
+    //         toggled: true,
+    //     }
+    //     console.log(t);
+    //     setContextMenu(t);
+    //     console.log(rightClickPerson);
+    // }
+    // function _resetContextMenu() {
+    //     console.log('_resetContextMenu')
+    //     const t = {
+    //         position: {
+    //             x:0,y:0
+    //         },
+    //         toggled: false,
+    //     }
+    //     console.log(t);
+    //     setContextMenu(t);
+    // }
 
     // useEffect(() => {
     //     function handler(e) {
@@ -97,11 +97,18 @@ export default function App() {
     //         document.removeEventListener('click', handler);
     //     };
     // }, []);
-    function handleOnAction({ data }) {
-        console.log('something', data);
-        _resetContextMenu();
-        onContextMenuSelect(data);
-    }
+    // function handleOnAction({ data }) {
+    //     console.log('something', data);
+    //     _resetContextMenu();
+    //     onContextMenuSelect(data);
+    // }
+    useEffect(() => {
+            const unsubscribe = eventBusService.on('set-back-drop', (flag) => {
+                setIsBackdrop(flag)
+                console.log('msg',flag)
+            })
+            return unsubscribe
+        }, [])
     useEffect(() => {
             const unsubscribe = eventBusService.on('open-context-menu', (msg) => {
                 //setMsg(msg)
@@ -120,19 +127,20 @@ export default function App() {
     <>
       <section className="app">
         <AppHeader />
-        <div onClick={(e) => {openContextMenu(e,'asd');}} 
-className='some1' data-id='asd'>something</div>
+        {isBackdrop && <div className="backdrop" onClick={() => setIsBackdrop(false)} />}
+        {/* <div onClick={(e) => {openContextMenu(e,'asd');}} 
+className='some1' data-id='asd'>something</div> */}
     {/* //onContextMenu for right click <div onClick={(e) => {handleOnContextMenu(e);*/}
             
-            {contextMenu.toggled && <div className="backdrop" onClick={_resetContextMenu} />}
-        <ContextMenu 
+            {/* {contextMenu.toggled && <div className="backdrop" onClick={_resetContextMenu} />} */}
+        {/* <ContextMenu 
                     contextMenuRef={contextMenuRef}
                     isToggled={contextMenu.toggled}
                     positionX={contextMenu.position.x}
                     positionY={contextMenu.position.y}
                     
                     >
-                        <CtxMenu1 onAction={handleOnAction}/>
+                        <CtxMenu1 onAction={handleOnAction}/> */}
                          {/* <ul>
                     {contextMenuItems.map((item, index) => (
                         <li key={index} onClick={item.onClick} style={{ cursor: 'pointer' }}>
@@ -141,7 +149,7 @@ className='some1' data-id='asd'>something</div>
                     ))}
                 </ul> */}
 
- </ContextMenu>
+ {/* </ContextMenu> */}
 
         <main className="main-layout">
             <Routes>

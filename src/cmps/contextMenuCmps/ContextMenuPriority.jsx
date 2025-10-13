@@ -1,9 +1,14 @@
+import React, { forwardRef } from 'react';
 
-export function CtxMenu1({ onAction }) {
-        const contextMenuItems =[
+
+
+
+export const ContextMenuPriority = forwardRef(({ isToggled, positionX, positionY ,onAction,contextMenuRef} ) => {
+    const contextMenuItems =[
                         {
-                            text: 'Do Something',
+                            text: 'High',
                             icon: '👁️',
+                            background:'red',
                             onClick: () => {
                                 //alert('Action 1 executed');
                                 onAction({data:{priority:'a'}});
@@ -11,35 +16,36 @@ export function CtxMenu1({ onAction }) {
                             isSpacer: false
                         },
                         {
-                            text: 'Do Something Else',
+                            text: 'Low',
                             icon: '✏️',
+                            background:'rgb(0, 200, 117)',
                             onClick: () => {
                                 //alert('Action 2 executed');
                                 onAction({data:{priority:'b'}});
                             },
                             isSpacer: false
                         }
-                    ]
+                    ];
+    
     return (
-        <>
+        <menu
+            style={{top:positionY + 2 + 'px',left: positionX + 2 + 'px'}}
+            className={`context-menu ${isToggled ? 'active' : ''}`}
+            ref={contextMenuRef}
+        >
+            
             <div style={styles.container}>
-
             
             {contextMenuItems.map((item, index) => (
-                <button class="" style={styles.containerItem} 
+                <button class="" style={{...styles.containerItem,backgroundColor: item.background}} 
                 key={index} 
                 onClick={item.onClick} 
                 >{item.text}</button>
-                // <div key={index} onClick={item.onClick} style={{ cursor: 'pointer' }}>
-                //     {item.text}
-                // </div>
             ))}
             </div>
-        </>
-        
-
+        </menu>
     );
-};
+});
 const styles = {
     container : {
         display: 'flex',
@@ -54,7 +60,6 @@ const styles = {
         alignItems: 'center'
     },
     containerItem:{
-        backgroundColor:'rgb(0, 200, 117)',
         cursor: 'pointer',
         color:'white',
         display: 'flex',

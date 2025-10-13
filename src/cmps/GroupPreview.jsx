@@ -4,8 +4,9 @@ import { Side } from "./dynamicCmps/Side.jsx";
 import { Status } from "./dynamicCmps/Status.jsx";
 import { TaskTitle } from "./dynamicCmps/TaskTitle.jsx";
 import { Priority } from "./dynamicCmps/Priority.jsx";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {eventBusService,openContextMenu} from '../services/event-bus.service.js'
+import { ContextMenuStatus } from "./contextMenuCmps/ContextMenuStatus.jsx";
 export function GroupPreview({
   labels,
   group,
@@ -15,6 +16,90 @@ export function GroupPreview({
   toggleSelectedTask,
   selectedTasks,
 }) {
+  //doron
+//   const contextMenuRef = useRef(null)
+//   const [contextMenu,setContextMenu] = useState(
+//       {position: {
+//         x:0,
+//         y:0},
+//         toggled:false});
+// const contextMenuHandler = {
+//    handleOnContextMenu: (e, rightClickPerson) => {
+//             e.preventDefault();
+//             const contextMenuAttr = contextMenuRef.current.getBoundingClientRect();
+//             const isLeft = e.clientX < window.innerWidth / 2;
+//             let x;
+//             let y = e.clientY;
+//             if (isLeft) {
+//                 x = e.clientX;
+//             } else {
+//                 x = e.clientX - contextMenuAttr.width;
+//             }
+//             const t = {
+//                 position: { x, y },
+//                 toggled: true,
+//             };
+//             console.log(t);
+//             setContextMenu(t);
+//             console.log(rightClickPerson);
+//         },
+
+//         _resetContextMenu: () => {
+//             console.log('_resetContextMenu');
+//             const t = {
+//                 position: { x: 0, y: 0 },
+//                 toggled: false,
+//             };
+//             console.log(t);
+//             setContextMenu(t);
+//         },
+
+//         handleOnAction: ({ data }) => {
+//             console.log('something', data);
+//             contextMenuHandler._resetContextMenu(); // Note how you're referring to the method
+//             onContextMenuSelect(data);
+//         },
+//     };
+  // function handleOnContextMenu(e, rightClickPerson) {
+  //       e.preventDefault();
+  //       const contextMenuAttr = contextMenuRef.current.getBoundingClientRect();
+  //       const isLeft = e.clientX < window.innerWidth / 2;
+  //       let x;
+  //       let y = e.clientY;
+  //       if (isLeft) {
+  //           x = e.clientX;
+  //       } else {
+  //           x = e.clientX - contextMenuAttr.width;
+  //       }
+  //       const t = {
+  //           position: {
+  //               x,
+  //               y,
+  //           },
+  //           toggled: true,
+  //       }
+  //       console.log(t);
+  //       setContextMenu(t);
+  //       console.log(rightClickPerson);
+  //   }
+  //   function _resetContextMenu() {
+  //       console.log('_resetContextMenu')
+  //       const t = {
+  //           position: {
+  //               x:0,y:0
+  //           },
+  //           toggled: false,
+  //       }
+  //       console.log(t);
+  //       setContextMenu(t);
+  //   }
+  //   function handleOnAction({ data }) {
+  //           console.log('something', data);
+  //           _resetContextMenu();
+  //           onContextMenuSelect(data);
+  //       }
+
+
   const [isColorModalOpen, setIsColorModalOpen] = useState(false);
 
   const colors = [
@@ -45,9 +130,14 @@ export function GroupPreview({
       return unsubscribe
   }, [])
   function onTaskUpdate(taskId, updatedInfo) {
+    console.log('taskId, updatedInfo',taskId, updatedInfo)
     if (updatedInfo.key === "side") {
-      console.log("sise");
       toggleSelectedTask(group.id, taskId);
+    }
+    if (updatedInfo.key === "priority") {
+      
+      console.log('',group.id,taskId,updatedInfo)
+      //toggleSelectedTask(group.id, taskId);
     }
   }
 
@@ -105,12 +195,12 @@ export function GroupPreview({
           ))}
         </section>
 
-        {/* Render tasks by cmp order */}
+        {/* Render tasks by cmp orderonClick={(e) => {contextMenuHandler.handleOnContextMenu(e,'asd');}}*/}
         {group.tasks.map((task) => (
           <section className="group grid" key={`task-${task.id}`}>
             {cmpOrder.map((cmp, idx) => (
               <section
-                onClick={(e) => {openContextMenu(e,'asd');}} 
+                 
                 className={`grid-item ${cmp}`}
                 key={`task-${task.id}-cmp-${idx}`}
               >
@@ -141,6 +231,7 @@ export function GroupPreview({
           )}
         </section>
       </section>
+      
     </section>
   );
 }
