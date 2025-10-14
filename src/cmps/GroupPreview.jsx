@@ -6,8 +6,6 @@ import { TaskTitle } from "./dynamicCmps/TaskTitle.jsx";
 import { Priority } from "./dynamicCmps/Priority.jsx";
 import { useState, useEffect, useRef } from "react";
 import {eventBusService,openContextMenu} from '../services/event-bus.service.js'
-import { ContextMenuStatus } from "./contextMenuCmps/ContextMenuStatus.jsx";
-import { boardService } from "../services/board.service.js";
 export function GroupPreview({
   labels,
   group,
@@ -41,22 +39,21 @@ export function GroupPreview({
     "#808080",
     "#FF6347",
   ];
-  useEffect(() => {
-      const unsubscribe = eventBusService.on('on-context-menu-select', (msg) => {
-          console.log('msg',msg)
-          
-      })
-      return unsubscribe
-  }, [])
+ 
   function onTaskUpdate(taskId, updatedInfo) {
     console.log('onTaskUpdate func -> taskId, updatedInfo',taskId, updatedInfo)
     if (updatedInfo.key === "side") {
       toggleSelectedTask(group.id, taskId);
     }
-    if (updatedInfo.key === "priority" || updatedInfo.key === "status") {
+    if (updatedInfo.key === "priority" 
+      || updatedInfo.key === "status" 
+      || updatedInfo.key === "date"
+      || updatedInfo.key === "title"
+      || updatedInfo.key === "members") {
       if (!updatedInfo.value) return;
       updateBoard(group.id, taskId, { key:updatedInfo.key, value:updatedInfo.value });
       console.log('',group.id,taskId,updatedInfo)
+
     }
   }
 
@@ -113,7 +110,7 @@ export function GroupPreview({
             <div key={`label-${index}`}>{labels[index] || ""}</div>
           ))}
         </section>
-
+        
         {/* Render tasks by cmp orderonClick={(e) => {contextMenuHandler.handleOnContextMenu(e,'asd');}}*/}
         {group.tasks.map((task) => (
           <section className="group grid" key={`task-${task.id}`}>

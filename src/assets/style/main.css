@@ -26,6 +26,8 @@
 @import 'pages/BoardDetails.css';
 @import 'pages/WelcomePage.css';
 @import 'cmps/statusDropdown.css';
+@import 'cmps/Date.css';
+@import 'cmps/Members.css';
 
 
 /* Layouts */

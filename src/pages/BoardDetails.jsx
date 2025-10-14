@@ -5,7 +5,7 @@ import { useParams, Outlet } from "react-router";
 import { GroupPreview } from "../cmps/GroupPreview.jsx";
 import { boardService } from "../services/board.service.js";
 // import { useDispatch, useSelector } from "react-redux";
-
+import {loadBoardById, saveBoard} from '../store/actions/board.actions.js'
 
 
 
@@ -13,8 +13,10 @@ export function BoardDetails() {
 //const [board, setBoard] = useState(null);
 const [selectedTasks, setSelectedTasks] = useState([]);
 const [board,setBoard] = useState(null);
+const {boardId} = useParams()
 useEffect(() => {
-  boardService.getById('b101')
+  
+  loadBoardById(boardId)
     .then(res => {
       console.log(res);
       setBoard(res);
@@ -32,8 +34,6 @@ useEffect(() => {
 // },[])
 //   const [isFooterDisplayed, setisFooterDisplayed] = useState(false);
 
-  const { boardId } = useParams();
-  console.log(boardId);
 
 //   useEffect(() => {
 //     console.log("board details mounted");
@@ -84,6 +84,7 @@ useEffect(() => {
       taskId,
       changes
     );
+    saveBoard(updatedBoard);
     console.log('###############',updatedBoard);
     setBoard(prev => prev = updatedBoard);
   }

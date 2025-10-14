@@ -1,26 +1,24 @@
 import { useEffect, useRef, useState } from "react";
-import { ContextMenuStatus } from "../contextMenuCmps/ContextMenuStatus";
-import { createPopper } from "@popperjs/core";
-import { Popper1 } from "../contextMenuCmps/Popper1";
+import {  PopperStatus } from "../contextMenuCmps/PopperStatus";
 
 const statuses = [
   { label: "Done", color: "#00C875" },
   { label: "Stuck", color: "#E2445C" },
   { label: "Working on it", color: "#C4C4C4" },
-
 ];
+const getColorByStatus = (statusLabel) => {
+  const status = statuses.find(s => s.label === statusLabel);
+  return status ? status.color : null; // Return null if status is not found
+};
 export function Status({ info,onTaskUpdate }) {
-  
-     const [selected, setSelected] = useState(statuses[0]);
-      const [open, setOpen] = useState(false);
-      const buttonRef = useRef(null);
-      function updateTask(value) {
-        onTaskUpdate({ key: "status", value: value });
-      }
+    //console.log('info',info,statuses.find(item => item.label == info))
+    const [selected, setSelected] = useState({label: info,color: getColorByStatus(info)});
+    const [open, setOpen] = useState(false);
+    const buttonRef = useRef(null);
+    function updateTask(value) {
+      onTaskUpdate({ key: "status", value: value });
+    }
         
-  
-  //const [open, setOpen] = useState(false);
-  //const buttonRef = useRef(null);
 
   // Toggle Functions
   const handleClose = () => setOpen(false); // Set to false to close
@@ -40,9 +38,9 @@ export function Status({ info,onTaskUpdate }) {
         className="status-button"
         style={{ backgroundColor: selected.color }}
       >
-        {info}
+        {selected.label}
       </button>
-      <Popper1 isOpen={open} buttonRef={buttonRef} onSelect={onSelect} onClose={handleClose} />
+      <PopperStatus isOpen={open} buttonRef={buttonRef} onSelect={(value) => onSelect(value)} onClose={() => handleClose()}  />
     </div>
     );
 

@@ -1,88 +1,46 @@
+
 import { useEffect, useRef, useState } from "react";
-import { ContextMenuStatus } from "../contextMenuCmps/ContextMenuStatus";
-import {eventBusService, setBackdrop} from '../../services/event-bus.service'
-import { ContextMenuPriority } from "../contextMenuCmps/ContextMenuPriority";
-import { createPopper } from "@popperjs/core";
+import { PopperPriority } from "../contextMenuCmps/PopperPriority";
 
-export function Priority({ info, onTaskUpdate }) {
-  const [ismodalOpen, setIsModalOpen] = useState(false);
-  const boardPriority = ["LOW", "MEDIUM", "HIGH"];
-  const contextMenuRef = useRef(null)
-    const [contextMenu,setContextMenu] = useState(
-        {position: {
-          x:0,
-          y:0},
-          toggled:false});
-  const contextMenuHandler = {
-     handleOnContextMenu: (e, rightClickPerson) => {
-              e.preventDefault();
-              e.stopPropagation();
-              const contextMenuAttr = contextMenuRef.current.getBoundingClientRect();
-              const isLeft = e.clientX < window.innerWidth / 2;
-              let x;
-              let y = e.clientY;
-              if (isLeft) {
-                  x = e.clientX;
-              } else {
-                  x = e.clientX - contextMenuAttr.width;
-              }
-              const t = {
-                  position: { x, y },
-                  toggled: true,
-              };
-              console.log(t);
-              setContextMenu(t);
-              //setBackdrop(true);
-          },
-  
-          _resetContextMenu: () => {
-              setContextMenu({
-                  position: { x: 0, y: 0 },
-                  toggled: false,
-              });
-          },
-  
-          handleOnAction: ({ data }) => {
-              console.log('something', data);
-              contextMenuHandler._resetContextMenu(); // Note how you're referring to the method
-              updateTask(data.priority)
-              //onContextMenuSelect(data);
+  const priorites = [
+    { label: 'High', color: 'red' },
+    { label: 'Medium', color: 'orange' },
+    { label: 'Low', color: 'green' },
+  ];
 
-          },
-      };
- 
-  function updateTask(value) {
-
-    onTaskUpdate({ key: "priority", value: value });
-  }
-      const handleClickOutside = (event) => {
-        if (contextMenuRef.current && !contextMenuRef.current.contains(event.target)) {
-            contextMenuHandler._resetContextMenu();
-        }
-    };
-
-    useEffect(() => {
-        if (contextMenu.toggled) {
-            window.addEventListener('click', handleClickOutside);
-        }
-
-        return () => {
-            window.removeEventListener('click', handleClickOutside);
-        };
-    }, [contextMenu.toggled]);
-
-  return (
-    <div className="task-priority">
-      <span onClick={contextMenuHandler.handleOnContextMenu}>{info}</span>
-      <ContextMenuPriority 
-                          ref={contextMenuRef}
-                          isToggled={contextMenu.toggled}
-                          positionX={contextMenu.position.x}
-                          positionY={contextMenu.position.y}
-                          onAction={(item) => contextMenuHandler.handleOnAction(item)}
-                          >
-       </ContextMenuPriority>
-    </div>
-  );
+const getColorByStatus = (statusLabel) => {
+  const status = priorites.find(s => s.label === statusLabel);
+  return status ? status.color : null; // Return null if status is not found
 };
+export function Priority({ info,onTaskUpdate }) {
+    //console.log('info',info,priorites.find(item => item.label == info))
+    const [selected, setSelected] = useState({label: info,color: getColorByStatus(info)});
+    const [open, setOpen] = useState(false);
+    const buttonRef = useRef(null);
+
+  // Toggle Functions
+  const handleClose = () => setOpen(false); // Set to false to close
+  const handleOpen = () => setOpen(true); // Set to true to open
+
+  const onSelect = (value) => {
+    console.log('onSelect object received:', value)
+    setSelected(value);
+    handleClose(); // Close after selection
+    onTaskUpdate({ key: "priority", value: value.label });
+  };
+  return (
+    <div className="task-status">
+      <button
+        ref={buttonRef}
+        onClick={handleOpen} // Call handleOpen correctly
+        className="status-button"
+        style={{ backgroundColor: selected.color }}
+      >
+        {selected.label}
+      </button>
+      <PopperPriority isOpen={open} buttonRef={buttonRef} onSelect={(value) => onSelect(value)} onClose={() => handleClose()} />
+    </div>
+    );
+
+}
 

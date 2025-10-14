@@ -31,7 +31,7 @@
 }
 
 .dropdown-item {
-  width: 100%;
+  width: 90%;
   border: none;
   padding: 8px 12px;
   border-radius: 6px;
@@ -64,3 +64,18 @@
     transform: translateY(0);
   }
 }
+
+
+.popper-arrow {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid white; /* Adjust based on your popper's background */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.2s ease; /* Optional: Fade in/out arrow */
+  opacity: 0; /* Start invisible */
+}
+
