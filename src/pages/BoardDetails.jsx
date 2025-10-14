@@ -75,7 +75,7 @@ useEffect(() => {
   // useEffect(() => {}, [groupsMap]);
 
   function updateBoard(groupId, taskId, changes) {
-    console.log(groupId, taskId, changes);
+    console.log('BoardDetails -> updateBoard', groupId, taskId, changes);
     //! This is just for demonstation. in the real project store will call this fucntion to make the board reactive with changes from taskDetails
     // we will use action to update the board in store and useSelector will reflect the change
     const updatedBoard = boardService.updateBoard(

@@ -52,3 +52,13 @@ object {
 a.active {
   text-decoration: underline;
 } */
+ .editable-title {
+  outline: none; /* Remove default outline */
+  transition: border 0.3s ease; /* Smooth transition for the border */
+}
+
+.editable-title:hover {
+  border: 2px solid blue; /* Change color as needed */
+  padding: 2px; /* Optional: add some padding to avoid text touching the border */
+  border-radius: 4px; /* Optional: make the corners rounded */
+}
