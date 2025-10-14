@@ -87,17 +87,17 @@ function updateBoard(board, gid, tid, { key, value }) {
 
     if (gIdx !== -1 && tIdx === -1) {
       const prevValue = board.groups[gIdx][key]
-      createActivity(board._id, gid, null, key, value, prevValue)
+      //createActivity(board._id, gid, null, key, value, prevValue)
       board.groups[gIdx][key] = value
       console.log('UPDATE GROUP:', JSON.stringify(board, null, 2))
     } else if (gIdx !== -1 && tIdx !== -1) {
       const prevValue = board.groups[gIdx].tasks[tIdx][key]
-      createActivity(board._id, gid, tid, key, value, prevValue)
+      //createActivity(board._id, gid, tid, key, value, prevValue)
       board.groups[gIdx].tasks[tIdx][key] = value
-      console.log('UPDATE TASK:', JSON.stringify(board, null, 2))
+      //console.log('UPDATE TASK:', JSON.stringify(board, null, 2))
     } else {
       const prevValue = board[key]
-      createActivity(board._id, null, null, key, value, prevValue)
+      //createActivity(board._id, null, null, key, value, prevValue)
       board[key] = value
       console.log('UPDATE BOARD:', JSON.stringify(board, null, 2))
     }

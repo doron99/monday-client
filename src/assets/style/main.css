@@ -25,6 +25,7 @@
 @import 'pages/BoardIndex.css';
 @import 'pages/BoardDetails.css';
 @import 'pages/WelcomePage.css';
+@import 'cmps/statusDropdown.css';
 
 
 /* Layouts */

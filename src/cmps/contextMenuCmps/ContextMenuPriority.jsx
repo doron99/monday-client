@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 
 
 
-export const ContextMenuPriority = forwardRef(({ isToggled, positionX, positionY ,onAction,contextMenuRef} ) => {
+export const ContextMenuPriority = forwardRef(({ isToggled, positionX, positionY ,onAction,contextMenuRef},ref ) => {
     const contextMenuItems =[
                         {
                             text: 'High',
@@ -11,7 +11,17 @@ export const ContextMenuPriority = forwardRef(({ isToggled, positionX, positionY
                             background:'red',
                             onClick: () => {
                                 //alert('Action 1 executed');
-                                onAction({data:{priority:'a'}});
+                                onAction({data:{priority:'high'}});
+                            },
+                            isSpacer: false
+                        },
+                        {
+                            text: 'Medium',
+                            icon: '✏️',
+                            background:'rgba(241, 189, 91, 1)',
+                            onClick: () => {
+                                //alert('Action 2 executed');
+                                onAction({data:{priority:'medium'}});
                             },
                             isSpacer: false
                         },
@@ -21,7 +31,7 @@ export const ContextMenuPriority = forwardRef(({ isToggled, positionX, positionY
                             background:'rgb(0, 200, 117)',
                             onClick: () => {
                                 //alert('Action 2 executed');
-                                onAction({data:{priority:'b'}});
+                                onAction({data:{priority:'low'}});
                             },
                             isSpacer: false
                         }
@@ -31,13 +41,13 @@ export const ContextMenuPriority = forwardRef(({ isToggled, positionX, positionY
         <menu
             style={{top:positionY + 2 + 'px',left: positionX + 2 + 'px'}}
             className={`context-menu ${isToggled ? 'active' : ''}`}
-            ref={contextMenuRef}
+            ref={ref}
         >
             
             <div style={styles.container}>
             
             {contextMenuItems.map((item, index) => (
-                <button class="" style={{...styles.containerItem,backgroundColor: item.background}} 
+                <button className="" style={{...styles.containerItem,backgroundColor: item.background}} 
                 key={index} 
                 onClick={item.onClick} 
                 >{item.text}</button>

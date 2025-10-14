@@ -3,25 +3,35 @@ import React, { forwardRef } from 'react';
 
 
 
-export const ContextMenuStatus = forwardRef(({ isToggled, positionX, positionY ,onAction,contextMenuRef} ) => {
+export const ContextMenuStatus = forwardRef(({ isToggled, positionX, positionY ,onAction,contextMenuRef},ref ) => {
     const contextMenuItems =[
                         {
-                            text: 'High',
+                            text: 'Done',
                             icon: '👁️',
-                            background:'red',
+                            background:'rgba(26, 255, 160, 1)',
                             onClick: () => {
                                 //alert('Action 1 executed');
-                                onAction({data:{status:'a'}});
+                                onAction({data:{status:'done'}});
                             },
                             isSpacer: false
                         },
                         {
-                            text: 'Low',
+                            text: 'NotStarted',
                             icon: '✏️',
-                            background:'rgb(0, 200, 117)',
+                            background:'rgba(109, 107, 255, 1)',
                             onClick: () => {
                                 //alert('Action 2 executed');
-                                onAction({data:{status:'b'}});
+                                onAction({data:{status:'notStarted'}});
+                            },
+                            isSpacer: false
+                        },
+                        {
+                            text: 'Stuck',
+                            icon: '✏️',
+                            background:'rgba(200, 0, 110, 1)',
+                            onClick: () => {
+                                //alert('Action 2 executed');
+                                onAction({data:{status:'stuck'}});
                             },
                             isSpacer: false
                         }
@@ -31,13 +41,13 @@ export const ContextMenuStatus = forwardRef(({ isToggled, positionX, positionY ,
         <menu
             style={{top:positionY + 2 + 'px',left: positionX + 2 + 'px'}}
             className={`context-menu ${isToggled ? 'active' : ''}`}
-            ref={contextMenuRef}
+            ref={ref}
         >
             
             <div style={styles.container}>
             
             {contextMenuItems.map((item, index) => (
-                <button class="" style={{...styles.containerItem,backgroundColor: item.background}} 
+                <button className="" style={{...styles.containerItem,backgroundColor: item.background}} 
                 key={index} 
                 onClick={item.onClick} 
                 >{item.text}</button>

@@ -7,6 +7,7 @@ import { Priority } from "./dynamicCmps/Priority.jsx";
 import { useState, useEffect, useRef } from "react";
 import {eventBusService,openContextMenu} from '../services/event-bus.service.js'
 import { ContextMenuStatus } from "./contextMenuCmps/ContextMenuStatus.jsx";
+import { boardService } from "../services/board.service.js";
 export function GroupPreview({
   labels,
   group,
@@ -16,88 +17,6 @@ export function GroupPreview({
   toggleSelectedTask,
   selectedTasks,
 }) {
-  //doron
-//   const contextMenuRef = useRef(null)
-//   const [contextMenu,setContextMenu] = useState(
-//       {position: {
-//         x:0,
-//         y:0},
-//         toggled:false});
-// const contextMenuHandler = {
-//    handleOnContextMenu: (e, rightClickPerson) => {
-//             e.preventDefault();
-//             const contextMenuAttr = contextMenuRef.current.getBoundingClientRect();
-//             const isLeft = e.clientX < window.innerWidth / 2;
-//             let x;
-//             let y = e.clientY;
-//             if (isLeft) {
-//                 x = e.clientX;
-//             } else {
-//                 x = e.clientX - contextMenuAttr.width;
-//             }
-//             const t = {
-//                 position: { x, y },
-//                 toggled: true,
-//             };
-//             console.log(t);
-//             setContextMenu(t);
-//             console.log(rightClickPerson);
-//         },
-
-//         _resetContextMenu: () => {
-//             console.log('_resetContextMenu');
-//             const t = {
-//                 position: { x: 0, y: 0 },
-//                 toggled: false,
-//             };
-//             console.log(t);
-//             setContextMenu(t);
-//         },
-
-//         handleOnAction: ({ data }) => {
-//             console.log('something', data);
-//             contextMenuHandler._resetContextMenu(); // Note how you're referring to the method
-//             onContextMenuSelect(data);
-//         },
-//     };
-  // function handleOnContextMenu(e, rightClickPerson) {
-  //       e.preventDefault();
-  //       const contextMenuAttr = contextMenuRef.current.getBoundingClientRect();
-  //       const isLeft = e.clientX < window.innerWidth / 2;
-  //       let x;
-  //       let y = e.clientY;
-  //       if (isLeft) {
-  //           x = e.clientX;
-  //       } else {
-  //           x = e.clientX - contextMenuAttr.width;
-  //       }
-  //       const t = {
-  //           position: {
-  //               x,
-  //               y,
-  //           },
-  //           toggled: true,
-  //       }
-  //       console.log(t);
-  //       setContextMenu(t);
-  //       console.log(rightClickPerson);
-  //   }
-  //   function _resetContextMenu() {
-  //       console.log('_resetContextMenu')
-  //       const t = {
-  //           position: {
-  //               x:0,y:0
-  //           },
-  //           toggled: false,
-  //       }
-  //       console.log(t);
-  //       setContextMenu(t);
-  //   }
-  //   function handleOnAction({ data }) {
-  //           console.log('something', data);
-  //           _resetContextMenu();
-  //           onContextMenuSelect(data);
-  //       }
 
 
   const [isColorModalOpen, setIsColorModalOpen] = useState(false);
@@ -130,14 +49,14 @@ export function GroupPreview({
       return unsubscribe
   }, [])
   function onTaskUpdate(taskId, updatedInfo) {
-    console.log('taskId, updatedInfo',taskId, updatedInfo)
+    console.log('onTaskUpdate func -> taskId, updatedInfo',taskId, updatedInfo)
     if (updatedInfo.key === "side") {
       toggleSelectedTask(group.id, taskId);
     }
-    if (updatedInfo.key === "priority") {
-      
+    if (updatedInfo.key === "priority" || updatedInfo.key === "status") {
+      if (!updatedInfo.value) return;
+      updateBoard(group.id, taskId, { key:updatedInfo.key, value:updatedInfo.value });
       console.log('',group.id,taskId,updatedInfo)
-      //toggleSelectedTask(group.id, taskId);
     }
   }
 
@@ -204,6 +123,7 @@ export function GroupPreview({
                 className={`grid-item ${cmp}`}
                 key={`task-${task.id}-cmp-${idx}`}
               >
+                {/* <span style={{color:'red',fontSize:'0.8rem'}}>{JSON.stringify(cmp,null,2)},{JSON.stringify(task[cmp],null,2)}</span> */}
                 <DynamicCmp
                   cmpType={cmp}
                   info={task[cmp]}

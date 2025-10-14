@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { ContextMenuStatus } from "../contextMenuCmps/ContextMenuStatus";
 import {eventBusService, setBackdrop} from '../../services/event-bus.service'
 import { ContextMenuPriority } from "../contextMenuCmps/ContextMenuPriority";
+import { createPopper } from "@popperjs/core";
+
 export function Priority({ info, onTaskUpdate }) {
   const [ismodalOpen, setIsModalOpen] = useState(false);
   const boardPriority = ["LOW", "MEDIUM", "HIGH"];
@@ -73,7 +75,7 @@ export function Priority({ info, onTaskUpdate }) {
     <div className="task-priority">
       <span onClick={contextMenuHandler.handleOnContextMenu}>{info}</span>
       <ContextMenuPriority 
-                          contextMenuRef={contextMenuRef}
+                          ref={contextMenuRef}
                           isToggled={contextMenu.toggled}
                           positionX={contextMenu.position.x}
                           positionY={contextMenu.position.y}
