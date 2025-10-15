@@ -1,11 +1,12 @@
+import { GroupHeader } from "./GroupHeader";
 import { Date } from "./dynamicCmps/Date.jsx";
 import { Member } from "./dynamicCmps/Member.jsx";
 import { Side } from "./dynamicCmps/Side.jsx";
 import { Status } from "./dynamicCmps/Status.jsx";
 import { TaskTitle } from "./dynamicCmps/TaskTitle.jsx";
 import { Priority } from "./dynamicCmps/Priority.jsx";
-import { useState, useEffect, useRef } from "react";
-import {eventBusService,openContextMenu} from '../services/event-bus.service.js'
+import { useState } from "react";
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import {
   DndContext,
   closestCenter,
@@ -32,28 +33,7 @@ export function GroupPreview({
 }) {
 
 
-  const [isColorModalOpen, setIsColorModalOpen] = useState(false);
-
-  const colors = [
-    "#008000",
-    "#00CC66",
-    "#A4D700",
-    "#D4BF00",
-    "#FFD700",
-    "#800080",
-    "#BA55D3",
-    "#4682B4",
-    "#00BFFF",
-    "#DC143C",
-    "#FF4500",
-    "#FF69B4",
-    "#FFA500",
-    "#F08080",
-    "#A52A2A",
-    "#C0C0C0",
-    "#808080",
-    "#FF6347",
-  ];
+  const [isExpanded, setIsExpanded] = useState(true);
 
   // dnd-kit sensors for handling different input types
   const sensors = useSensors(
@@ -105,48 +85,59 @@ export function GroupPreview({
   const progressComponents = ["date", "priority", "status"];
   return (
     <section>
-      <div className="group-header">
-        <div
-          className="color-indicator"
-          style={{ backgroundColor: group.style.color }}
-          onClick={() => setIsColorModalOpen(!isColorModalOpen)}
-        ></div>
-        <span
-          suppressContentEditableWarning
-          contentEditable
-          onBlur={(ev) =>
-            updateGroup(group.id, { key: "title", value: ev.target.innerText })
-          }
-          className="group-title"
-        >
-          {group.title}
-        </span>
-
-        {isColorModalOpen && (
-          <div className="color-list">
-            {colors.map((color) => (
-              <div
-                onClick={() => {
-                  setIsColorModalOpen(!isColorModalOpen);
-                  updateGroup(group.id, {
-                    key: "style",
-                    value: { color: color },
-                  });
+      {isExpanded ? (
+        <GroupHeader 
+          group={group}
+          isExpanded={isExpanded}
+          onToggleExpanded={() => setIsExpanded(!isExpanded)}
+          onUpdateGroup={updateGroup}
+        />
+      ) : (
+        <section 
+          className="group-preview-collapsed"
+          style={{borderLeft: `4px solid ${group.style.color}`}}
+          onClick={() => setIsExpanded(true)}>
+          <div className="collapsed-content">
+            <div className="collapsed-left-section">
+              <div 
+                className="arrow-toggle" 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsExpanded(true);
                 }}
-                className="color-indicator"
-                style={{ "background-color": color }}
-              ></div>
-            ))}
+                style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+              >
+                <ChevronRightIcon style={{ width: '16px', height: '16px', color: group.style.color }} />
+              </div>
+              <div className="collapsed-group-info">
+                <span className="collapsed-group-title" style={{color: group.style.color}}>
+                  {group.title}
+                </span>
+                <span className="task-count">
+                  {group.tasks.length === 0 ? 'No Tasks' : `${group.tasks.length} Task${group.tasks.length !== 1 ? 's' : ''}`}
+                </span>
+              </div>
+            </div>
+            <div className="collapsed-headers">
+              {cmpOrder.slice(1).map((cmpName, index) => (
+                <div key={cmpName} className="collapsed-header-item">
+                  {labels[index + 1] || cmpName}
+                </div>
+              ))}
+            </div>
           </div>
-        )}
-      </div>
-      <section className="group-preview">
-      {/* Wrap the component and its children with DndContext */}
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
+        </section>
+      )}
+      {isExpanded && (
+        <section 
+          className="group-preview"
+          style={{borderLeft: `4px solid ${group.style.color}`}}>
+        {/* Wrap the component and its children with DndContext */}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
         {/* Wrap the headers with SortableContext */}
         <SortableContext items={cmpOrder} strategy={horizontalListSortingStrategy}>
           <section className="labels-grid">
@@ -228,8 +219,7 @@ export function GroupPreview({
         </section>
       </DndContext>
     </section>
-
-      
+      )}
       
     </section>
   );

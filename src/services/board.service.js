@@ -77,33 +77,35 @@ async function save(board) {
 
 
 function updateBoard(board, gid, tid, { key, value }) {
-  console.log('updateBoard() =>', key, value)
 
   if (!board) return
 
   try {
-    const gIdx = board.groups.findIndex(g => g.id === gid)
-    const tIdx = board.groups[gIdx]?.tasks.findIndex(t => t.id === tid)
+    // Create a deep copy of the board to avoid mutation
+    const updatedBoard = JSON.parse(JSON.stringify(board));
+    
+    const gIdx = updatedBoard.groups.findIndex(g => g.id === gid)
+    const tIdx = updatedBoard.groups[gIdx]?.tasks.findIndex(t => t.id === tid)
 
     if (gIdx !== -1 && tIdx === -1) {
-      const prevValue = board.groups[gIdx][key]
-      //createActivity(board._id, gid, null, key, value, prevValue)
-      board.groups[gIdx][key] = value
-      console.log('UPDATE GROUP:', JSON.stringify(board, null, 2))
+      //const prevValue = updatedBoard.groups[gIdx][key]
+      //createActivity(updatedBoard._id, gid, null, key, value, prevValue)
+      updatedBoard.groups[gIdx][key] = value
+      console.log('UPDATE GROUP:', JSON.stringify(updatedBoard, null, 2))
     } else if (gIdx !== -1 && tIdx !== -1) {
-      const prevValue = board.groups[gIdx].tasks[tIdx][key]
-      //createActivity(board._id, gid, tid, key, value, prevValue)
-      board.groups[gIdx].tasks[tIdx][key] = value
-      //console.log('UPDATE TASK:', JSON.stringify(board, null, 2))
+      //const prevValue = updatedBoard.groups[gIdx].tasks[tIdx][key]
+      //createActivity(updatedBoard._id, gid, tid, key, value, prevValue)
+      updatedBoard.groups[gIdx].tasks[tIdx][key] = value
+      //console.log('UPDATE TASK:', JSON.stringify(updatedBoard, null, 2))
     } else {
-      const prevValue = board[key]
-      //createActivity(board._id, null, null, key, value, prevValue)
-      board[key] = value
-      console.log('UPDATE BOARD:', JSON.stringify(board, null, 2))
+      //const prevValue = updatedBoard[key]
+      //createActivity(updatedBoard._id, null, null, key, value, prevValue)
+      updatedBoard[key] = value
+      console.log('UPDATE BOARD:', JSON.stringify(updatedBoard, null, 2))
     }
 
-    save(board)
-    return board
+    save(updatedBoard)
+    return updatedBoard
   } catch (err) {
     console.error('updateBoard failed:', err)
   }
