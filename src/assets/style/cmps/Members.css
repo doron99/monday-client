@@ -33,3 +33,111 @@
 .suggested-list li svg {
     
 }
+.member-badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom:5px;
+
+}
+/* .member-badge {
+        border: 1px solid black;
+    padding: 1px 8px 1px 8px;
+    font-size: 0.8em;
+    border-radius: 5px;
+    
+    margin-right:5px;
+    margin-bottom:5px;
+} */
+.member-badge {
+    display: flex;
+    align-items: center;
+  width: auto;
+  padding: 5px 15px 5px 15px; /* space for icon */
+  border: 1px solid #dadce0;
+  border-radius: 24px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  background-color: #fff;
+  color: #202124;
+  box-shadow: none;
+  margin-right:3px;
+  margin-bottom:5px;
+}
+.member-badge button {
+    padding:1px;
+    margin:0;
+    width: 15px;
+    height: 15px;
+    border-radius: 50px;
+        line-height: 13px;
+}
+
+.suggested-container {
+  width: 320px;
+  /* border: 1px solid #e0e0e0; */
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 8px;
+  font-family: Arial, sans-serif;
+}
+
+.suggested-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.suggested-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #202124; /* same neutral text color as in Google UIs */
+  font-size: 14px;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.suggested-row:hover {
+  background-color: #f1f3f4; /* Google-like light gray hover color */
+}
+.search-container {
+  position: relative;
+  width: 320px;
+  margin-bottom: 8px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 36px 8px 36px; /* space for icon */
+  border: 1px solid #dadce0;
+  border-radius: 5px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  background-color: #fff;
+  color: #202124;
+  box-shadow: none;
+}
+
+.search-input::placeholder {
+  color: #5f6368!important;
+}
+
+.search-input:focus {
+  border-color: #1a73e8; /* Google blue focus border */
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.15);
+  background-color: white;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #5f6368;
+  font-size: 16px;
+  pointer-events: none; /* let clicks go to the input */
+}
