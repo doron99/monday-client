@@ -7,10 +7,11 @@ export const utilService = {
     animateCSS,
     debounce,
     getTruthyValues,
-    log
+    log,
+    getRandomColor
 }
 
-function makeId(length = 6) {
+export function makeId(length = 6) {
     var txt = ''
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
@@ -85,4 +86,30 @@ export function getTruthyValues(obj) {
 }
 export function log(color,topic, ...args) {
     console.log(`%c${topic}`,`background:${color};color:white`,...args)
+}
+
+export function getRandomColor(){
+    const colors = [
+        "#008000",
+        "#00CC66",
+        "#A4D700",
+        "#D4BF00",
+        "#FFD700",
+        "#800080",
+        "#BA55D3",
+        "#4682B4",
+        "#00BFFF",
+        "#DC143C",
+        "#FF4500",
+        "#FF69B4",
+        "#FFA500",
+        "#F08080",
+        "#A52A2A",
+        "#C0C0C0",
+        "#808080",
+        "#FF6347",
+    ];
+
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
 }

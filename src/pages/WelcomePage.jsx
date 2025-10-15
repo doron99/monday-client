@@ -21,12 +21,10 @@ export function WelcomePage() {
     const count = useSelector(storeState => storeState.userModule.count)
     const navigate = useNavigate()
 
- const [selected, setSelected] = useState(statuses[0]);
+    const [selected, setSelected] = useState(statuses[0]);
 
-
-// dnd-kit sensors for handling different input types
+    // dnd-kit sensors for handling different input types
  
-
     return (
         <main className="welcome-page-container">
             <h1>Welcome Page</h1>

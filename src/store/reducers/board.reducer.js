@@ -30,7 +30,13 @@ export function boardReducer(state = initialState, action) {
       const boards = exists
         ? state.boards.map(b => (b._id === action.board._id ? action.board : b))
         : [...state.boards, action.board]
-      return { ...state, boards }
+      
+      // Also update selectedBoard if it's the same board being saved
+      const selectedBoard = state.selectedBoard && state.selectedBoard._id === action.board._id 
+        ? action.board 
+        : state.selectedBoard
+      
+      return { ...state, boards, selectedBoard }
     }
 
     case SET_FAVORITES:
