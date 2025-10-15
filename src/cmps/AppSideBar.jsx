@@ -2,15 +2,16 @@ import { useEffect, useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { loadBoards, loadFavorites } from "../store/actions/board.actions.js"
-import { 
-  FaHome, 
-  FaCalendarAlt, 
-  FaStar, 
-  FaChevronDown, 
-  FaChevronRight, 
-  FaPuzzlePiece, 
-  FaPlus, 
-  FaClipboardList 
+import { BoardFilter } from "../cmps/filters/BoardFilter.jsx"
+import {
+  FaHome,
+  FaCalendarAlt,
+  FaStar,
+  FaChevronDown,
+  FaChevronRight,
+  FaPuzzlePiece,
+  FaPlus,
+  FaClipboardList
 } from "react-icons/fa"
 
 export function AppSideBar() {
@@ -22,6 +23,7 @@ export function AppSideBar() {
 
   const [isOpen, setIsOpen] = useState(true)
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(true)
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   useEffect(() => {
     loadBoards()
@@ -29,10 +31,9 @@ export function AppSideBar() {
   }, [])
 
   const toggleFavorites = () => setIsFavoritesOpen(!isFavoritesOpen)
-
-  const goToHome = () => navigate('/')
-  const goToBoard = () => navigate('/board')
-  const isBoardActive = () => location.pathname.startsWith('/board')
+  const goToHome = () => navigate("/")
+  const goToBoard = () => navigate("/board")
+  const isBoardActive = () => location.pathname.startsWith("/board")
 
   return (
     <div className={`sidebar-container ${isOpen ? "open" : "closed"}`}>
@@ -43,7 +44,7 @@ export function AppSideBar() {
 
             <nav className="sidebar-nav">
               <div
-                className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}
+                className={`nav-item ${location.pathname === "/" ? "active" : ""}`}
                 onClick={goToHome}
               >
                 <FaHome className="icon home-icon" />
@@ -51,7 +52,7 @@ export function AppSideBar() {
               </div>
 
               <div
-                className={`nav-item ${isBoardActive() ? 'active' : ''}`}
+                className={`nav-item ${isBoardActive() ? "active" : ""}`}
                 onClick={goToBoard}
               >
                 <FaCalendarAlt className="icon work-icon" />
@@ -61,9 +62,11 @@ export function AppSideBar() {
 
             <section className="favorites">
               <div className="favorites-header" onClick={toggleFavorites}>
-                {isFavoritesOpen 
-                  ? <FaChevronDown className="icon chevron-icon" /> 
-                  : <FaChevronRight className="icon chevron-icon" />}
+                {isFavoritesOpen ? (
+                  <FaChevronDown className="icon chevron-icon" />
+                ) : (
+                  <FaChevronRight className="icon chevron-icon" />
+                )}
                 <FaStar className="icon star-icon" />
                 <span>Favorites</span>
               </div>
@@ -86,12 +89,20 @@ export function AppSideBar() {
 
             <section className="workspaces">
               <div className="workspace-header">
-                <FaPuzzlePiece className="icon workspace-icon" />
-                <span>Workspaces</span>
+                {!isFilterOpen && (
+                  <>
+                    <FaPuzzlePiece className="icon workspace-icon" />
+                    <span>Workspaces</span>
+                  </>
+                )}
+
+                <BoardFilter onToggleFilter={setIsFilterOpen} />
               </div>
 
               <div className="workspace-item">
-                <span><FaClipboardList className="icon workspace-item-icon" /> Guest's main workspace</span>
+                <span>
+                  <FaClipboardList className="icon workspace-item-icon" /> Guest's main workspace
+                </span>
                 <button className="add-btn">
                   <FaPlus className="icon add-icon" />
                 </button>
