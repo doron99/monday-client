@@ -10,9 +10,9 @@ import {
   SET_FAVORITES
 } from '../reducers/board.reducer.js'
 
-export function loadBoards() {
+export function loadBoards(filterBy) {
   store.dispatch({ type: SET_LOADING, isLoading: true })
-  return boardService.query()
+  return boardService.query(filterBy)
     .then(boards => {
       store.dispatch({ type: SET_BOARDS, boards })
       return boards
@@ -24,6 +24,7 @@ export function loadBoards() {
       store.dispatch({ type: SET_LOADING, isLoading: false })
     })
 }
+
 
 export function loadFavorites() {
   store.dispatch({ type: SET_LOADING, isLoading: true })

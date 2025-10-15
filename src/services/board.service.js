@@ -16,17 +16,25 @@ export const boardService = {
   getDefaultFilter
 }
 
-async function query() {
+async function query(filterBy = {}) {
   try {
     let boards = await storageService.query(STORAGE_KEY)
 
     if (!boards || !boards.length) {
       console.log('Loading boards from data.json...')
       boards = [...boardsData]
-
       for (const board of boards) {
         await storageService.post(STORAGE_KEY, board)
       }
+    }
+
+    if (filterBy.txt) {
+      const regExp = new RegExp(filterBy.txt, 'i')
+      boards = boards.filter(board => regExp.test(board.title))
+    }
+
+    if (filterBy.isStarred) {
+      boards = boards.filter(board => board.isStarred)
     }
 
     return boards
@@ -35,6 +43,7 @@ async function query() {
     throw err
   }
 }
+
 
 
 
@@ -126,17 +135,6 @@ function getEmptyBoard() {
 async function getFavorites() {
   const boards = await query()
   return boards.filter(board => board.isStarred)
-}
-
-function getEmptyBoard() {
-  return {
-    title: 'New Board',
-    createdAt: Date.now(),
-    isStarred: false,
-    groups: [],
-    members: [],
-    activities: [],
-  }
 }
 
 function getDefaultFilter() {
