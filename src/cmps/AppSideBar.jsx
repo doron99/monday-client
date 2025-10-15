@@ -34,6 +34,7 @@ export function AppSideBar() {
   const goToHome = () => navigate("/")
   const goToBoard = () => navigate("/board")
   const isBoardActive = () => location.pathname.startsWith("/board")
+  const goToBoardDetails = (boardId) => navigate(`/board/${boardId}`)
 
   return (
     <div className={`sidebar-container ${isOpen ? "open" : "closed"}`}>
@@ -110,7 +111,10 @@ export function AppSideBar() {
 
               <ul>
                 {boards.map(board => (
-                  <li key={board._id}>
+                  <li key={board._id}
+                  onClick={() => goToBoardDetails(board._id)}
+                  className="clickable"
+                  >
                     <FaClipboardList className="icon board-icon" />
                     {board.title}
                   </li>
