@@ -1,6 +1,6 @@
 
 .group-preview {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; */
   background: #ffffff;
   border-radius: 8px;
   border: 1px solid #e6e9ef;
@@ -17,7 +17,7 @@
 
 /* Group Preview Collapsed State */
 .group-preview-collapsed {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; */
   background: #ffffff;
   border-radius: 8px;
   border: 1px solid #e6e9ef;
