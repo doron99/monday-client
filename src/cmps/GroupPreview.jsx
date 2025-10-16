@@ -7,6 +7,7 @@ import { TaskTitle } from "./dynamicCmps/TaskTitle.jsx";
 import { Priority } from "./dynamicCmps/Priority.jsx";
 import { useState } from "react";
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import { TaskCount } from './TaskCount.jsx';
 import {
   DndContext,
   closestCenter,
@@ -82,6 +83,10 @@ export function GroupPreview({
     console.log("board updated");
   }
 
+  function deleteGroup(groupId){
+    console.log(groupId);
+  }
+
   const progressComponents = ["date", "priority", "status"];
   return (
     <section>
@@ -91,6 +96,7 @@ export function GroupPreview({
           isExpanded={isExpanded}
           onToggleExpanded={() => setIsExpanded(!isExpanded)}
           onUpdateGroup={updateGroup}
+          onDeleteGroup={deleteGroup}
         />
       ) : (
         <section 
@@ -113,9 +119,7 @@ export function GroupPreview({
                 <span className="collapsed-group-title" style={{color: group.style.color}}>
                   {group.title}
                 </span>
-                <span className="task-count">
-                  {group.tasks.length === 0 ? 'No Tasks' : `${group.tasks.length} Task${group.tasks.length !== 1 ? 's' : ''}`}
-                </span>
+                <TaskCount taskCount={group.tasks.length} />
               </div>
             </div>
             <div className="collapsed-headers">

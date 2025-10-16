@@ -1,0 +1,110 @@
+.group-header-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  min-height: 48px;
+}
+
+.group-header-items {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.three-dots-container {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.three-dots-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.three-dots-button.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.three-dots-button:hover {
+  background-color: #cacbcd;
+}
+
+.task-count {
+  font-size: 12px;
+  color: #676879;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+/* Group Title Input Form */
+.group-title-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  cursor: text;
+  min-height: 36px;
+}
+
+.group-title-input.focused {
+  border: 1px solid #579bfc;
+  flex-grow: 1;
+}
+
+.color-indicator-input {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.color-indicator-input:hover {
+  transform: scale(1.1);
+}
+
+.group-title-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #323338;
+  border: 1px solid white;
+  background: transparent;
+  line-height: 1.2;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  flex: 1;
+  padding: 3px;
+}
+
+.group-title-text:focus {
+  outline: none;
+}
+
+.group-title-text:hover {
+  border: 1px solid #b3b4ba;
+  border-radius: 3px;
+}
+
+.group-title-text:focus:hover {
+  border: 1px solid white;
+}
+
+
+
