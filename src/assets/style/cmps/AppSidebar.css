@@ -206,3 +206,26 @@
 .workspace-item-icon {
   color: #6024fa;
 }
+
+
+.board-item button {
+  background: transparent !important;
+  border: none !important;
+  padding: 4px;
+  margin: 0;
+  cursor: pointer;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board-item button:hover {
+  background-color: #f0f0f0;
+}
+
+.board-item button svg {
+  color: #555;
+  width: 18px;
+  height: 18px;
+}
