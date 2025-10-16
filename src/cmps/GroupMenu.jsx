@@ -7,7 +7,7 @@ import {
 
 
 export function GroupMenu({ 
-    group,
+  group,
   onRenameGroup,
   onDuplicateGroup,
   onMoveGroup,

@@ -8,6 +8,7 @@ import { Priority } from "./dynamicCmps/Priority.jsx";
 import { useState } from "react";
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { TaskCount } from './TaskCount.jsx';
+import { updateBoard } from '../store/actions/board.actions.js';
 import {
   DndContext,
   closestCenter,
@@ -29,7 +30,6 @@ export function GroupPreview({
   group,
   cmpOrder,
   progress,
-  updateBoard,
   toggleSelectedTask,
   selectedTasks,
   board
@@ -121,13 +121,15 @@ export function GroupPreview({
 
   function updateGroup(groupId, updatedInfo) {
     console.log(groupId, updatedInfo);
-    updateBoard(groupId, null, updatedInfo);
+    updateBoard(board, groupId, null, updatedInfo);
 
     console.log("board updated");
   }
 
   function deleteGroup(groupId){
-    console.log(groupId);
+    let updatedGroups = board.groups.filter(group => group.id !== groupId);
+    updateBoard(board, null, null, {key: 'groups', value: updatedGroups})
+    console.log('deleteGroup in GroupPreview' + groupId);
   }
 
   const progressComponents = ["date", "priority", "status"];

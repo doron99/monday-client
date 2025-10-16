@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { TaskCount } from "./TaskCount.jsx";
 import { GroupMenu } from "./GroupMenu.jsx";
+
+
 import {
   ChevronDownIcon,
   ChevronRightIcon,
@@ -117,10 +119,10 @@ export function GroupHeader({
     setIsGroupMenuOpen((prevIsOpen) => !prevIsOpen);
   };
 
-  const handleDeleteGroup = () => {
+  function handleDeleteGroup(groupId) {
     setIsGroupMenuOpen(false);
-    // TODO: Implement delete functionality
-    console.log("Delete group");
+    onDeleteGroup(groupId);
+    console.log("handleDeleteGroup in GroupHeader");
   };
 
   // Menu item handlers (placeholders)
@@ -246,7 +248,7 @@ export function GroupHeader({
           onRenameGroup={handleRenameGroup}
           onDuplicateGroup={handleDuplicateGroup}
           onMoveGroup={handleMoveGroup}
-          onDeleteGroup={onDeleteGroup}
+          onDeleteGroup={handleDeleteGroup}
         />
       )}
     </div>
