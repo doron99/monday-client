@@ -74,6 +74,7 @@ async function save(board) {
       board.createdAt = Date.now()
       board.createdBy = { username: 'Guest' }
       board.isStarred = false
+      board.cmpOrder = board.cmpOrder || ["side", "taskTitle", "status", "priority", "date", "members"] 
       board.groups = []
       board.activities = []
       return await storageService.post(STORAGE_KEY, board)
@@ -122,17 +123,20 @@ function updateBoard(board, gid, tid, { key, value }) {
 
 function getEmptyBoard() {
   return {
-    title: '',
+    title: 'New Board',
     isStarred: false,
     createdAt: Date.now(),
     createdBy: userService.getLoggedinUser() || { fullname: 'Guest' },
     style: {},
     labels: [],
     members: [],
+    cmpOrder: ["side", "taskTitle", "status", "priority", "date", "members"],
     groups: [],
     activities: [],
   }
 }
+
+
 
 async function getFavorites() {
   const boards = await query()
