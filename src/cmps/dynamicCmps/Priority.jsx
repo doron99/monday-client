@@ -3,9 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import { PopperPriority } from "../contextMenuCmps/PopperPriority";
 
   const priorites = [
-    { label: 'High', color: 'red' },
-    { label: 'Medium', color: 'orange' },
-    { label: 'Low', color: 'green' },
+    { label: 'high', color: 'red' },
+    { label: 'medium', color: 'orange' },
+    { label: 'low', color: 'green' },
   ];
 
 const getColorByStatus = (statusLabel) => {
@@ -29,7 +29,7 @@ export function Priority({ info,onTaskUpdate }) {
     onTaskUpdate({ key: "priority", value: value.label });
   };
   return (
-    <div className="task-status">
+    <div className="task-priority" style={{ backgroundColor: selected.color }}>
       <button
         ref={buttonRef}
         onClick={handleOpen} // Call handleOpen correctly

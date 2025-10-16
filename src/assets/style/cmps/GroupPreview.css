@@ -183,7 +183,7 @@
 }
 
 .labels-grid > div {
-  padding: 8px 12px;
+  padding: 1px 9px;
   display: flex;
   align-items: center;
   border-right: 1px solid #e6e9ef;
@@ -209,7 +209,7 @@
 }
 
 .grid-item {
-  padding: 8px 12px;
+  padding: 1px 9px;
   display: flex;
   align-items: center;
   border-right: 1px solid #e6e9ef;
@@ -243,7 +243,7 @@
 }
 
 .progress-grid > div {
-  padding: 8px 12px;
+  padding: 1px 9px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -359,7 +359,7 @@
   }
   
   .group-header {
-    padding: 8px 12px;
+  padding: 1px 9px;
   }
   
   .group-title {

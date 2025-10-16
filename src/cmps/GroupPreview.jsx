@@ -1,5 +1,5 @@
 import { GroupHeader } from "./GroupHeader";
-import { Date } from "./dynamicCmps/Date.jsx";
+import { DateEl } from "./dynamicCmps/DateEl.jsx";
 import { Member } from "./dynamicCmps/Member.jsx";
 import { Side } from "./dynamicCmps/Side.jsx";
 import { Status } from "./dynamicCmps/Status.jsx";
@@ -31,7 +31,7 @@ export function GroupPreview({
   updateBoard,
   toggleSelectedTask,
   selectedTasks,
-  board
+  board //needed it to access the tasks list
 }) {
 
 
@@ -291,55 +291,9 @@ const DynamicCmp = ({ cmpType, info, onTaskUpdate, selectedTasks, taskId }) => {
     case "members":
       return <Member info={info} onTaskUpdate={onTaskUpdate} />;
     case "date":
-      return <Date info={info} onTaskUpdate={onTaskUpdate} />;
+      return <DateEl info={info} onTaskUpdate={onTaskUpdate} />;
     default:
       console.error(`Unknown component type: ${cmpType}`);
       return <div>Unknown component: {cmpType}</div>;
   }
 };
-//backup code:
-{/* <section className="group-preview">
-        {/* Render group labels by labels array *}
-        <section className="labels-grid">
-          {cmpOrder.map((cmp, index) => (
-            <div key={`label-${index}`}>{labels[index] || ""}</div>
-          ))}
-        </section>
-        
-        {/* Render tasks by cmp orderonClick={(e) => {contextMenuHandler.handleOnContextMenu(e,'asd');}}*
-        {group.tasks.map((task) => (
-          <section className="group grid" key={`task-${task.id}`}>
-            {cmpOrder.map((cmp, idx) => (
-              <section
-                 
-                className={`grid-item ${cmp}`}
-                key={`task-${task.id}-cmp-${idx}`}
-              >
-                 /*<span style={{color:'red',fontSize:'0.8rem'}}>{JSON.stringify(cmp,null,2)},{JSON.stringify(task[cmp],null,2)}</span> *
-                <DynamicCmp
-                  cmpType={cmp}
-                  info={task[cmp]}
-                  selectedTasks={selectedTasks}
-                  taskId={task.id}
-                  onTaskUpdate={(updateInfo) =>
-                    onTaskUpdate(task.id, updateInfo)
-                  }
-                />
-              </section>
-            ))}
-          </section>
-        ))}
-
-         Render progress by progress array *
-        <section className="progress-grid">
-          {cmpOrder.map((cmp, index) =>
-            progressComponents.includes(cmp) ? (
-              <div className={`with-${cmp}`} key={`progress-${index}`}>
-                {progress[index]}
-              </div>
-            ) : (
-              <div className={cmp} key={`progress-${index} `}></div>
-            )
-          )}
-        </section>
-      </section> */}

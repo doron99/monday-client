@@ -31,7 +31,7 @@ export function Status({ info,onTaskUpdate }) {
     onTaskUpdate({ key: "status", value: value.label });
   };
   return (
-    <div className="task-status">
+    <div className="task-status" style={{ backgroundColor: selected.color }}>
       <button
         ref={buttonRef}
         onClick={handleOpen} // Call handleOpen correctly

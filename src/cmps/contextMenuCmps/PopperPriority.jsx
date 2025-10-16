@@ -68,9 +68,9 @@ export const PopperPriority = ({ isOpen, buttonRef, onSelect, onClose }) => {
   if (!isOpen) return null; // Do not render Popper if not open
 
   const priorites = [
-    { label: 'High', color: 'red' },
-    { label: 'Medium', color: 'orange' },
-    { label: 'Low', color: 'green' },
+    { label: 'high', color: 'red' },
+    { label: 'medium', color: 'orange' },
+    { label: 'low', color: 'green' },
   ];
 
   return (
