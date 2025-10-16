@@ -8,7 +8,7 @@
 .group-header-items {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   flex: 1;
 }
 
