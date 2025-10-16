@@ -7,7 +7,7 @@ import {
   SAVE_BOARD,
   SET_FILTER_BY,
   SET_LOADING,
-  SET_FAVORITES
+  SET_FAVORITES,
 } from '../reducers/board.reducer.js'
 
 export function loadBoards(filterBy) {
@@ -24,7 +24,6 @@ export function loadBoards(filterBy) {
       store.dispatch({ type: SET_LOADING, isLoading: false })
     })
 }
-
 
 export function loadFavorites() {
   store.dispatch({ type: SET_LOADING, isLoading: true })
@@ -66,6 +65,25 @@ export function removeBoard(boardId) {
     })
 }
 
+export async function updateBoard(board, gid = null, tid = null, update) {
+  store.dispatch({ type: SET_LOADING, isLoading: true })
+  try {
+    const updatedBoard = await boardService.updateBoard(board, gid, tid, update)
+    store.dispatch({ type: SAVE_BOARD, board: updatedBoard })
+    return updatedBoard
+  } catch (err) {
+    console.error('Cannot update board', err)
+    throw err
+  } finally {
+    store.dispatch({ type: SET_LOADING, isLoading: false })
+  }
+}
+
+
+export function setFilter(filterBy) {
+  store.dispatch({ type: SET_FILTER_BY, filterBy })
+}
+
 export function saveBoard(board) {
   return boardService.save(board)
     .then(savedBoard => {
@@ -74,9 +92,24 @@ export function saveBoard(board) {
     })
     .catch(err => {
       console.log('Cannot save board', err)
+      throw err
     })
 }
 
-export function setFilter(filterBy) {
-  store.dispatch({ type: SET_FILTER_BY, filterBy })
+export async function addBoard() {
+  store.dispatch({ type: SET_LOADING, isLoading: true })
+  try {
+    const newBoard = boardService.getEmptyBoard()
+    const savedBoard = await boardService.save(newBoard)
+    store.dispatch({ type: SAVE_BOARD, board: savedBoard })
+
+    await loadBoards()
+    await loadFavorites()
+
+    return savedBoard
+  } catch (err) {
+    console.error('Cannot add board', err)
+  } finally {
+    store.dispatch({ type: SET_LOADING, isLoading: false })
+  }
 }

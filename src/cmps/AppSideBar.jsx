@@ -1,9 +1,14 @@
 import { useEffect, useState, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useSelector } from "react-redux"
-import { loadBoards, loadFavorites, removeBoard, saveBoard } from "../store/actions/board.actions.js"
+import {
+  loadBoards,
+  loadFavorites,
+  removeBoard,
+  addBoard,
+  updateBoard,
+} from "../store/actions/board.actions.js"
 import { BoardFilter } from "../cmps/filters/BoardFilter.jsx"
-import { boardService } from "../services/board.service.js"
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline"
 import { PopperBoardMenu } from "../cmps/contextMenuCmps/PopperBoardMenu.jsx"
 import {
@@ -14,7 +19,7 @@ import {
   FaChevronRight,
   FaPuzzlePiece,
   FaPlus,
-  FaClipboardList
+  FaClipboardList,
 } from "react-icons/fa"
 
 export function AppSideBar() {
@@ -47,12 +52,11 @@ export function AppSideBar() {
     navigate(`/board/${boardId}`)
   }
 
-  function onAddBoard() {
-    const newBoard = boardService.getEmptyBoard()
-    saveBoard(newBoard).then(savedBoard => {
-      navigate(`/board/${savedBoard._id}`)
-    })
-  }
+async function onAddBoard() {
+  const savedBoard = await addBoard()
+  if (savedBoard?._id) navigate(`/board/${savedBoard._id}`)
+}
+
 
   function handleRename(boardId) {
     const board = boards.find(b => b._id === boardId)
@@ -61,35 +65,30 @@ export function AppSideBar() {
     const newName = prompt("Enter new board name:", board.title)
     if (!newName || newName.trim() === "") return
 
-    const updatedBoard = { ...board, title: newName.trim() }
-    saveBoard(updatedBoard)
+    const update = { key: "title", value: newName.trim() }
+    updateBoard(board, null, null, update)
   }
 
   function handleToggleFavorite(boardId) {
     const board = boards.find(b => b._id === boardId)
     if (!board) return
 
-    const updatedBoard = { ...board, isStarred: !board.isStarred }
-    saveBoard(updatedBoard)
+    const update = { key: "isStarred", value: !board.isStarred }
+    updateBoard(board, null, null, update)
   }
 
   async function handleDelete(boardId) {
-  const confirmDelete = confirm("Are you sure you want to delete this board?")
-  if (!confirmDelete) return
+    const confirmDelete = confirm("Are you sure you want to delete this board?")
+    if (!confirmDelete) return
 
-  // מוחק את הלוח
-  await removeBoard(boardId)
+    await removeBoard(boardId)
+    await loadBoards()
+    await loadFavorites()
 
-  // טוען מחדש את הרשימות כדי לרענן את ה-UI
-  await loadBoards()
-  await loadFavorites()
-
-  // אם המשתמש היה בתוך הלוח שנמחק -> נעביר אותו לעמוד "My work"
-  if (location.pathname.includes(`/board/${boardId}`)) {
-    navigate("/board")
+    if (location.pathname.includes(`/board/${boardId}`)) {
+      navigate("/board")
+    }
   }
-}
-
 
   return (
     <div className={`sidebar-container ${isOpen ? "open" : "closed"}`}>
@@ -98,7 +97,6 @@ export function AppSideBar() {
           <div className="sidebar-content">
             <div className="sidebar-header"></div>
 
-            {/* Navigation */}
             <nav className="sidebar-nav">
               <div
                 className={`nav-item ${location.pathname === "/" ? "active" : ""}`}
@@ -117,7 +115,6 @@ export function AppSideBar() {
               </div>
             </nav>
 
-            {/* Favorites */}
             <section className="favorites">
               <div className="favorites-header" onClick={toggleFavorites}>
                 {isFavoritesOpen ? (
@@ -145,7 +142,6 @@ export function AppSideBar() {
               )}
             </section>
 
-            {/* Workspaces */}
             <section className="workspaces">
               <div className="workspace-header">
                 {!isFilterOpen && (
@@ -187,7 +183,9 @@ export function AppSideBar() {
                         onClick={(e) => {
                           e.stopPropagation()
                           setActiveBoardId(board._id)
-                          setIsMenuOpen(prev => activeBoardId !== board._id || !prev)
+                          setIsMenuOpen(prev =>
+                            activeBoardId !== board._id || !prev
+                          )
                         }}
                         className="p-1 hover:bg-gray-200 rounded transition-colors"
                       >
@@ -215,7 +213,6 @@ export function AppSideBar() {
         )}
       </aside>
 
-      {/* Sidebar toggle button */}
       <button
         className="sidebar-toggle"
         onClick={() => setIsOpen(!isOpen)}
