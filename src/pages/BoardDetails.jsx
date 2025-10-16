@@ -102,7 +102,7 @@ export function BoardDetails() {
           ))}
         <div className="add-group-section">
           <button className="add-group-btn" onClick={addNewGroup}>
-            <PlusIcon style={{ width: "20px", height: "20px", color: "#676879" }}/>
+            <PlusIcon style={{ width: "20px", height: "20px", color: "#3c3c3f" }}/>
             <span>Add new group</span>
           </button>
         </div>
