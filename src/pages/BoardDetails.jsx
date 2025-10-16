@@ -98,6 +98,7 @@ export function BoardDetails() {
               updateBoard={updateBoard}
               toggleSelectedTask={toggleSelectedTask}
               selectedTasks={selectedTasks}
+              board={board} // ask tal 
               key={uid()}
             />
           ))}

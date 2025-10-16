@@ -2,13 +2,19 @@ import { createPopper } from "@popperjs/core";
 import { useEffect, useRef, useState } from "react";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import { FaRegTimesCircle } from "react-icons/fa";
 
 const peopleList = [
   { _id: 'u100',name: 'Doron test'},
   { _id: 'u101',name: 'Gil test'},
   { _id: 'u102',name: 'Mira test'},
 ];
-
+ const allPeople = [
+        { _id: 'u100',name: 'Doron test' },
+        { _id: 'u101',name: 'Gil test' },
+        { _id: 'u102',name: 'Mira test' },
+        // Add more people as needed
+    ];
 export const PopperPeople = ({ members,isOpen, buttonRef, onSelect, onClose }) => {
   const popperRef = useRef(null);
   const popperInstance = useRef(null);
@@ -16,9 +22,21 @@ export const PopperPeople = ({ members,isOpen, buttonRef, onSelect, onClose }) =
   const isDev = useSelector(storeState => storeState.devToolModule.isDev)
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedPeople, setSelectedPeople] = useState([]);
+  const [selectedPeople, setSelectedPeople] = useState(allPeople.filter(person => members.includes(person._id)));
   const [peopleToAdd, setPeopleToAdd] = useState(peopleList);
+ 
 
+    const handleAddPerson = (person) => {
+        setSelectedPeople([...selectedPeople, person]);
+    };
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const filteredPeople = allPeople.filter(person =>
+        person.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   const [suggestionsVisible, setSuggestionsVisible] = useState(false);
   const isFirstRender = useRef(true); // Ref to track the first render
 
@@ -30,7 +48,7 @@ export const PopperPeople = ({ members,isOpen, buttonRef, onSelect, onClose }) =
           { name: 'offset', options: { offset: [0, 8] } },
           { name: 'arrow', options: { element: arrowRef.current } },
           { name: 'preventOverflow', options: { boundary: 'viewport' } },
-          { name: 'flip', options: { fallbackPlacements: ['top', 'right', 'left'] } },
+          //{ name: 'flip', options: { fallbackPlacements: ['top', 'right', 'left'] } },
         ],
       });
     }
@@ -77,7 +95,7 @@ export const PopperPeople = ({ members,isOpen, buttonRef, onSelect, onClose }) =
     setSuggestionsVisible(inputValue.length > 0);
   };
 
-  const filteredPeople = peopleList.filter(person =>
+  const filteredPeople22 = peopleList.filter(person =>
     person.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -113,49 +131,51 @@ export const PopperPeople = ({ members,isOpen, buttonRef, onSelect, onClose }) =
               {devSection}
 
       <div ref={arrowRef} className="popper-arrow" />
-        {suggestionsVisible && filteredPeople.length > 0 && (
-          <div style={{ border: '1px solid #ccc', background: 'white', position: 'absolute', zIndex: 1000 }}>
-            {filteredPeople.map(person => (
-              <div
-                key={person.name}
-                onClick={() => addToList(person.name)}
-                style={{ padding: '10px', cursor: 'pointer' }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'white'}
-            >
-              {person.name}
+         <div>
+            <div>
+                {/* <h3>Selected People</h3> */}
+                <div className="member-badge-list">
+                    {selectedPeople.map((person, index) => (
+                      // style={{margin: '5px', padding: '5px', border: '1px solid #ccc'}}
+                        <span className="member-badge" key={index} >
+                            {person.name}&nbsp;<FaRegTimesCircle style={{cursor:'pointer'}} onClick={() => setSelectedPeople(selectedPeople.filter(p => p !== person))} />
+                        </span>
+                    ))}
+                </div>
             </div>
-          ))}
-        </div>
-      )}
-      <div style={{ position: 'relative' }}>
-        
-      <ul>
-        {selectedPeople.map(person => (
-          <li key={person.name}>
-            <FaRegCircleUser/>{person.name} <button onClick={() => removeFromList(person)}>X</button>
-          </li>
-        ))}
-      </ul>
-      <input
+            
+            {/* <input
+                type="text"
+                placeholder="Search names, roles or teams"
+                value={searchTerm}
+                onChange={handleSearch}
+            /> */}
+      <div className="search-container">
+        <input
           type="text"
+          className="search-input"
           value={searchTerm}
-          onChange={handleInputChange}
+          onChange={handleSearch}
           placeholder="Search names, roles or teams"
         />
-    </div>
-    <div>
-      <div>suggested list</div>
-      <div className="suggested-list">
-        {peopleToAdd.map(person => (
-          <div className="suggested-list-item" onClick={() => addToList(person)} key={person.name}>
-            <FaRegCircleUser/>&nbsp;{person.name} 
-          </div>
-        ))}
+        <span className="search-icon">🔍</span>
       </div>
-    </div>
-    <div className=""></div>
-      <button onClick={onClose}>Close</button> {/* Optional close button */}
+      <div className="suggested-container">
+            {/* <h3>Suggested People</h3> */}
+              <div className="suggested-title">Suggested people</div>
+
+            <div>
+                {filteredPeople.map((person, index) => 
+                  !selectedPeople.some(selected => selected.name === person.name) && (
+                      <div onClick={() => handleAddPerson(person)} className="suggested-row" key={index}>
+                          <span>{person.name}</span>
+                          {/* <button onClick={() => handleAddPerson(person)}>Add</button> */}
+                      </div>
+                  )
+              )}
+            </div>
+      </div>    
+        </div>
     </div>
   );
 };

@@ -30,7 +30,7 @@ useEffect(() => {
         {
           name: 'flip',
           options: {
-            fallbackPlacements: ['top', 'right', 'left'], // Allow flipping options
+            //fallbackPlacements: ['top', 'right', 'left'], // Allow flipping options
           },
         },
       ],
@@ -73,7 +73,11 @@ useEffect(() => {
   ];
 
   return (
+    <>
+
     <div ref={popperRef} className="dropdown-menu">
+                <div ref={arrowRef} className="popper-arrow" />
+            
       {statuses.map((s, idx) => (
         <button
           key={idx}
@@ -84,9 +88,10 @@ useEffect(() => {
           {s.label}
         </button>
       ))}
-            <div ref={arrowRef} className="popper-arrow" />
-
+           
       <button onClick={onClose}>Close</button> {/* Optional close button */}
     </div>
+    </>
+    
   );
 };

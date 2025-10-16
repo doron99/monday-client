@@ -27,7 +27,7 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   min-width: 160px;
   padding: 8px;
-  animation: fadeIn 0.15s ease-out;
+  /* animation: fadeIn 0.15s ease-out; */
 }
 
 .dropdown-item {
@@ -66,16 +66,51 @@
 }
 
 
+/* .popper-arrow {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid white; /* Color matches Popper background 
+    position: absolute;
+    top: -5px; /* Positioning above the Popper 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10; /* Ensure it's above other elements 
+} */
 .popper-arrow {
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 8px solid white; /* Adjust based on your popper's background */
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  transition: opacity 0.2s ease; /* Optional: Fade in/out arrow */
-  opacity: 0; /* Start invisible */
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid rgb(202, 190, 190); 
+    position: absolute;
+    top: -5px; /* Adjust this to precisely place above the Popper */
+    left: 50%;
+    transform: translateX(-50%);
 }
 
+.popper-arrow1::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent; /* Width of the arrow */
+    border-right: 6px solid transparent; /* Width of the arrow */
+    border-bottom: 8px solid rgb(168, 162, 162); /* Inner arrow color */
+    position: relative;
+    top: 0; /* Adjust as needed */
+}
+
+.popper-arrow1::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent; /* Width of the border */
+    border-right: 7px solid transparent; /* Width of the border */
+    border-bottom: 9px solid white; /* Border color */
+    position: absolute; /* Position on the same point */
+    top: 1px; /* Adjust to create a nice border effect */
+    left: -1px; /* Center it */
+}

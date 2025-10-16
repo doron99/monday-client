@@ -31,7 +31,7 @@ export const PopperPriority = ({ isOpen, buttonRef, onSelect, onClose }) => {
         {
           name: 'flip',
           options: {
-            fallbackPlacements: ['top', 'right', 'left'], // Allow flipping options
+            //fallbackPlacements: ['top', 'right', 'left'], // Allow flipping options
           },
         },
       ],
