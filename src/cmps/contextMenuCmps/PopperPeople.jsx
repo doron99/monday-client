@@ -48,7 +48,7 @@ export const PopperPeople = ({ members,isOpen, buttonRef, onSelect, onClose }) =
           { name: 'offset', options: { offset: [0, 8] } },
           { name: 'arrow', options: { element: arrowRef.current } },
           { name: 'preventOverflow', options: { boundary: 'viewport' } },
-          { name: 'flip', options: { fallbackPlacements: ['top', 'right', 'left'] } },
+          //{ name: 'flip', options: { fallbackPlacements: ['top', 'right', 'left'] } },
         ],
       });
     }
@@ -150,19 +150,19 @@ export const PopperPeople = ({ members,isOpen, buttonRef, onSelect, onClose }) =
                 value={searchTerm}
                 onChange={handleSearch}
             /> */}
-      <div class="search-container">
+      <div className="search-container">
         <input
           type="text"
-          class="search-input"
+          className="search-input"
           value={searchTerm}
           onChange={handleSearch}
           placeholder="Search names, roles or teams"
         />
-        <span class="search-icon">🔍</span>
+        <span className="search-icon">🔍</span>
       </div>
       <div className="suggested-container">
             {/* <h3>Suggested People</h3> */}
-              <div class="suggested-title">Suggested people</div>
+              <div className="suggested-title">Suggested people</div>
 
             <div>
                 {filteredPeople.map((person, index) => 

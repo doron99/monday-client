@@ -1,32 +1,14 @@
-// export function TaskTitle({ info, onTaskUpdate }) {
-//   function updateTaskTitle(ev) {
-//     console.log(ev.target.innerHTML, info);
-
-//     onTaskUpdate({ key: "taskTitle", value: ev.target.innerText });
-//   }
-
-//   return (
-//     <span
-//       suppressContentEditableWarning
-//       contentEditable
-//       onBlur={(ev) => updateTaskTitle(ev)}
-//     >
-//       {info}
-//     </span>
-//   );
-// };
 import React, { useState, useEffect } from 'react';
 
 export function TaskTitle({ info, onTaskUpdate }) {
   // Local state to manage input value
   const [inputValue, setInputValue] = useState(info);
-function updateTaskTitle(ev) {
-  onTaskUpdate({ key: 'taskTitle', value: ev.target.value });
-  // console.log(ev.target.innerHTML, info);
-}
+  const [prevValue, setPrevValue] = useState(info); // Track the previous value
+
   // Effect to update the inputValue when info changes
   useEffect(() => {
     setInputValue(info);
+    setPrevValue(info); // Update previous value when info changes
   }, [info]);
 
   // Handle input value changes
@@ -36,15 +18,20 @@ function updateTaskTitle(ev) {
 
   // Handle when the input loses focus
   const handleBlur = () => {
-    onTaskUpdate({ key: "taskTitle", value: inputValue.trim() });
+    const trimmedValue = inputValue.trim();
+    if (trimmedValue !== prevValue) { // Check if the value has changed
+      onTaskUpdate({ key: "taskTitle", value: trimmedValue });
+      setPrevValue(trimmedValue); // Update the previous value after the update
+    }
   };
 
   return (
     <input
+      className='task-title'
       type="text"
       value={inputValue} // Controlled input
       onChange={handleChange} // Update state as user types
-      onBlur={(ev) => updateTaskTitle(ev)} // Call update function on blur
+      onBlur={handleBlur} // Call update function on blur
       placeholder="Add new..." // Optional placeholder text
       style={{
         width: '200px', // Adjust width as needed

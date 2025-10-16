@@ -21,6 +21,7 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { DraggableCmpHeader } from "./DraggableCmpHeader";
+import { utilService } from "../services/util.service.js";
 
 export function GroupPreview({
   labels,
@@ -30,6 +31,7 @@ export function GroupPreview({
   updateBoard,
   toggleSelectedTask,
   selectedTasks,
+  board
 }) {
 
 
@@ -47,20 +49,61 @@ export function GroupPreview({
     const oldIndex = cmpOrder.indexOf(active.id);
     const newIndex = cmpOrder.indexOf(over.id);
     console.log('oldIndex',oldIndex, 'newIndex',newIndex)
-    arrayMove(items, oldIndex, newIndex)
-    if (active.id !== over.id) {
-      setCmpOrder((items) => {
-        const oldIndex = items.indexOf(active.id);
-        const newIndex = items.indexOf(over.id);
-        return arrayMove(items, oldIndex, newIndex);
-      });
+
+
+    if (oldIndex !== -1 && newIndex !== -1 && active.id !== over.id) {
+        // Create a new array to avoid mutating the state directly
+        const newOrder = [...cmpOrder]; // Copy the current order
+
+        // Remove the item from the old index
+        const [movedItem] = newOrder.splice(oldIndex, 1); 
+
+        // Insert the item at the new index
+        newOrder.splice(newIndex, 0, movedItem);
+        console.log('newOrder',newOrder)
+        updateBoard(null, null , { key:'cmpOrder', value:newOrder });
+
+        // Update your state (assuming you're using a state updater function)
+        //setCmpOrder(newOrder);
+
+        // Log the new array
+        console.log('Updated Order:', newOrder);
+
     }
+
+
+    // arrayMove(items, oldIndex, newIndex)
+    // if (active.id !== over.id) {
+    //   //cmpOrder
+    //   // setCmpOrder((items) => {
+    //   //   const oldIndex = items.indexOf(active.id);
+    //   //   const newIndex = items.indexOf(over.id);
+    //   //   return arrayMove(items, oldIndex, newIndex);
+    //   // });
+    // }
   };
  
   function onTaskUpdate(taskId, updatedInfo) {
     console.log('onTaskUpdate func -> taskId, updatedInfo',taskId, updatedInfo)
     if (updatedInfo.key === "side") {
       toggleSelectedTask(group.id, taskId);
+    }
+    if (taskId == 'newTask') {
+
+      const newTask = {
+          "id": utilService.makeId(),
+          "side": "right",
+          "taskTitle": updatedInfo.value,
+          "status": "new",
+          "priority": "low",
+          "members": [],
+          "date": null,
+        };
+      const taskArr = [...board.groups.find(g => g.id === group.id).tasks, newTask];
+      updateBoard(group.id, null, {key: 'tasks', value: taskArr});
+      //updateBoard(group.id, taskId, { key:updatedInfo.key, value:updatedInfo.value });
+
+      return;
     }
     if (updatedInfo.key === "priority" 
       || updatedInfo.key === "status" 
@@ -139,6 +182,7 @@ export function GroupPreview({
           onDragEnd={handleDragEnd}
         >
         {/* Wrap the headers with SortableContext */}
+
         <SortableContext items={cmpOrder} strategy={horizontalListSortingStrategy}>
           <section className="labels-grid">
             {cmpOrder.map((cmpName, index) => (
@@ -172,6 +216,7 @@ export function GroupPreview({
         ))}
         {/* ####-----------add new task-------------######### */}
         <section className="group grid" key={`task-${999}`}>
+            <section></section>
             <section
                 className={`grid-item ${999}`}
                 key={`task-${999}-cmp-${999}`}
@@ -182,7 +227,7 @@ export function GroupPreview({
                   selectedTasks={null}
                   taskId={null}
                   onTaskUpdate={(updateInfo) =>
-                    onTaskUpdate('t999newTask', updateInfo)
+                    onTaskUpdate('newTask', updateInfo)
                   }
                 />
               </section>

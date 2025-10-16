@@ -20,16 +20,19 @@ export function Date({ info,onTaskUpdate }) {
     handleClose(); // Close after selection
     onTaskUpdate({ key: "date", value: value });
   };
+  
   return (
     <div className="task-status">
-      <button
+      {/* <button
         ref={buttonRef}
         onClick={handleOpen} // Call handleOpen correctly
         className="status-button"
         style={{ backgroundColor: '#c1c1c1' }}
       >
         {selected}
-      </button>
+      </button> */}
+
+      <span ref={buttonRef} onClick={handleOpen}>{selected ? (selected) : '---'}</span>
         {/* <button  onClick={handleOpen}>{info}</button> */}
       <PopperDate strSelectedDate={selected} isOpen={open} buttonRef={buttonRef} onSelect={onSelect} onClose={handleClose} />
     </div>

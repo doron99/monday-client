@@ -44,7 +44,7 @@ export const PopperDate = ({ strSelectedDate, isOpen, buttonRef, onSelect, onClo
         {
           name: 'flip',
           options: {
-            fallbackPlacements: ['top', 'right', 'left'], // Allow flipping options
+            //fallbackPlacements: ['top', 'right', 'left'], // Allow flipping options
           },
         },
       ],

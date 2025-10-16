@@ -1,0 +1,4 @@
+input.task-title:focus {
+    background-color: rgb(207, 229, 247);/*var(--clr1bg);*/
+    transition: background-color 1s;
+}
