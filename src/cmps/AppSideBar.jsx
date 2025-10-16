@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { loadBoards, loadFavorites } from "../store/actions/board.actions.js"
 import { BoardFilter } from "../cmps/filters/BoardFilter.jsx"
+import { boardService } from "../services/board.service.js"
+import { saveBoard } from "../store/actions/board.actions.js"
 import {
   FaHome,
   FaCalendarAlt,
@@ -35,6 +37,14 @@ export function AppSideBar() {
   const goToBoard = () => navigate("/board")
   const isBoardActive = () => location.pathname.startsWith("/board")
   const goToBoardDetails = (boardId) => navigate(`/board/${boardId}`)
+
+  function onAddBoard() {
+  const newBoard = boardService.getEmptyBoard()
+
+  saveBoard(newBoard).then(savedBoard => {
+    navigate(`/board/${savedBoard._id}`)
+  })
+}
 
   return (
     <div className={`sidebar-container ${isOpen ? "open" : "closed"}`}>
@@ -104,7 +114,7 @@ export function AppSideBar() {
                 <span>
                   <FaClipboardList className="icon workspace-item-icon" /> Guest's main workspace
                 </span>
-                <button className="add-btn">
+                <button className="add-btn" onClick={onAddBoard}>
                   <FaPlus className="icon add-icon" />
                 </button>
               </div>
