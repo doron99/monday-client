@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {  PopperStatus } from "../contextMenuCmps/PopperStatus";
+import { eventBusService } from "../../services/event-bus.service";
 
 const statuses = [
   { label: "Done", color: "#00C875" },
@@ -30,17 +31,27 @@ export function Status({ info,onTaskUpdate }) {
     handleClose(); // Close after selection
     onTaskUpdate({ key: "status", value: value.label });
   };
+   const openDynamicPopper = (btnRef) => {
+        const rect = buttonRef.current.getBoundingClientRect(); // Get the rectangle object
+        //const x = rect.x + window.scrollX; // Calculate x coordinate
+        //const y = rect.y + window.scrollY; // Calculate y coordinate
+        const x = rect.x + rect.width / 2 + window.scrollX; // Centered horizontally
+        const y = rect.bottom + window.scrollY; // Positioned below the button
+  
+        eventBusService.emit('openPopperDynamic', { x, y, content:'test',component:'status' }); // Emit the event with x, y
+  
+      };
   return (
     <div className="task-status" style={{ backgroundColor: selected.color }}>
       <button
         ref={buttonRef}
-        onClick={handleOpen} // Call handleOpen correctly
+        onClick={openDynamicPopper} // Call handleOpen correctly
         className="status-button"
         style={{ backgroundColor: selected.color }}
       >
         {selected.label}
       </button>
-      <PopperStatus isOpen={open} buttonRef={buttonRef} onSelect={(value) => onSelect(value)} onClose={() => handleClose()}  />
+      {/* <PopperStatus isOpen={open} buttonRef={buttonRef} onSelect={(value) => onSelect(value)} onClose={() => handleClose()}  /> */}
     </div>
     );
 

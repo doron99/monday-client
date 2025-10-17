@@ -1,6 +1,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { PopperPriority } from "../contextMenuCmps/PopperPriority";
+import { eventBus, eventBusService } from "../../services/event-bus.service";
 
   const priorites = [
     { label: 'high', color: 'red' },
@@ -28,17 +29,31 @@ export function Priority({ info,onTaskUpdate }) {
     handleClose(); // Close after selection
     onTaskUpdate({ key: "priority", value: value.label });
   };
+  function openDynamicPopper1() {
+    console.log('buttonRef',buttonRef)
+    eventBusService.openPopperDynamic({ btnRef: buttonRef });
+  }
+   const openDynamicPopper = (btnRef) => {
+      const rect = buttonRef.current.getBoundingClientRect(); // Get the rectangle object
+      //const x = rect.x + window.scrollX; // Calculate x coordinate
+      //const y = rect.y + window.scrollY; // Calculate y coordinate
+      const x = rect.x + rect.width / 2 + window.scrollX; // Centered horizontally
+      const y = rect.bottom + window.scrollY; // Positioned below the button
+
+      eventBusService.emit('openPopperDynamic', { x, y, content:'test',component:'priority' }); // Emit the event with x, y
+
+    };
   return (
     <div className="task-priority" style={{ backgroundColor: selected.color }}>
       <button
         ref={buttonRef}
-        onClick={handleOpen} // Call handleOpen correctly
+        onClick={() => openDynamicPopper(buttonRef)} // Call handleOpen correctly
         className="status-button"
         style={{ backgroundColor: selected.color }}
       >
         {selected.label}
       </button>
-      <PopperPriority isOpen={open} buttonRef={buttonRef} onSelect={(value) => onSelect(value)} onClose={() => handleClose()} />
+      {/* <PopperPriority isOpen={open} buttonRef={buttonRef} onSelect={(value) => onSelect(value)} onClose={() => handleClose()} /> */}
     </div>
     );
 

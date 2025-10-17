@@ -17,6 +17,10 @@ function createEventEmitter() {
         }
     }
 }
+export const eventBus = {
+    openPopperDynamic
+}
+
 
 export const eventBusService = createEventEmitter()
 
@@ -30,6 +34,22 @@ export function showErrorMsg(txt) {
     showUserMsg({txt, type: 'error'})
 }
 
+export function openPopperDynamic({ x, y, content }) {
+    eventBusService.emit('openPopperDynamic', {
+        x: x, // Example X coordinate
+        y: y, // Example Y coordinate
+        content: content,
+    });
+    console.log('openPopperDynamic',btnRef)
+    //eventBusService.emit('openPopperDynamic', btnRef)
+}
+export function onContextMenuSelect(e,msg) {
+    eventBusService.emit('on-context-menu-select', {e,msg})
+}
+export function setBackdrop(flag) {
+    console.log('setBackdrop flag',flag)
+    eventBusService.emit('set-back-drop', {flag})
+}
 
 // Service Testing:
 

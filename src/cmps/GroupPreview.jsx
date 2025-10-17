@@ -22,6 +22,7 @@ import {
 } from "@dnd-kit/sortable";
 import { DraggableCmpHeader } from "./DraggableCmpHeader";
 import { utilService } from "../services/util.service.js";
+// import { DraggableTask } from "./DraggableTask.jsx";
 
 export function GroupPreview({
   labels,
@@ -124,7 +125,13 @@ export function GroupPreview({
 
     console.log("board updated");
   }
-
+const handleDragEnd1 = (event) => {
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      // Update your task order or state here
+      // For example, reorder your tasks array based on active and over IDs
+    }
+  };
   const progressComponents = ["date", "priority", "status"];
   return (
     <section>
@@ -192,7 +199,11 @@ export function GroupPreview({
             ))}
           </section>
         </SortableContext>
-
+    {/* <DndContext onDragEnd={handleDragEnd1}>
+      {group.tasks.map(task => (
+        <DraggableTask key={task.id} task={task} cmpOrder={cmpOrder} onTaskUpdate={onTaskUpdate} selectedTasks={selectedTasks} />
+      ))}
+    </DndContext> */}
         {/* Render tasks based on the current cmpOrder */}
         {group.tasks.map((task) => (
           <section className="group grid" key={`task-${task.id}`}>

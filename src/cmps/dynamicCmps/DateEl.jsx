@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { PopperDate } from "../contextMenuCmps/PopperDate";
+import { eventBusService } from "../../services/event-bus.service";
 
 
 export function DateEl({ info,onTaskUpdate }) {
@@ -13,7 +14,16 @@ export function DateEl({ info,onTaskUpdate }) {
   // Toggle Functions
   const handleClose = () => setOpen(false); // Set to false to close
   const handleOpen = () => setOpen(true); // Set to true to open
+ const openDynamicPopper = (btnRef) => {
+      const rect = buttonRef.current.getBoundingClientRect(); // Get the rectangle object
+      //const x = rect.x + window.scrollX; // Calculate x coordinate
+      //const y = rect.y + window.scrollY; // Calculate y coordinate
+      const x = rect.x + rect.width / 2 + window.scrollX; // Centered horizontally
+      const y = rect.bottom + window.scrollY; // Positioned below the button
 
+      eventBusService.emit('openPopperDynamic', { x, y, content:'test',component:'date' }); // Emit the event with x, y
+
+    };
   const onSelect = (value) => {
     console.log('onSelect object received:', value)
     setSelected(value);
@@ -57,9 +67,9 @@ function parseISO(dateString) {
   return (
     <div className="task-date">
 
-      <span ref={buttonRef} onClick={handleOpen}>{selected ? formatDateString(selected) : '---'}</span>
+      <span ref={buttonRef} onClick={openDynamicPopper}>{selected ? formatDateString(selected) : '---'}</span>
         {/* <button  onClick={handleOpen}>{info}</button> */}
-      <PopperDate strSelectedDate={selected} isOpen={open} buttonRef={buttonRef} onSelect={(s) => onSelect(s)} onClose={handleClose} />
+      {/* <PopperDate strSelectedDate={selected} isOpen={open} buttonRef={buttonRef} onSelect={(s) => onSelect(s)} onClose={handleClose} /> */}
     </div>
     );
 
