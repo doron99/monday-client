@@ -10,18 +10,17 @@ import {
   setActiveBoard,
 } from "../store/actions/board.actions.js"
 import { BoardFilter } from "../cmps/filters/BoardFilter.jsx"
-import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline"
 import { PopperBoardMenu } from "../cmps/contextMenuCmps/PopperBoardMenu.jsx"
 import {
-  FaHome,
-  FaCalendarAlt,
-  FaStar,
-  FaChevronDown,
-  FaChevronRight,
-  FaPuzzlePiece,
-  FaPlus,
-  FaClipboardList,
-} from "react-icons/fa"
+  EllipsisHorizontalIcon,
+  CalendarDaysIcon,
+  HomeIcon,
+  StarIcon,
+  PlusIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  FolderOpenIcon,
+} from "@heroicons/react/24/outline";
 
 export function AppSideBar() {
   const navigate = useNavigate()
@@ -103,7 +102,7 @@ async function onAddBoard() {
                 className={`nav-item ${location.pathname === "/" ? "active" : ""}`}
                 onClick={goToHome}
               >
-                <FaHome className="icon home-icon" />
+                <HomeIcon style={{ width: "16px", height: "16px" }} />
                 <span>Home</span>
               </div>
 
@@ -111,20 +110,21 @@ async function onAddBoard() {
                 className={`nav-item ${isBoardActive() ? "active" : ""}`}
                 onClick={goToBoard}
               >
-                <FaCalendarAlt className="icon work-icon" />
+                <CalendarDaysIcon style={{ width: "16px", height: "16px" }} />
                 <span>My work</span>
               </div>
             </nav>
 
             <section className="favorites">
               <div className="favorites-header" onClick={toggleFavorites}>
-                {isFavoritesOpen ? (
-                  <FaChevronDown className="icon chevron-icon" />
-                ) : (
-                  <FaChevronRight className="icon chevron-icon" />
-                )}
-                <FaStar className="icon star-icon" />
                 <span>Favorites</span>
+                {isFavoritesOpen ? (
+                  <ChevronDownIcon style={{width: "16px", height: "16px"}} />
+                ) : (
+                  <ChevronRightIcon style={{width: "16px", height: "16px"}} />
+                )}
+                {/* <StarIcon style={{width: "16px", height: "16px"}} className="icon star-icon" /> */}
+                
               </div>
 
               {isFavoritesOpen && (
@@ -132,7 +132,7 @@ async function onAddBoard() {
                   {favorites.length > 0 ? (
                     favorites.map(board => (
                       <li key={board._id}>
-                        <FaClipboardList className="icon board-icon" />
+                        <FolderOpenIcon style={{ width: "16px", height: "16px" }} className="icon" />
                         {board.title}
                       </li>
                     ))
@@ -147,7 +147,6 @@ async function onAddBoard() {
               <div className="workspace-header">
                 {!isFilterOpen && (
                   <>
-                    <FaPuzzlePiece className="icon workspace-icon" />
                     <span>Workspaces</span>
                   </>
                 )}
@@ -157,10 +156,10 @@ async function onAddBoard() {
 
               <div className="workspace-item">
                 <span>
-                  <FaClipboardList className="icon workspace-item-icon" /> Guest's main workspace
+                  <FolderOpenIcon style={{ width: "16px", height: "16px" }} className="icon workspace-item-icon" /> Guest's main workspace
                 </span>
                 <button className="add-btn" onClick={onAddBoard}>
-                  <FaPlus className="icon add-icon" />
+                  <PlusIcon style={{ width: "16px", height: "16px", color: "white" }} />
                 </button>
               </div>
 
@@ -172,9 +171,8 @@ async function onAddBoard() {
                   >
                     <div
                       onClick={() => goToBoardDetails(board._id)}
-                      className="flex items-center gap-2 cursor-pointer flex-grow"
-                    >
-                      <FaClipboardList className="icon board-icon" />
+                      className="board-title-section">
+                      <FolderOpenIcon style={{ width: "16px", height: "16px" }} className="icon board-icon" />
                       <span className="truncate">{board.title}</span>
                     </div>
 
@@ -189,9 +187,8 @@ async function onAddBoard() {
                             activeBoardId !== board._id || !prev
                           )
                         }}
-                        className="p-1 hover:bg-gray-200 rounded transition-colors"
                       >
-                        <EllipsisHorizontalIcon className="w-5 h-5 text-gray-600" />
+                        <EllipsisHorizontalIcon />
                       </button>
 
                       {activeBoardId === board._id && (
