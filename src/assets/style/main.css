@@ -19,6 +19,7 @@
 @import 'cmps/GroupPreview.css';
 @import 'cmps/GroupHeader.css';
 @import 'cmps/BoardPreview.css';
+/* @import 'cmps/ContextMenu.css'; */
 @import 'cmps/ContextMenu.css';
 @import 'cmps/GroupMenu.css';
 @import 'cmps/filteers/BoardFilter.css';
@@ -32,6 +33,7 @@
 @import 'cmps/Date.css';
 @import 'cmps/Members.css';
 @import 'cmps/Task.css';
+@import 'cmps/priority.css';
 
 
 /* Layouts */

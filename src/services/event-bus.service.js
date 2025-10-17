@@ -30,16 +30,6 @@ export function showErrorMsg(txt) {
     showUserMsg({txt, type: 'error'})
 }
 
-export function openContextMenu(e,msg) {
-    eventBusService.emit('open-context-menu', {e,msg})
-}
-export function onContextMenuSelect(e,msg) {
-    eventBusService.emit('on-context-menu-select', {e,msg})
-}
-export function setBackdrop(flag) {
-    console.log('setBackdrop flag',flag)
-    eventBusService.emit('set-back-drop', {flag})
-}
 
 // Service Testing:
 
