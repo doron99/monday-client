@@ -17,8 +17,11 @@
 @import 'cmps/AppModal.css';
 @import 'cmps/BoardList.css';
 @import 'cmps/GroupPreview.css';
+@import 'cmps/GroupHeader.css';
 @import 'cmps/BoardPreview.css';
 /* @import 'cmps/ContextMenu.css'; */
+@import 'cmps/ContextMenu.css';
+@import 'cmps/GroupMenu.css';
 @import 'cmps/filteers/BoardFilter.css';
 
 
@@ -47,8 +50,8 @@
     width: 100%;
 }
 
-main {
+/* main {
     flex-grow: 1;
-}
+} */
 
 

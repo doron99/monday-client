@@ -2,4 +2,10 @@
 .main-page-layout {
     display: flex;
     height: 100%;
+    width: 100%;
+}
+
+.main-page-layout > div:last-child {
+    flex: 1;
+    width: 100%;
 }

@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { BoardHeader } from "../cmps/BoardHeader.jsx";
 import { useParams, Outlet } from "react-router";
 import { GroupPreview } from "../cmps/GroupPreview.jsx";
-import { boardService } from "../services/board.service.js";
 import { makeId, getRandomColor } from "../services/util.service.js";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
-import { loadBoardById, saveBoard } from "../store/actions/board.actions.js";
+import { updateBoard, loadBoardById } from "../store/actions/board.actions.js";
 
 export function BoardDetails() {
   const [selectedTasks, setSelectedTasks] = useState([]);
@@ -41,18 +40,18 @@ export function BoardDetails() {
     // });
   }
 
-  function updateBoard(groupId, taskId, changes) {
-    //! This is just for demonstation. in the real project store will call this fucntion to make the board reactive with changes from taskDetails
-    // we will use action to update the board in store and useSelector will reflect the change
-    const updatedBoard = boardService.updateBoard(board,groupId,taskId,changes);
-    saveBoard(updatedBoard)
-      .then(savedBoard => {
-        console.log("Board saved successfully:", savedBoard);
-      })
-      .catch(err => {
-        console.error("Error saving board:", err);
-      });
-  }
+  // function updateBoard(groupId, taskId, changes) {
+  //   //! This is just for demonstation. in the real project store will call this fucntion to make the board reactive with changes from taskDetails
+  //   // we will use action to update the board in store and useSelector will reflect the change
+  //   const updatedBoard = boardService.updateBoard(board,groupId,taskId,changes);
+  //   saveBoard(updatedBoard)
+  //     .then(savedBoard => {
+  //       console.log("Board saved successfully:", savedBoard);
+  //     })
+  //     .catch(err => {
+  //       console.error("Error saving board:", err);
+  //     });
+  // }
 
   function addNewGroup() {    
     if (!board) {
@@ -70,7 +69,7 @@ export function BoardDetails() {
       }
 
       const groupArr = [...board.groups, newGroup];
-      updateBoard(null, null, {key: 'groups', value: groupArr});
+      updateBoard(board, null, null, {key: 'groups', value: groupArr});
   }
 
   const uid = () => Math.random().toString(36).slice(2);
@@ -95,7 +94,6 @@ export function BoardDetails() {
               labels={labels}
               cmpOrder={board.cmpOrder}
               progress={progress}
-              updateBoard={updateBoard}
               toggleSelectedTask={toggleSelectedTask}
               selectedTasks={selectedTasks}
               board={board} // ask tal 
@@ -104,7 +102,7 @@ export function BoardDetails() {
           ))}
         <div className="add-group-section">
           <button className="add-group-btn" onClick={addNewGroup}>
-            <PlusIcon style={{ width: "20px", height: "20px", color: "#676879" }}/>
+            <PlusIcon style={{ width: "20px", height: "20px", color: "#3c3c3f" }}/>
             <span>Add new group</span>
           </button>
         </div>

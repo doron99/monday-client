@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react"
-import { FaSearch } from "react-icons/fa"
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline"
 import { useEffectUpdate } from "../customHooks/useEffectUpdate.js"
 import { utilService } from "../../services/util.service.js"
 import { loadBoards } from "../../store/actions/board.actions.js"
@@ -43,7 +43,8 @@ export function BoardFilter({ onToggleFilter }) {
   return (
     <section className={`board-filter ${isOpen ? "open" : ""}`}>
       {!isOpen && (
-        <FaSearch
+        <MagnifyingGlassIcon
+          style={{ width: "16px", height: "16px" }}
           className="icon search-icon"
           onClick={toggleFilter}
           title="Search boards"
@@ -60,7 +61,7 @@ export function BoardFilter({ onToggleFilter }) {
             value={filterByToEdit.txt || ""}
             onChange={handleChange}
           />
-          <FaSearch className="icon search-icon inside" onClick={toggleFilter} />
+          <MagnifyingGlassIcon style={{ width: "16px", height: "16px" }} className="icon search-icon inside" onClick={toggleFilter} />
         </div>
       )}
     </section>
