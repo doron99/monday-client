@@ -1,93 +1,93 @@
-import { useEffect, useState, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useEffect, useState, useRef } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
+import { useSelector } from "react-redux"
 import {
   loadBoards,
   loadFavorites,
   removeBoard,
   addBoard,
   updateBoard,
-} from "../store/actions/board.actions.js";
-import { BoardFilter } from "../cmps/filters/BoardFilter.jsx";
+  setActiveBoard,
+} from "../store/actions/board.actions.js"
+import { BoardFilter } from "../cmps/filters/BoardFilter.jsx"
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline"
+import { PopperBoardMenu } from "../cmps/contextMenuCmps/PopperBoardMenu.jsx"
 import {
-  EllipsisHorizontalIcon,
-  CalendarDaysIcon,
-  HomeIcon,
-  StarIcon,
-  PlusIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  FolderOpenIcon,
-} from "@heroicons/react/24/outline";
-import { PopperBoardMenu } from "../cmps/contextMenuCmps/PopperBoardMenu.jsx";
-
+  FaHome,
+  FaCalendarAlt,
+  FaStar,
+  FaChevronDown,
+  FaChevronRight,
+  FaPuzzlePiece,
+  FaPlus,
+  FaClipboardList,
+} from "react-icons/fa"
 
 export function AppSideBar() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate()
+  const location = useLocation()
 
-  const boards = useSelector((state) => state.boardModule.boards);
-  const favorites = useSelector((state) => state.boardModule.favorites);
+  const boards = useSelector(state => state.boardModule.boards)
+  const favorites = useSelector(state => state.boardModule.favorites)
 
-  const [isOpen, setIsOpen] = useState(true);
-  const [isFavoritesOpen, setIsFavoritesOpen] = useState(true);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeBoardId, setActiveBoardId] = useState(null);
-  const buttonRefs = useRef({});
+  const [isOpen, setIsOpen] = useState(true)
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(true)
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [activeBoardId, setActiveBoardId] = useState(null)
+  const buttonRefs = useRef({})
 
   useEffect(() => {
-    loadBoards();
-    loadFavorites();
-  }, []);
+    loadBoards()
+    loadFavorites()
+  }, [])
 
-  const toggleFavorites = () => setIsFavoritesOpen(!isFavoritesOpen);
-  const goToHome = () => navigate("/");
-  const goToBoard = () => navigate("/board");
-  const isBoardActive = () => location.pathname.startsWith("/board");
+  const toggleFavorites = () => setIsFavoritesOpen(!isFavoritesOpen)
+  const goToHome = () => navigate("/")
+  const goToBoard = () => navigate("/board")
+  const isBoardActive = () => location.pathname.startsWith("/board")
 
   const goToBoardDetails = (boardId) => {
-    setIsMenuOpen(false);
-    setActiveBoardId(null);
-    navigate(`/board/${boardId}`);
-  };
-
-  async function onAddBoard() {
-    const savedBoard = await addBoard();
-    if (savedBoard?._id) navigate(`/board/${savedBoard._id}`);
+    setIsMenuOpen(false)
+    setActiveBoardId(null)
+    navigate(`/board/${boardId}`)
   }
 
+async function onAddBoard() {
+  const savedBoard = await addBoard()
+  if (savedBoard?._id) navigate(`/board/${savedBoard._id}`)
+}
+
+
   function handleRename(boardId) {
-    const board = boards.find((b) => b._id === boardId);
-    if (!board) return;
+    const board = boards.find(b => b._id === boardId)
+    if (!board) return
 
-    const newName = prompt("Enter new board name:", board.title);
-    if (!newName || newName.trim() === "") return;
+    const newName = prompt("Enter new board name:", board.title)
+    if (!newName || newName.trim() === "") return
 
-    const update = { key: "title", value: newName.trim() };
-    updateBoard(board, null, null, update);
+    const update = { key: "title", value: newName.trim() }
+    updateBoard(null, null, update)
   }
 
   function handleToggleFavorite(boardId) {
-    const board = boards.find((b) => b._id === boardId);
-    if (!board) return;
+    const board = boards.find(b => b._id === boardId)
+    if (!board) return
 
-    const update = { key: "isStarred", value: !board.isStarred };
-    updateBoard(board, null, null, update);
+    const update = { key: "isStarred", value: !board.isStarred }
+    updateBoard(null, null, update)
   }
 
   async function handleDelete(boardId) {
-    const confirmDelete = confirm(
-      "Are you sure you want to delete this board?"
-    );
-    if (!confirmDelete) return;
+    const confirmDelete = confirm("Are you sure you want to delete this board?")
+    if (!confirmDelete) return
 
-    await removeBoard(boardId);
-    await loadBoards();
-    await loadFavorites();
+    await removeBoard(boardId)
+    await loadBoards()
+    await loadFavorites()
 
     if (location.pathname.includes(`/board/${boardId}`)) {
-      navigate("/board");
+      navigate("/board")
     }
   }
 
@@ -100,12 +100,10 @@ export function AppSideBar() {
 
             <nav className="sidebar-nav">
               <div
-                className={`nav-item ${
-                  location.pathname === "/" ? "active" : ""
-                }`}
+                className={`nav-item ${location.pathname === "/" ? "active" : ""}`}
                 onClick={goToHome}
               >
-                <HomeIcon style={{ width: "16px", height: "16px" }} />
+                <FaHome className="icon home-icon" />
                 <span>Home</span>
               </div>
 
@@ -113,28 +111,28 @@ export function AppSideBar() {
                 className={`nav-item ${isBoardActive() ? "active" : ""}`}
                 onClick={goToBoard}
               >
-                <CalendarDaysIcon style={{ width: "16px", height: "16px" }} />
+                <FaCalendarAlt className="icon work-icon" />
                 <span>My work</span>
               </div>
             </nav>
 
             <section className="favorites">
               <div className="favorites-header" onClick={toggleFavorites}>
-                {/* <StarIcon style={{width: "16px", height: "16px"}} /> */}
-                <span>Favorites</span>
                 {isFavoritesOpen ? (
-                  <ChevronDownIcon style={{width: "16px", height: "16px"}} />
+                  <FaChevronDown className="icon chevron-icon" />
                 ) : (
-                  <ChevronRightIcon style={{width: "16px", height: "16px"}} />
+                  <FaChevronRight className="icon chevron-icon" />
                 )}
+                <FaStar className="icon star-icon" />
+                <span>Favorites</span>
               </div>
 
               {isFavoritesOpen && (
                 <ul>
                   {favorites.length > 0 ? (
-                    favorites.map((board) => (
+                    favorites.map(board => (
                       <li key={board._id}>
-                        <FolderOpenIcon style={{ width: "16px", height: "16px" }} className="icon" />
+                        <FaClipboardList className="icon board-icon" />
                         {board.title}
                       </li>
                     ))
@@ -149,7 +147,7 @@ export function AppSideBar() {
               <div className="workspace-header">
                 {!isFilterOpen && (
                   <>
-                    {/* <FaPuzzlePiece className="icon workspace-icon" /> */}
+                    <FaPuzzlePiece className="icon workspace-icon" />
                     <span>Workspaces</span>
                   </>
                 )}
@@ -159,42 +157,41 @@ export function AppSideBar() {
 
               <div className="workspace-item">
                 <span>
-                  <FolderOpenIcon style={{ width: "16px", height: "16px" }} className="icon workspace-item-icon" />{" "}
-                  Guest's main workspace
+                  <FaClipboardList className="icon workspace-item-icon" /> Guest's main workspace
                 </span>
                 <button className="add-btn" onClick={onAddBoard}>
-                  <PlusIcon
-                    style={{ width: "16px", height: "16px", color: "white" }}
-                  />
+                  <FaPlus className="icon add-icon" />
                 </button>
               </div>
 
               <ul>
-                {boards.map((board) => (
+                {boards.map(board => (
                   <li
                     key={board._id}
                     className="board-item flex items-center justify-between p-2 hover:bg-gray-100 rounded-md"
                   >
                     <div
                       onClick={() => goToBoardDetails(board._id)}
-                      className="board-title-section"
+                      className="flex items-center gap-2 cursor-pointer flex-grow"
                     >
-                      <FolderOpenIcon style={{ width: "16px", height: "16px" }} className="icon board-icon" />
+                      <FaClipboardList className="icon board-icon" />
                       <span className="truncate">{board.title}</span>
                     </div>
 
                     <div className="relative">
                       <button
-                        ref={(el) => (buttonRefs.current[board._id] = el)}
+                        ref={el => (buttonRefs.current[board._id] = el)}
                         onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveBoardId(board._id);
-                          setIsMenuOpen(
-                            (prev) => activeBoardId !== board._id || !prev
-                          );
+                          e.stopPropagation()
+                          setActiveBoard(board)
+                          setActiveBoardId(board._id)
+                          setIsMenuOpen(prev =>
+                            activeBoardId !== board._id || !prev
+                          )
                         }}
+                        className="p-1 hover:bg-gray-200 rounded transition-colors"
                       >
-                        <EllipsisHorizontalIcon />
+                        <EllipsisHorizontalIcon className="w-5 h-5 text-gray-600" />
                       </button>
 
                       {activeBoardId === board._id && (
@@ -203,9 +200,7 @@ export function AppSideBar() {
                           buttonRef={{ current: buttonRefs.current[board._id] }}
                           onOpenBoard={() => goToBoardDetails(board._id)}
                           onRename={() => handleRename(board._id)}
-                          onToggleFavorite={() =>
-                            handleToggleFavorite(board._id)
-                          }
+                          onToggleFavorite={() => handleToggleFavorite(board._id)}
                           onDelete={() => handleDelete(board._id)}
                           onClose={() => setIsMenuOpen(false)}
                           isFavorite={board.isStarred}
@@ -228,5 +223,5 @@ export function AppSideBar() {
         {isOpen ? "‹" : "›"}
       </button>
     </div>
-  );
+  )
 }

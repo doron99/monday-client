@@ -5,6 +5,7 @@ export const SAVE_BOARD = 'SAVE_BOARD'
 export const SET_FILTER_BY = 'SET_FILTER_BY'
 export const SET_LOADING = 'SET_LOADING'
 export const SET_FAVORITES = 'SET_FAVORITES'
+export const SET_ACTIVE_BOARD = 'SET_ACTIVE_BOARD'
 
 const initialState = {
   boards: [],
@@ -19,8 +20,17 @@ export function boardReducer(state = initialState, action) {
     case SET_BOARDS:
       return { ...state, boards: action.boards }
 
-    case SET_BOARD:
-      return { ...state, selectedBoard: action.board }
+    case SET_BOARD: {
+      const boards = state.boards.map(b =>
+        b._id === action.board._id ? action.board : b
+      )
+      
+      return {
+        ...state,
+        boards,
+        selectedBoard: action.board
+      }
+    }
 
     case REMOVE_BOARD:
       return { ...state, boards: state.boards.filter(b => b._id !== action.boardId) }
@@ -31,7 +41,6 @@ export function boardReducer(state = initialState, action) {
         ? state.boards.map(b => (b._id === action.board._id ? action.board : b))
         : [...state.boards, action.board]
       
-      // Also update selectedBoard if it's the same board being saved
       const selectedBoard = state.selectedBoard && state.selectedBoard._id === action.board._id 
         ? action.board 
         : state.selectedBoard
@@ -47,6 +56,10 @@ export function boardReducer(state = initialState, action) {
 
     case SET_LOADING:
       return { ...state, isLoading: action.isLoading }
+
+    case SET_ACTIVE_BOARD:
+      return { ...state, selectedBoard: action.board }
+
 
     default:
       return state

@@ -8,6 +8,7 @@ import {
   SET_FILTER_BY,
   SET_LOADING,
   SET_FAVORITES,
+  SET_ACTIVE_BOARD,
 } from '../reducers/board.reducer.js'
 
 export function loadBoards(filterBy) {
@@ -65,19 +66,27 @@ export function removeBoard(boardId) {
     })
 }
 
-export async function updateBoard(board, gid = null, tid = null, update) {
+export async function updateBoard(gid = null, tid = null, update) {
   store.dispatch({ type: SET_LOADING, isLoading: true })
   try {
+    const board = store.getState().boardModule.selectedBoard
+    if (!board) throw new Error('No board selected in state')
+
     const updatedBoard = await boardService.updateBoard(board, gid, tid, update)
-    store.dispatch({ type: SAVE_BOARD, board: updatedBoard })
+
+    store.dispatch({ type: SET_BOARD , board: updatedBoard })
+
     return updatedBoard
-  } catch (err) {
+  } 
+  catch (err) {
     console.error('Cannot update board', err)
     throw err
-  } finally {
+  }
+  finally {
     store.dispatch({ type: SET_LOADING, isLoading: false })
   }
 }
+
 
 
 export function setFilter(filterBy) {
@@ -113,3 +122,9 @@ export async function addBoard() {
     store.dispatch({ type: SET_LOADING, isLoading: false })
   }
 }
+
+export function setActiveBoard(board) {
+  store.dispatch({ type: SET_ACTIVE_BOARD, board })
+}
+
+
