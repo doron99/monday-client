@@ -6,23 +6,17 @@ import { PopperContentDate } from "./PopperContentDate";
 import { PopperContentStatus } from "./PopperContentStatus";
 import { PopperContentPriority } from "./PopperContentPriority";
 import { PopperContentMember } from "./PopperContentMember";
+import { eventBusService } from "../../services/event-bus.service";
 
-export const PopperDynamic = ({ component,x = 200, y=200,strSelectedDate, isOpen, buttonRef, onSelect, onClose }) => {
+export const PopperDynamic = ({ component,content,x = 200, y=200,strSelectedDate, isOpen, buttonRef, onSelect, onClose }) => {
   const popperRef = useRef(null);
   const popperInstance = useRef(null);
   const arrowRef = useRef(null);
-
+  console.log('PopperDynamic content',content)
   //console.log('strSelectedDate', strSelectedDate);
-  const [selectedDate, setSelectedDate] = useState(new Date(strSelectedDate));
+  const [_content, set_Content] = useState(content);
 
-  useEffect(() => {
-    // Update selectedDate whenever strSelectedDate changes
-    if (strSelectedDate) {
-        setSelectedDate(new Date(strSelectedDate));
-    }
-  }, [strSelectedDate]);
-
-
+  console.log('_content',_content)
   useEffect(() => {
   if (isOpen && popperRef.current) {
     popperInstance.current = createPopper( popperRef.current, {
@@ -75,32 +69,23 @@ export const PopperDynamic = ({ component,x = 200, y=200,strSelectedDate, isOpen
 
   if (!isOpen) return null;
 
-  const handleDaySelect = (e) => {
-    console.log(e);
-    onSelect(formatDate(e));
-  }
 
-  function formatDate(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
   const _onSelect = (val) => {
-    console.log('val', val);
-    
+    console.log('PopperDynamic callback', val, 'content',content);
+    onSelect({val,content});
   }
+  
 
   return (
     <div ref={popperRef} className="" >
       {component == 'date' && 
-      <PopperContentDate ref={arrowRef}  strSelectedDate={'2025-10-20'} onSelect={_onSelect} onClose={() => onClose()} />}
+      <PopperContentDate  ref={arrowRef}  content={content} onSelect={(val) => _onSelect(val)} onClose={() => onClose()} />}
       {component == 'status' && 
-      <PopperContentStatus ref={arrowRef}   onSelect={_onSelect} onClose={() => onClose()} />}
+      <PopperContentStatus content={content} ref={arrowRef}   onSelect={(val) => _onSelect(val)} onClose={() => onClose()} />}
       {component == 'priority' && 
-      <PopperContentPriority ref={arrowRef}   onSelect={_onSelect} onClose={() => onClose()} />}
+      <PopperContentPriority content={content} ref={arrowRef}   onSelect={(val) => _onSelect(val)} onClose={() => onClose()} />}
       {component == 'member' && 
-      <PopperContentMember members={['u100']} ref={arrowRef}   onSelect={_onSelect} onClose={() => onClose()} />}
+      <PopperContentMember content={content}  ref={arrowRef}   onSelect={(val) => _onSelect(val)} onClose={() => onClose()} />}
       {/* <DayPicker
         animate
         mode="single"

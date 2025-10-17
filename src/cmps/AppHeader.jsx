@@ -17,9 +17,7 @@ export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.loggedInUser)
     const isDev = useSelector(storeState => storeState.devToolModule.isDev)
     const [ismodalOpen, setIsModalOpen] = useState(false);
-    // console.log('user:', user)
     function openUpdateModal() {
-        // console.log("update modal");
         setIsModalOpen(true);
     }
     function onLogout() {

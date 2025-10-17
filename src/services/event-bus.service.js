@@ -18,7 +18,7 @@ function createEventEmitter() {
     }
 }
 export const eventBus = {
-    openPopperDynamic
+    openPopperDynamic,
 }
 
 

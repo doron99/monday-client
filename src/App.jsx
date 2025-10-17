@@ -14,62 +14,46 @@ import { BoardIndex } from './pages/BoardIndex.jsx'
 import { useEffect, useRef, useState } from 'react'
 import { eventBusService } from "./services/event-bus.service.js"
 import { PopperDynamic } from "./cmps/contextMenuCmps/PopperDynamic.jsx";
-import { PopperPriority } from "./cmps/contextMenuCmps/PopperPriority.jsx";
 
 
 
 export default function App() {    
-    const [popperInstance, setPopperInstance] = useState(null);
- const [buttonRef, setButtonRef] = useState(null);
   const [visible, setVisible] = useState(false);
-    const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
+const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
 
-    const [content, setContent] = useState('');
-    const [component, setComponent] = useState('');
+const [content, setContent] = useState('');
+const [component, setComponent] = useState('');
+const isSubscribed = useRef(false); // Track subscription
 
-    const [open, setOpen] = useState(false);
-    //const buttonRef = useRef(null);
-    const handleClose = () => setOpen(false); // Set to false to close
-    const handleOpen = () => setOpen(true); // Set to true to open
-    const [popperInfo, setPopperInfo] = useState(null);
-    const showPopper = (x, y) => {
+   
+useEffect(() => {
+        const handleOpenPopper = ({ x, y, content, component }) => {
             setCoordinates({ x, y });
+            setComponent(component);
+            setContent(content);
             setVisible(true);
         };
 
-        useEffect(() => {
-            const handleOpenPopper = (x, y) => {
-                showPopper(x, y);
-            };
-
+        // Subscribe to the event only once
+        if (!isSubscribed.current) {
+            isSubscribed.current = true; // Set subscription state
             const unsubscribe = eventBusService.on('openPopperDynamic', handleOpenPopper);
+
+            // Cleanup function to remove the event listener when unmounting
             return () => {
                 unsubscribe();
+                isSubscribed.current = false; // Reset subscription status
             };
-        }, []);
-    const onSelect = (value) => {
-        console.log('onSelect object received:', value)
-        //setSelected(value);
-        handleClose(); // Close after selection
-        //onTaskUpdate({ key: "priority", value: value.label });
-    };
-    //  const [popperInstance, setPopperInstance] = useState(null);
-    // const [buttonRef, setButtonRef] = useState(null);
-    // const [visible, setVisible] = useState(false);
+        }
+    }, []); // Runs only on mount and unmount
+      
+    // const onSelect = ({val,content}) => {
+    //     console.log('App.jsx onSelect object received:', val,content)
+    //     eventBusService.emit('onPopperSelect', {val,content});
+    //     setVisible(false); // Close after selection
+    // };
   
-     useEffect(() => {
-        const handleOpenPopper = ({ x, y, content, component }) => {
-            setCoordinates({ x, y }); // Set the x and y coordinates
-            setComponent(component)
-            setContent(content); // Set the content of the popper
-            setVisible(true);
-        };
 
-        const unsubscribe = eventBusService.on('openPopperDynamic', handleOpenPopper);
-        return () => {
-            unsubscribe();
-        };
-    }, []);
 
 
 
@@ -80,11 +64,12 @@ export default function App() {
         {visible && (
             <PopperDynamic
                 component={component}
+                content={content}
                 style={{width:'fitContent',position: 'absolute',zIndex: '9999',background:'blue'}}
                 isOpen={visible}
                 x={coordinates.x}
                 y={coordinates.y}
-                onSelect={onSelect}
+                onSelect={(val) => onSelect(val)}
                 onClose={() => setVisible(false)} // Handle popper close
             >
             </PopperDynamic>

@@ -12,29 +12,54 @@
     "style": {
       "color": "red"
     },
-    "labels": [
+    "statuses": [
       {
         "id": "l101",
-        "title": "Done",
-        "color": "#61bd4f"
+        "label": "Done",
+        "color": "#00c875"
       },
       {
         "id": "l102",
-        "title": "Progress",
-        "color": "#61bd33"
+        "label": "Progress",
+        "color": "#0086c0"
+      },
+      {
+        "id": "l103",
+        "label": "Stuck",
+        "color": "#e2445c"
+      },
+      {
+        "id": "l104",
+        "label": "Working on it",
+        "color": "#fdab3d"
+      },
+      {
+        "id": "l105",
+        "label": "Not started",
+        "color": "#c4c4c4"
+      }
+    ],
+    "priorities": [
+      {
+        "id": "l101",
+        "title": "Low",
+        "color": "#0086c0"
+      },
+      {
+        "id": "l102",
+        "title": "Medium",
+        "color": "#fdab3d"
+      },
+      {
+        "id": "l103",
+        "title": "High",
+        "color": "#e2445c"
       }
     ],
     "members": [
-      {
-        "_id": "u101",
-        "fullname": "Tal Taltal",
-        "imgUrl": "https://www.google.com"
-      },
-      {
-        "_id": "u102",
-        "fullname": "Josh Ga",
-        "imgUrl": "https://www.google.com"
-      }
+      { "_id": "u100","name": "Doron test" },
+      { "_id": "u101","name": "Gil test" },
+      { "_id": "u102","name": "Mira test" }
     ],
     "groups": [
       {
@@ -46,7 +71,7 @@
             "id": "t101",
             "side": "left",
             "taskTitle": "Replace logo",
-            "status": "notStarted",
+            "status": "Not started",
             "priority": "low",
             "members": [],
             "date": null
@@ -55,7 +80,7 @@
             "id": "t102",
             "side": "left",
             "taskTitle": "Add Samples",
-            "status": "notStarted",
+            "status": "Progress",
             "priority": "low",
             "members": [],
             "date": null
@@ -73,7 +98,7 @@
             "id": "t103",
             "side": "right",
             "taskTitle": "Do that",
-            "status": "archived",
+            "status": "Stuck",
             "priority": "low",
             "members": [],
             "date": null
@@ -82,7 +107,7 @@
             "id": "t104",
             "side": "right",
             "taskTitle": "Help me",
-            "status": "inProgress",
+            "status": "Working on it",
             "priority": "high",
             "members": ["u101"],
             "date": "2024-09-24"

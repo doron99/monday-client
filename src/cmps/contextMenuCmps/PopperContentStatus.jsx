@@ -3,24 +3,30 @@ import { createPopper } from "@popperjs/core";
 import { useEffect, useRef, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
+import { useSelector } from "react-redux";
+import { updateBoard } from "../../store/actions/board.actions";
+import { utilService } from "../../services/util.service";
+export const PopperContentStatus = ({  onSelect,content, onClose }) => {
+  const selectedBoard = useSelector(state => state.boardModule.selectedBoard);
+  const isDev = useSelector(storeState => storeState.devToolModule.isDev)
 
-export const PopperContentStatus = ({  onSelect, onClose }) => {
-  
-  const statuses = [
-    { label: 'Done', color: 'green' },
-    { label: 'Stuck', color: 'red' },
-    { label: 'Working on it', color: 'orange' },
-  ];
-
+  const statuses = selectedBoard.statuses;
+ 
+  const onSelectSave = (val) => {
+    updateBoard(content.groupId, content.taskId, { key:val.key, value:val.value });
+    onClose();
+  }
   return (
     <>
 
-    <div r className="">
-            
+    <div  className="task-priority" style={{width:'200px'}}>
+      {/* {JSON.stringify(statuses, null, 2)} */}
+
       {statuses.map((s, idx) => (
+
         <button
           key={idx}
-          onClick={() => onSelect(s.label)}
+          onClick={() => onSelectSave({key:'status',value:s.label})}
           className="dropdown-item"
           style={{ backgroundColor: s.color }}
         >
@@ -28,7 +34,7 @@ export const PopperContentStatus = ({  onSelect, onClose }) => {
         </button>
       ))}
            
-      <button onClick={onClose}>Close</button> {/* Optional close button */}
+      <button onClick={() => onClose()}>Close</button> {/* Optional close button */}
     </div>
     </>
     

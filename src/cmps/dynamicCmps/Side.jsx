@@ -6,7 +6,7 @@ export function Side({ onTaskUpdate, selectedTasks, taskId }) {
   const [isChecked, setIsChecked] = useState(selectedTasks.includes(taskId));
 
   useEffect(() => {
-    console.log(taskId);
+    //console.log(taskId);
   }, []);
 
   function handleCheckboxChange() {

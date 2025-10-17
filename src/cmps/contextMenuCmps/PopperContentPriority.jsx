@@ -3,21 +3,28 @@ import { createPopper } from "@popperjs/core";
 import { useEffect, useRef, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
+import { utilService } from "../../services/util.service";
+import { updateBoard } from "../../store/actions/board.actions";
 
-export const PopperContentPriority = ({  onSelect, onClose }) => {
-
+export const PopperContentPriority = ({  onSelect,content, onClose }) => {
+  console.log('PopperContentPriority',content)
   const priorites = [
     { label: 'high', color: 'red' },
     { label: 'medium', color: 'orange' },
     { label: 'low', color: 'green' },
   ];
-
+  const onSelectSave = (val) => {
+    //updateBoard(content.groupId, content.taskId, { key:val.key, value:val.value });
+    updateBoard(content.groupId, content.taskId, { key:'priority', value:val.label });
+    onClose();
+    utilService.log('green','#########','val',val,'content',content);
+  }
   return (
     <div className="dropdown-men">
       {priorites.map((s, idx) => (
         <button
           key={idx}
-          onClick={() => onSelect(s)}
+          onClick={() => onSelectSave(s)}
           className="dropdown-item"
           style={{ backgroundColor: s.color }}
         >

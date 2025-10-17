@@ -171,7 +171,7 @@
 }
 
 .labels-grid > div {
-  padding: 1px 9px;
+  /* padding: 1px 9px; */
   display: flex;
   align-items: center;
   border-right: 1px solid #e6e9ef;
@@ -197,7 +197,7 @@
 }
 
 .grid-item {
-  padding: 1px 9px;
+  /* padding: 1px 9px; */
   display: flex;
   align-items: center;
   border-right: 1px solid #e6e9ef;
@@ -231,7 +231,7 @@
 }
 
 .progress-grid > div {
-  padding: 1px 9px;
+  /* padding: 1px 9px; */
   display: flex;
   align-items: center;
   justify-content: center;

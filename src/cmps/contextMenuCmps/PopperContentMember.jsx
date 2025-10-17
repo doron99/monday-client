@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { FaRegTimesCircle } from "react-icons/fa";
+import { updateBoard } from "../../store/actions/board.actions";
 
  const allPeople = [
         { _id: 'u100',name: 'Doron test' },
@@ -8,12 +9,12 @@ import { FaRegTimesCircle } from "react-icons/fa";
         { _id: 'u102',name: 'Mira test' },
         // Add more people as needed
     ];
-export const PopperContentMember = ({ members, buttonRef, onSelect, onClose }) => {
-
+export const PopperContentMember = ({ content, buttonRef, onSelect, onClose }) => {
+  console.log('PopperContentMember content',content)
   const isDev = useSelector(storeState => storeState.devToolModule.isDev)
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedPeople, setSelectedPeople] = useState(allPeople.filter(person => members.includes(person._id)));
+  const [selectedPeople, setSelectedPeople] = useState(allPeople.filter(person => content.members.includes(person._id)));
  
 
     const handleAddPerson = (person) => {
@@ -33,8 +34,11 @@ export const PopperContentMember = ({ members, buttonRef, onSelect, onClose }) =
   useEffect(() => {
     if(!isFirstRender.current) {
       const userIds = selectedPeople.map(u => u._id)
-      console.log('updated',selectedPeople,userIds)
-      onSelect(userIds)
+      console.log('members updated',selectedPeople,userIds)
+      //onSelect(userIds)
+      console.log('handleMembersSelect',content.groupId, content.taskId, { key:'members', value:userIds });
+    updateBoard(content.groupId, content.taskId, { key:'members', value:userIds });
+    onClose();
     }
     else {
       isFirstRender.current = false;

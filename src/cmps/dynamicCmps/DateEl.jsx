@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { PopperDate } from "../contextMenuCmps/PopperDate";
 import { eventBusService } from "../../services/event-bus.service";
 
 
-export function DateEl({ info,onTaskUpdate }) {
-    
+export function DateEl({ info,content,onTaskUpdate }) {
     const [selected, setSelected] = useState(info);
     const [open, setOpen] = useState(false);
     const buttonRef = useRef(null);
@@ -21,15 +19,14 @@ export function DateEl({ info,onTaskUpdate }) {
       const x = rect.x + rect.width / 2 + window.scrollX; // Centered horizontally
       const y = rect.bottom + window.scrollY; // Positioned below the button
 
-      eventBusService.emit('openPopperDynamic', { x, y, content:'test',component:'date' }); // Emit the event with x, y
+      eventBusService.emit('openPopperDynamic', { x, y, content:content,component:'date' }); // Emit the event with x, y
 
     };
-  const onSelect = (value) => {
-    console.log('onSelect object received:', value)
-    setSelected(value);
-    handleClose(); // Close after selection
-    onTaskUpdate({ key: "date", value: value });
-  };
+  // const onSelect = (value) => {
+  //   setSelected(value);
+  //   handleClose(); // Close after selection
+  //   onTaskUpdate({ key: "date", value: value });
+  // };
 function parseISO(dateString) {
   const parts = dateString.split('-');
     // debugger;
@@ -65,12 +62,25 @@ function parseISO(dateString) {
 
   
   return (
-    <div className="task-date">
+    <div className="task-date" style={styles.styleTaskDate}>
 
-      <span ref={buttonRef} onClick={openDynamicPopper}>{selected ? formatDateString(selected) : '---'}</span>
+      <span style={styles.styleTaskDateSpan} ref={buttonRef} onClick={openDynamicPopper}>{selected ? formatDateString(selected) : '+'}</span>
         {/* <button  onClick={handleOpen}>{info}</button> */}
       {/* <PopperDate strSelectedDate={selected} isOpen={open} buttonRef={buttonRef} onSelect={(s) => onSelect(s)} onClose={handleClose} /> */}
     </div>
     );
 
+}
+const styles={
+  styleTaskDate:{
+    background: '#579bfc',
+    color: 'white',
+    borderRadius: '20px',
+    padding: '0rem 0.5rem',
+    cursor:'pointer'
+  },
+  styleTaskDateSpan:{
+    fontSize:'0.8rem'
+  
+  }
 }
