@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { PopperPeople } from "../contextMenuCmps/PopperPeople";
 import { useSelector } from "react-redux";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { FaPlus } from "react-icons/fa6";
+import { eventBusService } from "../../services/event-bus.service";
 
  const allPeople = [
         { _id: 'u100',name: 'Doron test' },
@@ -12,7 +12,7 @@ import { FaPlus } from "react-icons/fa6";
     ];
 
 
-export function Member({ info,onTaskUpdate }) {
+export function Member({ info,taskId,content,onTaskUpdate }) {
     //console.log('info',info,priorites.find(item => item.label == info))
   const [selected, setSelected] = useState(info);
   const [open, setOpen] = useState(false);
@@ -34,7 +34,16 @@ const devSection = isDev
         {JSON.stringify(selected, null, 2)}
         </pre> 
     : "";
+ const openDynamicPopper = (btnRef) => {
+      const rect = buttonRef.current.getBoundingClientRect(); // Get the rectangle object
+      //const x = rect.x + window.scrollX; // Calculate x coordinate
+      //const y = rect.y + window.scrollY; // Calculate y coordinate
+      const x = rect.x + rect.width / 2 + window.scrollX; // Centered horizontally
+      const y = rect.bottom + window.scrollY; // Positioned below the button
 
+      eventBusService.emit('openPopperDynamic', { x, y, content:content,component:'member' }); // Emit the event with x, y
+
+    };
   return (
     <div className="task-member">
     {devSection}
@@ -46,10 +55,24 @@ const devSection = isDev
       > */}
         {/* {selected && selected.length > 0 ? selected.map(x => x).join(',') : '+'} */}
       {/* </button> */}
-      <div style={{cursor:'pointer'}} ref={buttonRef} onClick={() => handleOpen()}>{selected && selected.length > 0 ? allPeople.filter(person => selected.includes(person._id)).map(x =>  {
-        return <span key={x.name} title={x.name}><HiOutlineUserCircle style={{fontSize:'2rem'}}/></span>
-      }) : <FaPlus style={{fontSize:'2rem'}}  />}</div>
-      <PopperPeople members={selected} strSelectedDate={selected}  isOpen={open} buttonRef={buttonRef} onSelect={(value) => onSelect(value)} onClose={() => handleClose()} />
+      <div style={{ 
+        cursor: 'pointer', 
+        display: 'flex', 
+        alignItems: 'center', // Vertically center
+        justifyContent: 'center' // Horizontally center
+    }}  ref={buttonRef} onClick={() => openDynamicPopper()}>
+        {selected && selected.length > 0 
+            ? selected.length == 1 
+                ? allPeople.filter(person => selected.includes(person._id)).map(x =>  {
+                    return <span key={x.name} title={x.name}><HiOutlineUserCircle style={{fontSize:'2rem'}}/></span>})
+                : (
+                <>
+                    <HiOutlineUserCircle style={{ fontSize: '1.4rem' }} />
+                    +{allPeople.filter(person => selected.includes(person._id)).length - 1}
+                </>
+            )
+            : <FaPlus style={{fontSize:'2rem'}}  />}</div>
+      {/* <PopperPeople members={selected} strSelectedDate={selected}  isOpen={open} buttonRef={buttonRef} onSelect={(value) => onSelect(value)} onClose={() => handleClose()} /> */}
     </div>
     );
 

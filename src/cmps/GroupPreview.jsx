@@ -5,7 +5,7 @@ import { Side } from "./dynamicCmps/Side.jsx";
 import { Status } from "./dynamicCmps/Status.jsx";
 import { TaskTitle } from "./dynamicCmps/TaskTitle.jsx";
 import { Priority } from "./dynamicCmps/Priority.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { TaskCount } from './TaskCount.jsx';
 import { updateBoard } from '../store/actions/board.actions.js';
@@ -24,6 +24,8 @@ import {
 } from "@dnd-kit/sortable";
 import { DraggableCmpHeader } from "./DraggableCmpHeader";
 import { utilService } from "../services/util.service.js";
+import { eventBusService } from "../services/event-bus.service.js";
+// import { DraggableTask } from "./DraggableTask.jsx";
 
 export function GroupPreview({
   labels,
@@ -43,6 +45,12 @@ export function GroupPreview({
     useSensor(MouseSensor),
     useSensor(TouchSensor)
   );
+  useEffect(() => {
+      const unsubscribe = eventBusService.on('onPopperSelect', ({content,val}) => {
+        onTaskUpdate(content.taskId,val)
+      })
+      return unsubscribe
+  }, [])
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -95,7 +103,7 @@ export function GroupPreview({
           "id": utilService.makeId(),
           "side": "right",
           "taskTitle": updatedInfo.value,
-          "status": "new",
+          "status": "Not Started",
           "priority": "low",
           "members": [],
           "date": null,
@@ -132,6 +140,18 @@ export function GroupPreview({
     console.log('deleteGroup in GroupPreview' + groupId);
   }
 
+const gridItemStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgb(0, 200, 117)',  // Background color
+        cursor: 'pointer',  // Change cursor to pointer
+        padding: '10px',
+        borderRadius: '4px', // Optional: rounded corners
+        color: 'white',  // Text color
+        height: '100px', // Set a fixed height for the grid item
+        width: '100%', // Full width
+    };
   const progressComponents = ["date", "priority", "status"];
   return (
     <section>
@@ -198,12 +218,16 @@ export function GroupPreview({
             ))}
           </section>
         </SortableContext>
-
+    {/* <DndContext onDragEnd={handleDragEnd1}>
+      {group.tasks.map(task => (
+        <DraggableTask key={task.id} task={task} cmpOrder={cmpOrder} onTaskUpdate={onTaskUpdate} selectedTasks={selectedTasks} />
+      ))}
+    </DndContext> */}
         {/* Render tasks based on the current cmpOrder */}
         {group.tasks.map((task) => (
           <section className="group grid" key={`task-${task.id}`}>
             {cmpOrder.map((cmp, idx) => (
-              <section
+              <section 
                 className={`grid-item ${cmp}`}
                 key={`task-${task.id}-cmp-${idx}`}
               >
@@ -211,6 +235,7 @@ export function GroupPreview({
                   cmpType={cmp}
                   info={task[cmp]}
                   selectedTasks={selectedTasks}
+                  content={{groupId:group.id,taskId:task.id}}
                   taskId={task.id}
                   onTaskUpdate={(updateInfo) =>
                     onTaskUpdate(task.id, updateInfo)
@@ -276,7 +301,7 @@ export function GroupPreview({
   );
 }
 
-const DynamicCmp = ({ cmpType, info, onTaskUpdate, selectedTasks, taskId }) => {
+const DynamicCmp = ({ cmpType, info, onTaskUpdate,content, selectedTasks, taskId }) => {
 
   switch (cmpType) {
     case "side":
@@ -289,15 +314,15 @@ const DynamicCmp = ({ cmpType, info, onTaskUpdate, selectedTasks, taskId }) => {
         />
       );
     case "priority":
-      return <Priority info={info} onTaskUpdate={onTaskUpdate} />;
+      return <Priority info={info} content={content} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
     case "taskTitle":
       return <TaskTitle info={info} onTaskUpdate={onTaskUpdate} />;
     case "status":
-      return <Status info={info} onTaskUpdate={onTaskUpdate} />;
+      return <Status info={info} content={content} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
     case "members":
-      return <Member info={info} onTaskUpdate={onTaskUpdate} />;
+      return <Member info={info} content={{...content,members:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
     case "date":
-      return <DateEl info={info} onTaskUpdate={onTaskUpdate} />;
+      return <DateEl info={info} content={{...content,strSelectedDate:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
     default:
       console.error(`Unknown component type: ${cmpType}`);
       return <div>Unknown component: {cmpType}</div>;

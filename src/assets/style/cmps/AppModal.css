@@ -6,6 +6,8 @@
 
 .task-priority {
   position: relative;
+  width:100%;
+  text-align: center;
 }
 
 .priority-modal {
