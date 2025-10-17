@@ -7,6 +7,8 @@ import { TaskTitle } from "./dynamicCmps/TaskTitle.jsx";
 import { Priority } from "./dynamicCmps/Priority.jsx";
 import { useState } from "react";
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import { TaskCount } from './TaskCount.jsx';
+import { updateBoard } from '../store/actions/board.actions.js';
 import {
   DndContext,
   closestCenter,
@@ -29,7 +31,6 @@ export function GroupPreview({
   group,
   cmpOrder,
   progress,
-  updateBoard,
   toggleSelectedTask,
   selectedTasks,
   board //needed it to access the tasks list
@@ -121,10 +122,17 @@ export function GroupPreview({
 
   function updateGroup(groupId, updatedInfo) {
     console.log(groupId, updatedInfo);
-    updateBoard(groupId, null, updatedInfo);
+    updateBoard(board, groupId, null, updatedInfo);
 
     console.log("board updated");
   }
+
+  function deleteGroup(groupId){
+    let updatedGroups = board.groups.filter(group => group.id !== groupId);
+    updateBoard(board, null, null, {key: 'groups', value: updatedGroups})
+    console.log('deleteGroup in GroupPreview' + groupId);
+  }
+
 const handleDragEnd1 = (event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
@@ -141,6 +149,7 @@ const handleDragEnd1 = (event) => {
           isExpanded={isExpanded}
           onToggleExpanded={() => setIsExpanded(!isExpanded)}
           onUpdateGroup={updateGroup}
+          onDeleteGroup={deleteGroup}
         />
       ) : (
         <section 
@@ -163,9 +172,7 @@ const handleDragEnd1 = (event) => {
                 <span className="collapsed-group-title" style={{color: group.style.color}}>
                   {group.title}
                 </span>
-                <span className="task-count">
-                  {group.tasks.length === 0 ? 'No Tasks' : `${group.tasks.length} Task${group.tasks.length !== 1 ? 's' : ''}`}
-                </span>
+                <TaskCount taskCount={group.tasks.length} />
               </div>
             </div>
             <div className="collapsed-headers">

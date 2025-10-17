@@ -1,10 +1,17 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useSelector } from "react-redux"
-import { loadBoards, loadFavorites } from "../store/actions/board.actions.js"
+import {
+  loadBoards,
+  loadFavorites,
+  removeBoard,
+  addBoard,
+  updateBoard,
+  setActiveBoard,
+} from "../store/actions/board.actions.js"
 import { BoardFilter } from "../cmps/filters/BoardFilter.jsx"
-import { boardService } from "../services/board.service.js"
-import { saveBoard } from "../store/actions/board.actions.js"
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline"
+import { PopperBoardMenu } from "../cmps/contextMenuCmps/PopperBoardMenu.jsx"
 import {
   FaHome,
   FaCalendarAlt,
@@ -13,7 +20,7 @@ import {
   FaChevronRight,
   FaPuzzlePiece,
   FaPlus,
-  FaClipboardList
+  FaClipboardList,
 } from "react-icons/fa"
 
 export function AppSideBar() {
@@ -26,6 +33,9 @@ export function AppSideBar() {
   const [isOpen, setIsOpen] = useState(true)
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(true)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [activeBoardId, setActiveBoardId] = useState(null)
+  const buttonRefs = useRef({})
 
   useEffect(() => {
     loadBoards()
@@ -36,15 +46,50 @@ export function AppSideBar() {
   const goToHome = () => navigate("/")
   const goToBoard = () => navigate("/board")
   const isBoardActive = () => location.pathname.startsWith("/board")
-  const goToBoardDetails = (boardId) => navigate(`/board/${boardId}`)
 
-  function onAddBoard() {
-  const newBoard = boardService.getEmptyBoard()
+  const goToBoardDetails = (boardId) => {
+    setIsMenuOpen(false)
+    setActiveBoardId(null)
+    navigate(`/board/${boardId}`)
+  }
 
-  saveBoard(newBoard).then(savedBoard => {
-    navigate(`/board/${savedBoard._id}`)
-  })
+async function onAddBoard() {
+  const savedBoard = await addBoard()
+  if (savedBoard?._id) navigate(`/board/${savedBoard._id}`)
 }
+
+
+  function handleRename(boardId) {
+    const board = boards.find(b => b._id === boardId)
+    if (!board) return
+
+    const newName = prompt("Enter new board name:", board.title)
+    if (!newName || newName.trim() === "") return
+
+    const update = { key: "title", value: newName.trim() }
+    updateBoard(null, null, update)
+  }
+
+  function handleToggleFavorite(boardId) {
+    const board = boards.find(b => b._id === boardId)
+    if (!board) return
+
+    const update = { key: "isStarred", value: !board.isStarred }
+    updateBoard(null, null, update)
+  }
+
+  async function handleDelete(boardId) {
+    const confirmDelete = confirm("Are you sure you want to delete this board?")
+    if (!confirmDelete) return
+
+    await removeBoard(boardId)
+    await loadBoards()
+    await loadFavorites()
+
+    if (location.pathname.includes(`/board/${boardId}`)) {
+      navigate("/board")
+    }
+  }
 
   return (
     <div className={`sidebar-container ${isOpen ? "open" : "closed"}`}>
@@ -121,12 +166,47 @@ export function AppSideBar() {
 
               <ul>
                 {boards.map(board => (
-                  <li key={board._id}
-                  onClick={() => goToBoardDetails(board._id)}
-                  className="clickable"
+                  <li
+                    key={board._id}
+                    className="board-item flex items-center justify-between p-2 hover:bg-gray-100 rounded-md"
                   >
-                    <FaClipboardList className="icon board-icon" />
-                    {board.title}
+                    <div
+                      onClick={() => goToBoardDetails(board._id)}
+                      className="flex items-center gap-2 cursor-pointer flex-grow"
+                    >
+                      <FaClipboardList className="icon board-icon" />
+                      <span className="truncate">{board.title}</span>
+                    </div>
+
+                    <div className="relative">
+                      <button
+                        ref={el => (buttonRefs.current[board._id] = el)}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setActiveBoard(board)
+                          setActiveBoardId(board._id)
+                          setIsMenuOpen(prev =>
+                            activeBoardId !== board._id || !prev
+                          )
+                        }}
+                        className="p-1 hover:bg-gray-200 rounded transition-colors"
+                      >
+                        <EllipsisHorizontalIcon className="w-5 h-5 text-gray-600" />
+                      </button>
+
+                      {activeBoardId === board._id && (
+                        <PopperBoardMenu
+                          isOpen={isMenuOpen}
+                          buttonRef={{ current: buttonRefs.current[board._id] }}
+                          onOpenBoard={() => goToBoardDetails(board._id)}
+                          onRename={() => handleRename(board._id)}
+                          onToggleFavorite={() => handleToggleFavorite(board._id)}
+                          onDelete={() => handleDelete(board._id)}
+                          onClose={() => setIsMenuOpen(false)}
+                          isFavorite={board.isStarred}
+                        />
+                      )}
+                    </div>
                   </li>
                 ))}
               </ul>

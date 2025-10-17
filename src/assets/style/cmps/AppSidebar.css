@@ -25,8 +25,8 @@
 
 .sidebar-toggle {
   position: fixed;
-  top: 50%;
-  left: 266px; 
+  top: 15%;
+  left: 15%; 
   transform: translateY(-50%);
   width: 36px;
   height: 36px;
@@ -109,7 +109,7 @@
 .add-btn {
   background: #0073ea; 
   border: none;
-  border-radius: 50%;
+  border-radius: 4px;
   width: 36px;
   height: 36px;
   cursor: pointer;
@@ -198,11 +198,41 @@
 }
 
 /* 📋 Boards / items */
-.board-icon {
+/* .board-icon {
   color: #00c4cc; 
+} */
+
+.board-title-section{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
 /* 📋 Workspace item icon */
 .workspace-item-icon {
   color: #6024fa;
+}
+
+
+.board-item button {
+  background: transparent !important;
+  border: none !important;
+  padding: 4px;
+  margin: 0;
+  cursor: pointer;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board-item button:hover {
+  background-color: #f0f0f0;
+}
+
+.board-item button svg {
+  color: #555;
+  width: 18px;
+  height: 18px;
 }
