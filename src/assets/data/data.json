@@ -42,7 +42,19 @@
             "status": "Not started",
             "priority": "Low",
             "members": [],
-            "date": null
+            "date": null,
+            "comments":[
+              {
+							"id": "ZdPnm",
+							"title": "also @yaronb please CR this",
+							"createdAt": 1590999817436,
+							"byMember": {
+                  "_id": "u101",
+                  "name": "Gil test"
+                }
+						}
+
+            ]
           },
           {
             "id": "t102",
@@ -51,7 +63,8 @@
             "status": "Progress",
             "priority": "Low",
             "members": [],
-            "date": null
+            "date": null,
+            "comments":[]
           }
         ],
         "style": { "color": "red" }
@@ -67,7 +80,8 @@
             "status": "Stuck",
             "priority": "Low",
             "members": [],
-            "date": null
+            "date": null,
+            "comments":[]
           },
           {
             "id": "t104",
@@ -76,7 +90,8 @@
             "status": "Working on it",
             "priority": "High",
             "members": ["u101"],
-            "date": "2024-09-24"
+            "date": "2024-09-24",
+            "comments":[]
           }
         ],
         "style": { "color": "#61bd33" }
@@ -127,7 +142,8 @@
             "status": "Not started",
             "priority": "Medium",
             "members": ["u103"],
-            "date": "2025-01-15"
+            "date": "2025-01-15",
+            "comments":[]
           },
           {
             "id": "t202",
@@ -136,7 +152,8 @@
             "status": "Not started",
             "priority": "Medium",
             "members": [],
-            "date": null
+            "date": null,
+            "comments":[]
           }
         ],
         "style": { "color": "green" }
@@ -152,7 +169,8 @@
             "status": "Not started",
             "priority": "Medium",
             "members": ["u103"],
-            "date": "2025-02-15"
+            "date": "2025-02-15",
+            "comments":[]
           },
           {
             "id": "t204",
@@ -161,7 +179,8 @@
             "status": "In progress",
             "priority": "High",
             "members": ["u103", "u104"],
-            "date": "2025-03-01"
+            "date": "2025-03-01",
+            "comments":[]
           }
         ],
         "style": { "color": "#61bd4f" }

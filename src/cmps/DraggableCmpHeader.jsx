@@ -15,6 +15,10 @@ export const DraggableCmpHeader = ({ id, children }) => {
     transform: CSS.Transform.toString(transform),
     transition,
     cursor: "grab",
+    textAlign: 'center',
+     display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   };
 
   return (
