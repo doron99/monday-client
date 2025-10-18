@@ -69,7 +69,7 @@ export function BoardDetails() {
       }
 
       const groupArr = [...board.groups, newGroup];
-      updateBoard(board, null, null, {key: 'groups', value: groupArr});
+      updateBoard(null, null, {key: 'groups', value: groupArr});
   }
 
   const uid = () => Math.random().toString(36).slice(2);

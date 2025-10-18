@@ -13,53 +13,21 @@
       "color": "red"
     },
     "statuses": [
-      {
-        "id": "l101",
-        "label": "Done",
-        "color": "#00c875"
-      },
-      {
-        "id": "l102",
-        "label": "Progress",
-        "color": "#0086c0"
-      },
-      {
-        "id": "l103",
-        "label": "Stuck",
-        "color": "#e2445c"
-      },
-      {
-        "id": "l104",
-        "label": "Working on it",
-        "color": "#fdab3d"
-      },
-      {
-        "id": "l105",
-        "label": "Not started",
-        "color": "#c4c4c4"
-      }
+      { "id": "l101", "label": "Done", "color": "#00c875" },
+      { "id": "l102", "label": "Progress", "color": "#0086c0" },
+      { "id": "l103", "label": "Stuck", "color": "#e2445c" },
+      { "id": "l104", "label": "Working on it", "color": "#fdab3d" },
+      { "id": "l105", "label": "Not started", "color": "#c4c4c4" }
     ],
     "priorities": [
-      {
-        "id": "l101",
-        "label": "Low",
-        "color": "#0086c0"
-      },
-      {
-        "id": "l102",
-        "label": "Medium",
-        "color": "#fdab3d"
-      },
-      {
-        "id": "l103",
-        "label": "High",
-        "color": "#e2445c"
-      }
+      { "id": "l201", "label": "Low", "color": "#0086c0" },
+      { "id": "l202", "label": "Medium", "color": "#fdab3d" },
+      { "id": "l203", "label": "High", "color": "#e2445c" }
     ],
     "members": [
-      { "_id": "u100","name": "Doron test" },
-      { "_id": "u101","name": "Gil test" },
-      { "_id": "u102","name": "Mira test" }
+      { "_id": "u100", "name": "Doron test" },
+      { "_id": "u101", "name": "Gil test" },
+      { "_id": "u102", "name": "Mira test" }
     ],
     "groups": [
       {
@@ -72,7 +40,7 @@
             "side": "left",
             "taskTitle": "Replace logo",
             "status": "Not started",
-            "priority": "low",
+            "priority": "Low",
             "members": [],
             "date": null
           },
@@ -81,14 +49,12 @@
             "side": "left",
             "taskTitle": "Add Samples",
             "status": "Progress",
-            "priority": "low",
+            "priority": "Low",
             "members": [],
             "date": null
           }
         ],
-        "style": {
-          "color": "red"
-        }
+        "style": { "color": "red" }
       },
       {
         "id": "g102",
@@ -99,7 +65,7 @@
             "side": "right",
             "taskTitle": "Do that",
             "status": "Stuck",
-            "priority": "low",
+            "priority": "Low",
             "members": [],
             "date": null
           },
@@ -108,14 +74,12 @@
             "side": "right",
             "taskTitle": "Help me",
             "status": "Working on it",
-            "priority": "high",
+            "priority": "High",
             "members": ["u101"],
             "date": "2024-09-24"
           }
         ],
-        "style": {
-          "color": "#61bd33"
-        }
+        "style": { "color": "#61bd33" }
       }
     ],
     "activities": [],
@@ -134,17 +98,17 @@
     "style": {
       "backgroundImage": "https://example.com/bg.jpg"
     },
-    "labels": [
-      {
-        "id": "l103",
-        "title": "Review",
-        "color": "#ff9f1a"
-      },
-      {
-        "id": "l104",
-        "title": "Blocked",
-        "color": "#eb5a46"
-      }
+    "statuses": [
+      { "id": "l301", "label": "Review", "color": "#ff9f1a" },
+      { "id": "l302", "label": "Blocked", "color": "#eb5a46" },
+      { "id": "l303", "label": "Not started", "color": "#c4c4c4" },
+      { "id": "l304", "label": "In progress", "color": "#0086c0" },
+      { "id": "l305", "label": "Done", "color": "#00c875" }
+    ],
+    "priorities": [
+      { "id": "l401", "label": "Low", "color": "#0086c0" },
+      { "id": "l402", "label": "Medium", "color": "#fdab3d" },
+      { "id": "l403", "label": "High", "color": "#e2445c" }
     ],
     "members": [
       {
@@ -167,8 +131,8 @@
             "id": "t201",
             "side": "left",
             "taskTitle": "Collect data",
-            "status": "notStarted",
-            "priority": "medium",
+            "status": "Not started",
+            "priority": "Medium",
             "members": ["u103"],
             "date": "2025-01-15"
           },
@@ -176,15 +140,13 @@
             "id": "t202",
             "side": "left",
             "taskTitle": "Analyze results",
-            "status": "notStarted",
-            "priority": "medium",
+            "status": "Not started",
+            "priority": "Medium",
             "members": [],
             "date": null
           }
         ],
-        "style": {
-          "color": "green"
-        }
+        "style": { "color": "green" }
       },
       {
         "id": "g202",
@@ -194,8 +156,8 @@
             "id": "t203",
             "side": "right",
             "taskTitle": "Set up environment",
-            "status": "notStarted",
-            "priority": "medium",
+            "status": "Not started",
+            "priority": "Medium",
             "members": ["u103"],
             "date": "2025-02-15"
           },
@@ -203,15 +165,13 @@
             "id": "t204",
             "side": "right",
             "taskTitle": "Develop model",
-            "status": "inProgress",
-            "priority": "high",
+            "status": "In progress",
+            "priority": "High",
             "members": ["u103", "u104"],
             "date": "2025-03-01"
           }
         ],
-        "style": {
-          "color": "#61bd4f"
-        }
+        "style": { "color": "#61bd4f" }
       }
     ],
     "activities": [],

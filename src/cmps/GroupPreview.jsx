@@ -129,14 +129,14 @@ export function GroupPreview({
 
   function updateGroup(groupId, updatedInfo) {
     console.log(groupId, updatedInfo);
-    updateBoard(board, groupId, null, updatedInfo);
+    updateBoard(groupId, null, updatedInfo);
 
     console.log("board updated");
   }
 
   function deleteGroup(groupId){
     let updatedGroups = board.groups.filter(group => group.id !== groupId);
-    updateBoard(board, null, null, {key: 'groups', value: updatedGroups})
+    updateBoard(null, null, {key: 'groups', value: updatedGroups});
     console.log('deleteGroup in GroupPreview' + groupId);
   }
 
