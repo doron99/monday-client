@@ -24,7 +24,7 @@ async function query(filterBy = {}) {
       console.log('Loading boards from data.json...')
       boards = [...boardsData]
       for (const board of boards) {
-        await storageService.post(STORAGE_KEY, board)
+        await storageService.postEntityWithIdFirstTime(STORAGE_KEY, board)
       }
     }
 

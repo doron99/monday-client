@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { HiOutlineChatBubbleOvalLeftEllipsis } from 'react-icons/hi2';
+import { useNavigate } from 'react-router-dom';
+import { useParams, Outlet } from "react-router";
 
-export function TaskTitle({ info, onTaskUpdate }) {
+export function TaskTitle({ info, onTaskUpdate,taskId }) {
   // Local state to manage input value
   const [inputValue, setInputValue] = useState(info);
   const [prevValue, setPrevValue] = useState(info); // Track the previous value
-
+  const navigate = useNavigate();
+  const {boardId} = useParams();
+  const handleNavigateToTask = () => {
+      navigate(`/board/${boardId}/task/${taskId}`);
+  };
   // Effect to update the inputValue when info changes
   useEffect(() => {
     setInputValue(info);
@@ -26,6 +33,7 @@ export function TaskTitle({ info, onTaskUpdate }) {
   };
 
   return (
+    <>
     <input
       className='task-title'
       type="text"
@@ -39,5 +47,7 @@ export function TaskTitle({ info, onTaskUpdate }) {
         padding: '5px', // Optional: add padding
       }}
     />
+    <HiOutlineChatBubbleOvalLeftEllipsis onClick={() => handleNavigateToTask()} style={{width:'1.4rem',height:'1.4rem'}}/> 
+    </>
   );
 }

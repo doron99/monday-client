@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { HiOutlineUserCircle } from "react-icons/hi2";
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus, FaUserPlus } from "react-icons/fa6";
 import { eventBusService } from "../../services/event-bus.service";
 
  const allPeople = [
@@ -64,15 +64,14 @@ const devSection = isDev
         {selected && selected.length > 0 
             ? selected.length == 1 
                 ? allPeople.filter(person => selected.includes(person._id)).map(x =>  {
-                    return <span key={x.name} title={x.name}><HiOutlineUserCircle style={{fontSize:'2rem'}}/></span>})
+                    return <span key={x.name} title={x.name}><HiOutlineUserCircle style={{ fontSize: '1.4rem' }}/></span>})
                 : (
                 <>
                     <HiOutlineUserCircle style={{ fontSize: '1.4rem' }} />
                     +{allPeople.filter(person => selected.includes(person._id)).length - 1}
                 </>
             )
-            : <FaPlus style={{fontSize:'2rem'}}  />}</div>
-      {/* <PopperPeople members={selected} strSelectedDate={selected}  isOpen={open} buttonRef={buttonRef} onSelect={(value) => onSelect(value)} onClose={() => handleClose()} /> */}
+            : <FaUserPlus style={{ fontSize: '1.4rem' }}  />}</div>
     </div>
     );
 

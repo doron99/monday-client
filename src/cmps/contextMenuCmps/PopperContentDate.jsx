@@ -3,6 +3,7 @@ import { createPopper } from "@popperjs/core";
 import { useEffect, useRef, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
+
 import { updateBoard } from "../../store/actions/board.actions";
 
 export const PopperContentDate = ({ content, onSelect, onClose }) => {
@@ -33,7 +34,7 @@ export const PopperContentDate = ({ content, onSelect, onClose }) => {
   }
 
   return (
-    <div className="">
+    <>
       <DayPicker
         animate
         mode="single"
@@ -45,7 +46,6 @@ export const PopperContentDate = ({ content, onSelect, onClose }) => {
             : "Pick a day."
         }
       />
-      <button onClick={onClose}>Close</button>
-    </div>
+    </>
   );
 };

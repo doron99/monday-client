@@ -85,31 +85,37 @@ export function BoardDetails() {
 
   return (
     <div className="board-details">
-      <BoardHeader />
-      <section className="group-list">
-        {board &&
-          board.groups.map((group) => (
-            <GroupPreview
-              group={group}
-              labels={labels}
-              cmpOrder={board.cmpOrder}
-              progress={progress}
-              toggleSelectedTask={toggleSelectedTask}
-              selectedTasks={selectedTasks}
-              board={board} // ask tal 
-              key={uid()}
-            />
-          ))}
-        <div className="add-group-section">
-          <button className="add-group-btn" onClick={addNewGroup}>
-            <PlusIcon style={{ width: "20px", height: "20px", color: "#3c3c3f" }}/>
-            <span>Add new group</span>
-          </button>
-        </div>
-      </section>
-
+      <div style={{display:'flex'}}>
+        <div style={{display:'flex',flexDirection:'column',width:'100%'}}>
+          <BoardHeader />
+          <section className="group-list">
+            {board &&
+              board.groups.map((group) => (
+                <GroupPreview
+                  group={group}
+                  labels={labels}
+                  cmpOrder={board.cmpOrder}
+                  progress={progress}
+                  toggleSelectedTask={toggleSelectedTask}
+                  selectedTasks={selectedTasks}
+                  board={board} // ask tal 
+                  key={uid()}
+                />
+              ))}
+            <div className="add-group-section">
+              <button className="add-group-btn" onClick={addNewGroup}>
+                <PlusIcon style={{ width: "20px", height: "20px", color: "#3c3c3f" }}/>
+                <span>Add new group</span>
+              </button>
+            </div>
+          </section>
+      </div>
       {/* Outlet for TaskDetails modal */}
       <Outlet />
     </div>
+      
+
+      
+  </div>
   );
 }

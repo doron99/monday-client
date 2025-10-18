@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { FaRegTimesCircle } from "react-icons/fa";
 import { updateBoard } from "../../store/actions/board.actions";
+import { useEffectUpdate } from "../customHooks/useEffectUpdate";
 
  const allPeople = [
         { _id: 'u100',name: 'Doron test' },
@@ -30,23 +31,13 @@ export const PopperContentMember = ({ content, buttonRef, onSelect, onClose }) =
     );
   const isFirstRender = useRef(true); // Ref to track the first render
 
-
-  useEffect(() => {
-    if(!isFirstRender.current) {
-      const userIds = selectedPeople.map(u => u._id)
+  useEffectUpdate(() => {
+    const userIds = selectedPeople.map(u => u._id)
       console.log('members updated',selectedPeople,userIds)
-      //onSelect(userIds)
       console.log('handleMembersSelect',content.groupId, content.taskId, { key:'members', value:userIds });
-    updateBoard(content.groupId, content.taskId, { key:'members', value:userIds });
-    onClose();
-    }
-    else {
-      isFirstRender.current = false;
-    }
-    
-  },[selectedPeople])
-
-
+      updateBoard(content.groupId, content.taskId, { key:'members', value:userIds });
+      onClose();
+  }, [selectedPeople])
 
   const devSection = isDev 
         ? <pre>

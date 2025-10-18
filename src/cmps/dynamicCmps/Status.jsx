@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 //   { label: "Working on it", color: "#C4C4C4" },
 // ];
 
-export function Status({ info,taskId,content,onTaskUpdate }) {
+export function Status({ content,onTaskUpdate }) {
     const selectedBoard = useSelector(state => state.boardModule.selectedBoard);
     const isDev = useSelector(storeState => storeState.devToolModule.isDev)
 
@@ -17,7 +17,7 @@ export function Status({ info,taskId,content,onTaskUpdate }) {
       const status = statuses.find(s => s.label === statusLabel);
       return status ? status.color : null; // Return null if status is not found
     };
-    const [selected, setSelected] = useState({label: info,color: getColorByStatus(info)});
+    const [selected, setSelected] = useState({label: content.status,color: getColorByStatus(content.status)});
     const [open, setOpen] = useState(false);
     const buttonRef = useRef(null);
     function updateTask(value) {

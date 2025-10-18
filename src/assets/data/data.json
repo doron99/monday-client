@@ -42,17 +42,17 @@
     "priorities": [
       {
         "id": "l101",
-        "title": "Low",
+        "label": "Low",
         "color": "#0086c0"
       },
       {
         "id": "l102",
-        "title": "Medium",
+        "label": "Medium",
         "color": "#fdab3d"
       },
       {
         "id": "l103",
-        "title": "High",
+        "label": "High",
         "color": "#e2445c"
       }
     ],

@@ -1,20 +1,19 @@
 
 import { useEffect, useRef, useState } from "react";
 import { eventBus, eventBusService } from "../../services/event-bus.service";
+import { useSelector } from "react-redux";
 
-  const priorites = [
-    { label: 'high', color: 'red' },
-    { label: 'medium', color: 'orange' },
-    { label: 'low', color: 'green' },
-  ];
 
-const getColorByStatus = (statusLabel) => {
-  const status = priorites.find(s => s.label === statusLabel);
-  return status ? status.color : null; // Return null if status is not found
-};
-export function Priority({ info,taskId,content,onTaskUpdate }) {
-    //console.log('info',info,priorites.find(item => item.label == info))
-    const [selected, setSelected] = useState({label: info,color: getColorByStatus(info)});
+
+export function Priority({ content,onTaskUpdate }) {
+    const selectedBoard = useSelector(state => state.boardModule.selectedBoard);
+    const isDev = useSelector(storeState => storeState.devToolModule.isDev)
+    const getColorByStatus = (statusLabel) => {
+      const status = priorities.find(s => s.label === statusLabel);
+      return status ? status.color : null; // Return null if status is not found
+    };
+    const priorities = selectedBoard.priorities;
+    const [selected, setSelected] = useState({label: content.priority,color: getColorByStatus(content.priority)});
     const [open, setOpen] = useState(false);
     const buttonRef = useRef(null);
 
@@ -48,7 +47,6 @@ export function Priority({ info,taskId,content,onTaskUpdate }) {
       >
         {selected.label}
       </button>
-      {/* <PopperPriority isOpen={open} buttonRef={buttonRef} onSelect={(value) => onSelect(value)} onClose={() => handleClose()} /> */}
     </div>
     );
 

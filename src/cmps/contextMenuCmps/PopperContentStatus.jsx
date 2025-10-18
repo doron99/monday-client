@@ -19,7 +19,9 @@ export const PopperContentStatus = ({  onSelect,content, onClose }) => {
   return (
     <>
 
-    <div  className="task-priority" style={{width:'200px'}}>
+    <div  className="task-priority" style={{
+      width:'200px',
+    }}>
       {/* {JSON.stringify(statuses, null, 2)} */}
 
       {statuses.map((s, idx) => (
@@ -33,8 +35,6 @@ export const PopperContentStatus = ({  onSelect,content, onClose }) => {
           {s.label}
         </button>
       ))}
-           
-      <button onClick={() => onClose()}>Close</button> {/* Optional close button */}
     </div>
     </>
     

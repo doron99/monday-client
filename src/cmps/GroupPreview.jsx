@@ -314,11 +314,11 @@ const DynamicCmp = ({ cmpType, info, onTaskUpdate,content, selectedTasks, taskId
         />
       );
     case "priority":
-      return <Priority info={info} content={content} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
+      return <Priority info={info} content={{...content,priority:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
     case "taskTitle":
-      return <TaskTitle info={info} onTaskUpdate={onTaskUpdate} />;
+      return <TaskTitle info={info} onTaskUpdate={onTaskUpdate} taskId={taskId} />;
     case "status":
-      return <Status info={info} content={content} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
+      return <Status info={info} content={{...content,status:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
     case "members":
       return <Member info={info} content={{...content,members:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
     case "date":
