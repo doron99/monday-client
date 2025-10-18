@@ -99,28 +99,21 @@
       "backgroundImage": "https://example.com/bg.jpg"
     },
     "statuses": [
-      { "id": "l301", "label": "Review", "color": "#ff9f1a" },
-      { "id": "l302", "label": "Blocked", "color": "#eb5a46" },
-      { "id": "l303", "label": "Not started", "color": "#c4c4c4" },
-      { "id": "l304", "label": "In progress", "color": "#0086c0" },
-      { "id": "l305", "label": "Done", "color": "#00c875" }
+      { "id": "l101", "label": "Done", "color": "#00c875" },
+      { "id": "l102", "label": "Progress", "color": "#0086c0" },
+      { "id": "l103", "label": "Stuck", "color": "#e2445c" },
+      { "id": "l104", "label": "Working on it", "color": "#fdab3d" },
+      { "id": "l105", "label": "Not started", "color": "#c4c4c4" }
     ],
     "priorities": [
-      { "id": "l401", "label": "Low", "color": "#0086c0" },
-      { "id": "l402", "label": "Medium", "color": "#fdab3d" },
-      { "id": "l403", "label": "High", "color": "#e2445c" }
+      { "id": "l201", "label": "Low", "color": "#0086c0" },
+      { "id": "l202", "label": "Medium", "color": "#fdab3d" },
+      { "id": "l203", "label": "High", "color": "#e2445c" }
     ],
     "members": [
-      {
-        "_id": "u103",
-        "fullname": "Alex Smith",
-        "imgUrl": "https://example.com/img1.jpg"
-      },
-      {
-        "_id": "u104",
-        "fullname": "Jamie Lane",
-        "imgUrl": "https://example.com/img2.jpg"
-      }
+      { "_id": "u100", "name": "Doron test" },
+      { "_id": "u101", "name": "Gil test" },
+      { "_id": "u102", "name": "Mira test" }
     ],
     "groups": [
       {

@@ -77,12 +77,39 @@ async function save(board) {
       board.cmpOrder = board.cmpOrder || ["side", "taskTitle", "status", "priority", "date", "members"] 
       board.groups = []
       board.activities = []
+      
+      board.statuses = getInitialStatuses();
+      board.priorities = getInitialPriorities();
+      board.members = getInitialMembers();
       return await storageService.post(STORAGE_KEY, board)
     }
   } catch (err) {
     console.error('Cannot save board:', err)
     throw err
   }
+}
+function getInitialStatuses() {
+  return [
+      { "id": "l101", "label": "Done", "color": "#00c875" },
+      { "id": "l102", "label": "Progress", "color": "#0086c0" },
+      { "id": "l103", "label": "Stuck", "color": "#e2445c" },
+      { "id": "l104", "label": "Working on it", "color": "#fdab3d" },
+      { "id": "l105", "label": "Not started", "color": "#c4c4c4" }
+    ];
+}
+function getInitialPriorities() {
+  return [
+      { "id": "l201", "label": "Low", "color": "#0086c0" },
+      { "id": "l202", "label": "Medium", "color": "#fdab3d" },
+      { "id": "l203", "label": "High", "color": "#e2445c" }
+    ];
+}
+function getInitialMembers() {
+  return [
+      { "_id": "u100", "name": "Doron test" },
+      { "_id": "u101", "name": "Gil test" },
+      { "_id": "u102", "name": "Mira test" }
+    ];
 }
 
 
