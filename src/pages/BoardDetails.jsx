@@ -19,13 +19,18 @@ export function BoardDetails() {
   const filterBy = useSelector(state => state.boardModule.filterBy);
   const isDev = useSelector(storeState => storeState.devToolModule.isDev)
   const { boardId } = useParams();
-  
+  const [labels,setLabels] = useState(null)//labels represent cmpOrders
+
 
 
 
   useEffect(() => {
         console.log('filterBy changed', filterBy);
-        setFilteredBoard(boardActions.filterBoard(board, filterBy));
+        if (board) {
+          setFilteredBoard(boardActions.filterBoard(board, filterBy));
+          setLabels(board?.cmpOrder)
+        }
+        
     }, [filterBy, board]); // Ensure board is a dependency as well
 
     useEffect(() => {
@@ -37,20 +42,6 @@ export function BoardDetails() {
             })
             .catch((err) => console.error("Error fetching board:", err));
     }, [boardId]);
-  // useEffectUpdate(() => {
-  //   console.log('filterBy changed',filterBy)
-  //   setFilteredBoard(boardActions.filterBoard(board, filterBy))
-  // },[filterBy])
-
-  // useEffect(() => {
-  //   loadBoardById(boardId)
-  //     .then(loadedBoard => {
-  //       console.log("Board loaded:", loadedBoard);
-  //       //setFilteredBoard(board)
-  //     })
-  //     .catch((err) => console.error("Error fetching board:", err));
-  // }, [boardId]);
-
 
   function toggleSelectedTask(groupId, taskId) {
     console.log(groupId, taskId);
@@ -102,18 +93,10 @@ export function BoardDetails() {
   }
 
   const uid = () => Math.random().toString(36).slice(2);
-  //todo: change the orders. take dynamic instead of static
-  const labels = [null, "task", "status", "priority", "date", "members"];
+
   const progress = [null, null, "status", "priority", null, "date"];
 
-  //   if (!board)
-  //     return (
-  //       <>
-  //         <h1>Loading... </h1>{" "}
-  //       </>
-  //     );
 
-  //const boardToDisplay = boardActions.filterBoard(board, filterBy)
 
   return (
     <div className="board-details">

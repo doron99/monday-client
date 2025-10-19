@@ -101,5 +101,5 @@ export function TaskTitle({ info, onTaskUpdate,taskId,commentsLength }) {
 }
 const styles = {
   buttonWithComments:{width:'1.6rem',height:'1.6rem',color: '#0073ea'},
-  buttonWithoutComments:{width:'1.4rem',height:'1.4rem',color: '#black'},
+  buttonWithoutComments:{width:'1.6rem',height:'1.6rem',color: '#black'},
 }
