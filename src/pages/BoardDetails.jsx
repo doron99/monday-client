@@ -6,12 +6,15 @@ import { makeId, getRandomColor } from "../services/util.service.js";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
 import { updateBoard, loadBoardById } from "../store/actions/board.actions.js";
+import { boardActions } from "../store/actions/board.actions.js";
 
 export function BoardDetails() {
   const [selectedTasks, setSelectedTasks] = useState([]);
   const board = useSelector(state => {
     return state.boardModule.selectedBoard;
   });
+  const filterBy = useSelector(state => state.boardModule.filterBy);
+  const isDev = useSelector(storeState => storeState.devToolModule.isDev)
   const { boardId } = useParams();
   
   useEffect(() => {
@@ -83,14 +86,17 @@ export function BoardDetails() {
   //       </>
   //     );
 
+  const boardToDisplay = boardActions.filterBoard(board, filterBy)
+
   return (
     <div className="board-details">
+      {isDev && JSON.stringify(filterBy,null,2)}
       <div style={{display:'flex'}}>
         <div style={{display:'flex',flexDirection:'column',width:'100%'}}>
           <BoardHeader />
           <section className="group-list">
-            {board &&
-              board.groups.map((group) => (
+            {boardToDisplay &&
+              boardToDisplay.groups.map((group) => (
                 <GroupPreview
                   group={group}
                   labels={labels}
