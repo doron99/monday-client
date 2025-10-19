@@ -45,23 +45,30 @@ export function BoardFilter({ onToggleFilter }) {
       {!isOpen && (
         <MagnifyingGlassIcon
           style={{ width: "16px", height: "16px" }}
-          className="icon search-icon"
+          className="search-icon"
           onClick={toggleFilter}
           title="Search boards"
         />
       )}
 
       {isOpen && (
-        <div className="filter-input-container">
-          <input
-            autoFocus
-            type="search"
-            name="txt"
-            placeholder="Search boards..."
-            value={filterByToEdit.txt || ""}
-            onChange={handleChange}
-          />
-          <MagnifyingGlassIcon style={{ width: "16px", height: "16px" }} className="icon search-icon inside" onClick={toggleFilter} />
+        <div className="filter-wrapper">
+          <div className="filter-input-container">
+            <input
+              className="filter-input"
+              autoFocus
+              type="search"
+              name="txt"
+              placeholder="Search boards..."
+              value={filterByToEdit.txt || ""}
+              onChange={handleChange}
+            />
+            <MagnifyingGlassIcon
+              style={{ width: "16px", height: "16px" }}
+              className="search-icon inside"
+              onClick={toggleFilter}
+            />
+          </div>
         </div>
       )}
     </section>
