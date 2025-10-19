@@ -306,6 +306,7 @@
   border-radius: 4px;
   transition: all 0.2s ease;
   width: 100%;
+  margin-left:5px
 }
 
 .grid-item.taskTitle input:focus,
