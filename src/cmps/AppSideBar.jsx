@@ -82,7 +82,6 @@ async function onAddBoard() {
     if (!confirmDelete) return
 
     await removeBoard(boardId)
-    await loadBoards()
     await loadFavorites()
 
     if (location.pathname.includes(`/board/${boardId}`)) {

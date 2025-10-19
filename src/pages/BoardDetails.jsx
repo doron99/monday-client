@@ -6,7 +6,6 @@ import { makeId, getRandomColor } from "../services/util.service.js";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
 import { updateBoard, loadBoardById } from "../store/actions/board.actions.js";
-import { boardActions } from "../store/actions/board.actions.js";
 
 export function BoardDetails() {
   const [selectedTasks, setSelectedTasks] = useState([]);
@@ -24,6 +23,40 @@ export function BoardDetails() {
       })
       .catch((err) => console.error("Error fetching board:", err));
   }, [boardId]);
+
+  function filterBoard(board, filterBy) {
+  if (!board) return null
+  let filteredGroups = board.groups
+
+  if (filterBy.txt) {
+    const txt = filterBy.txt.toLowerCase()
+    filteredGroups = filteredGroups.map(group => ({
+      ...group,
+      tasks: group.tasks.filter(task =>
+        Object.values(task).some(
+          value => typeof value === "string" && value.toLowerCase().includes(txt)
+        )
+      ),
+    }))
+  }
+
+  if (filterBy.members && filterBy.members.length > 0) {
+    filteredGroups = filteredGroups.map(group => ({
+      ...group,
+      tasks: group.tasks.filter(task =>
+        task.members?.some(member =>
+          typeof member === "string"
+            ? filterBy.members.includes(member)
+            : filterBy.members.includes(member._id)
+        )
+      ),
+    }))
+  }
+
+  filteredGroups = filteredGroups.filter(g => g.tasks.length > 0)
+
+  return { ...board, groups: filteredGroups }
+}
 
 
   function toggleSelectedTask(groupId, taskId) {
@@ -86,14 +119,14 @@ export function BoardDetails() {
   //       </>
   //     );
 
-  const boardToDisplay = boardActions.filterBoard(board, filterBy)
+  const boardToDisplay = filterBoard(board, filterBy)
 
   return (
     <div className="board-details">
       {isDev && JSON.stringify(filterBy,null,2)}
       <div style={{display:'flex'}}>
         <div style={{display:'flex',flexDirection:'column',width:'100%'}}>
-          <BoardHeader />
+          <BoardHeader boardName={board?.title} />
           <section className="group-list">
             {boardToDisplay &&
               boardToDisplay.groups.map((group) => (
