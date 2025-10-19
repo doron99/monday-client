@@ -1,7 +1,10 @@
-export function BoardHeader() {
+import { BoardFiltersBar } from "./filters/BoardFiltersBar";
+
+export const BoardHeader = ({ boardName = "My Board" }) => {
   return (
-    <header>
-      <h2>Board header</h2>
+    <header className="board-header">
+      <h1 className="board-title">{boardName}</h1>
+      <BoardFiltersBar />
     </header>
   );
-}
+};

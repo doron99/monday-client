@@ -23,6 +23,10 @@
 @import 'cmps/ContextMenu.css';
 @import 'cmps/GroupMenu.css';
 @import 'cmps/filteers/BoardFilter.css';
+@import 'cmps/filteers/BoardFiltersBar.css';
+@import 'cmps/filteers/FilterPopper.css';
+@import 'cmps/filteers/PopperContentPerson.css';
+@import 'cmps/BoardHeader.css';
 @import 'cmps/TaskDetails.css';
 
 
