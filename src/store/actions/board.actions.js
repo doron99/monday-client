@@ -132,6 +132,9 @@ export function setActiveBoard(board) {
 
 
 function filterBoard(board, filterBy) {
+  console.log(
+    'board, filterBy',board, filterBy
+  )
   if (!board) return null
   let filteredGroups = board.groups
 
@@ -160,7 +163,12 @@ function filterBoard(board, filterBy) {
     }))
   }
 
-  filteredGroups = filteredGroups.filter(g => g.tasks.length > 0)
+  // If no filters are applied (no text and no members), keep all groups
+  const hasActiveFilter = Boolean(filterBy.txt) || (filterBy.members && filterBy.members.length > 0)
+
+  if (hasActiveFilter) {
+    filteredGroups = filteredGroups.filter(g => g.tasks.length > 0)
+  }
 
   return { ...board, groups: filteredGroups }
 }

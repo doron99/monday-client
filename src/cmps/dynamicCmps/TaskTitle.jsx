@@ -25,17 +25,32 @@ export function TaskTitle({ info, onTaskUpdate,taskId,commentsLength }) {
 
   // Handle input value changes
   const handleChange = (ev) => {
-    setInputValue(ev.target.value); // Update local state
+    setInputValue(ev.target.value);//textContent); // Update local state
   };
 
   // Handle when the input loses focus
   const handleBlur = () => {
-    const trimmedValue = inputValue.trim();
+    console.log('handleBlur',inputValue,'prevValue',prevValue,'info',info ? info : 'no info')
+    const trimmedValue = inputValue;//inputValue.trim();
     if (trimmedValue !== prevValue) { // Check if the value has changed
+      if (trimmedValue == ''){
+        return;
+      }
       onTaskUpdate({ key: "taskTitle", value: trimmedValue });
       setPrevValue(trimmedValue); // Update the previous value after the update
+      // If this was a newly-added empty prev value (adding new item), clear the input
+      if (!prevValue || !info) {
+        setInputValue('')
+      }
     }
   };
+  const handleKeyDown = (ev) => {
+    if (ev.key === "Enter") {
+      ev.preventDefault();
+      ev.target.blur();
+    }
+  };
+ 
 
   return (
     <>
@@ -43,8 +58,10 @@ export function TaskTitle({ info, onTaskUpdate,taskId,commentsLength }) {
       className='task-title'
       type="text"
       value={inputValue} // Controlled input
-      onChange={handleChange} // Update state as user types
-      onBlur={handleBlur} // Call update function on blur
+      onChange={(ev) => handleChange(ev)} // Update state as user types
+      onBlur={(ev) => handleBlur(ev)} // Call update function on blur
+      onKeyDown={(ev) => handleKeyDown(ev)}
+
       placeholder="Add new..." // Optional placeholder text
       style={{
         width: '200px', // Adjust width as needed
@@ -52,6 +69,22 @@ export function TaskTitle({ info, onTaskUpdate,taskId,commentsLength }) {
         padding: '5px', // Optional: add padding
       }}
     />
+    {/* <span
+        className="task-title "
+        suppressContentEditableWarning
+        contentEditable
+        onBlur={(ev) => handleBlur(ev)} // Call update function on blur
+        onInput={(ev) => handleChange(ev)} // Update state as user types
+        style={{
+            width: '200px', // This may not work as expected on span
+            border: '1px solid gray', // Optional: add border styling
+            padding: '5px', // Optional: add padding
+            display: 'inline-block', // Ensures the width and height are respected
+        }}
+    >
+        {info} 
+    </span> */}
+
     {taskId &&<div className='task-details-link' onClick={() => handleNavigateToTask()} 
     >
       {commentsLength > 0 

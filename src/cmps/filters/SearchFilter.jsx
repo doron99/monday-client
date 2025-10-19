@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from "../../store/actions/board.actions";
+import { utilService } from "../../services/util.service";
 
 export const SearchFilter = () => {
   const filterBy = useSelector(state => state.boardModule.filterBy);
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
 
+  const onSetFilterByDebounce = useRef(utilService.debounce(setFilter, 500)).current
+
+
   useEffect(() => {
-    setFilter(filterByToEdit)
+    onSetFilterByDebounce(filterByToEdit)
+        return () => { }
   }, [filterByToEdit]);
 
   function handleChange(ev) {
