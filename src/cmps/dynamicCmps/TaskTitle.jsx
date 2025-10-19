@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { HiOutlineChatBubbleOvalLeftEllipsis } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
 import { useParams, Outlet } from "react-router";
+import { useSelector } from 'react-redux';
+import { useEffectUpdate } from '../customHooks/useEffectUpdate';
+import { LuMessageCircle, LuMessageCirclePlus } from 'react-icons/lu';
 
-export function TaskTitle({ info, onTaskUpdate,taskId }) {
+export function TaskTitle({ info, onTaskUpdate,taskId,commentsLength }) {
   // Local state to manage input value
   const [inputValue, setInputValue] = useState(info);
   const [prevValue, setPrevValue] = useState(info); // Track the previous value
   const navigate = useNavigate();
+
+
   const {boardId} = useParams();
   const handleNavigateToTask = () => {
       navigate(`/board/${boardId}/task/${taskId}`);
@@ -47,7 +52,21 @@ export function TaskTitle({ info, onTaskUpdate,taskId }) {
         padding: '5px', // Optional: add padding
       }}
     />
-    <HiOutlineChatBubbleOvalLeftEllipsis onClick={() => handleNavigateToTask()} style={{width:'1.4rem',height:'1.4rem'}}/> 
+    {taskId &&<div className='task-details-link' onClick={() => handleNavigateToTask()} 
+    >
+      {commentsLength > 0 
+      ? <div style={{display:'flex',marginLeft:'15px'}}><LuMessageCircle 
+          style={styles.buttonWithComments} />
+          <span className=''>{commentsLength}</span>
+        </div>
+      : <div style={{display:'flex',marginLeft:'15px'}}><LuMessageCirclePlus style={styles.buttonWithoutComments} /></div>
+      }
+ 
+      </div>}
     </>
   );
+}
+const styles = {
+  buttonWithComments:{width:'1.6rem',height:'1.6rem',color: '#0073ea'},
+  buttonWithoutComments:{width:'1.4rem',height:'1.4rem',color: '#black'},
 }

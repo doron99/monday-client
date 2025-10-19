@@ -37,6 +37,46 @@ input.task-title:focus {
   transform: scale(1.03);
 }
 
+.update-count {
+    /* position: absolute; */
+    right: -8px;
+    bottom: -6px;
+    line-height: 9px;
+    font-size: .625rem;
+    padding: 1px 3px;
+    border-radius: 10px;
+    background-color: #0073ea;
+    color: #fff;
+}
+.grid-item.taskTitle span {
+    position: absolute;
+    display: block;
+    right: -8px;
+    bottom: 3px;
+    line-height: 3px;
+    font-size: .6rem;
+    padding: 0.45rem 0.45rem;
+    border-radius: 10px;
+    background-color: #0073ea;
+    color: #fff;
+    width: auto;
+    cursor: pointer;
+    
+}
+.task-details-link {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+.task-details-link:hover {
+
+    /*background-color: rgba(0, 0, 0, 0.1);  Light background on hover */
+    /*transform: scale(1.05);  Slightly increase size */
+    /*box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);  Add a shadow */
+
+}
+
+
+
 @keyframes fadeIn {
   from {
     opacity: 0;

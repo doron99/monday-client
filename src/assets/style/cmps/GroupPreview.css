@@ -159,7 +159,7 @@
 /* Labels Grid - Table Header */
 .labels-grid {
   display: grid;
-  grid-template-columns: 40px 3fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 40px 2fr 1fr 1fr 1fr 1fr 1fr;
   border-bottom: 1px solid #e6e9ef;
   font-size: 11px;
   font-weight: 500;
@@ -186,7 +186,7 @@
 /* Task Grid - Table Rows */
 .group.grid {
   display: grid;
-  grid-template-columns: 40px 3fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 40px 2fr 1fr 1fr 1fr 1fr 1fr;
   border-bottom: 1px solid #e6e9ef;
   transition: all 0.2s ease;
 }
@@ -226,7 +226,7 @@
 /* Progress Grid - Summary Row */
 .progress-grid {
   display: grid;
-  grid-template-columns: 40px 3fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 40px 2fr 1fr 1fr 1fr 1fr 1fr;
   font-size: 12px;
 }
 
@@ -287,7 +287,10 @@
   font-size: 11px;
   font-weight: bold;
 }
-
+.grid-item.taskTitle {
+  display: flex;
+  justify-content: space-between;
+}
 /* Task Title */
 .grid-item.taskTitle input,
 .grid-item.taskTitle [contentEditable],
@@ -310,7 +313,14 @@
   background: #f8f9fb;
   outline: 1px solid #323338;
 }
-
+.task-details-link{
+  margin-right:20px;
+  border-inline-start: 1px solid rgb(208, 212, 228);
+  position:relative;
+  align-self: stretch;
+  display:flex;
+  align-items:center;
+}
 /* Responsive Design */
 @media (max-width: 1400px) {
   .labels-grid,

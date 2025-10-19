@@ -103,10 +103,11 @@ export function GroupPreview({
           "id": utilService.makeId(),
           "side": "right",
           "taskTitle": updatedInfo.value,
-          "status": "Not Started",
-          "priority": "low",
+          "status": "Not started",
+          "priority": "Low",
           "members": [],
           "date": null,
+          "comments":[]
         };
       const taskArr = [...board.groups.find(g => g.id === group.id).tasks, newTask];
       updateBoard(group.id, null, {key: 'tasks', value: taskArr});
@@ -211,6 +212,8 @@ const gridItemStyle = {
 
         <SortableContext items={cmpOrder} strategy={horizontalListSortingStrategy}>
           <section className="labels-grid">
+                        {/* {JSON.stringify(cmpOrder,null,2)} */}
+
             {cmpOrder.map((cmpName, index) => (
               <DraggableCmpHeader key={cmpName} id={cmpName}>
                 {labels[index] || cmpName}
@@ -226,12 +229,16 @@ const gridItemStyle = {
         {/* Render tasks based on the current cmpOrder */}
         {group.tasks.map((task) => (
           <section className="group grid" key={`task-${task.id}`}>
+            {/* //group.tasks[task.id].comments.length */}
+                {/* <pre>{JSON.stringify(group.tasks.find(t => t.id == task.id).comments.length,null,2)}</pre> */}
             {cmpOrder.map((cmp, idx) => (
               <section 
                 className={`grid-item ${cmp}`}
                 key={`task-${task.id}-cmp-${idx}`}
               >
+                
                 <DynamicCmp
+                  commentsLength={group.tasks.find(t => t.id == task.id).comments.length}
                   cmpType={cmp}
                   info={task[cmp]}
                   selectedTasks={selectedTasks}
@@ -301,7 +308,7 @@ const gridItemStyle = {
   );
 }
 
-const DynamicCmp = ({ cmpType, info, onTaskUpdate,content, selectedTasks, taskId }) => {
+const DynamicCmp = ({ cmpType, info, onTaskUpdate,content, selectedTasks, taskId,commentsLength }) => {
 
   switch (cmpType) {
     case "side":
@@ -316,7 +323,7 @@ const DynamicCmp = ({ cmpType, info, onTaskUpdate,content, selectedTasks, taskId
     case "priority":
       return <Priority info={info} content={{...content,priority:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
     case "taskTitle":
-      return <TaskTitle info={info} onTaskUpdate={onTaskUpdate} taskId={taskId} />;
+      return <TaskTitle info={info} onTaskUpdate={onTaskUpdate} taskId={taskId} commentsLength={commentsLength}/>;
     case "status":
       return <Status info={info} content={{...content,status:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
     case "members":
