@@ -1,0 +1,14 @@
+.board-header {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 16px 24px;
+  gap: 12px;
+}
+
+.board-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+}

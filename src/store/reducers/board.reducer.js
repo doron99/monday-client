@@ -11,7 +11,7 @@ const initialState = {
   boards: [],
   selectedBoard: null,
   favorites: [],
-  filterBy: { txt: '', isStarred: false },
+  filterBy: { txt: '', isStarred: false, members: [] },
   isLoading: false,
 }
 
