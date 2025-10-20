@@ -8,7 +8,7 @@ import {setDev} from '../store/actions/dev-tool.actions.js'
 import {useState} from 'react'
 import { CiSearch } from "react-icons/ci";
 import { IoIosNotifications } from "react-icons/io";
-import { BellIcon, MagnifyingGlassIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { BellIcon, MagnifyingGlassIcon, QuestionMarkCircleIcon, UserCircleIcon, UserPlusIcon } from '@heroicons/react/24/outline'
 
 export function AppHeader() {
     const dispatch = useDispatch()
@@ -57,13 +57,24 @@ export function AppHeader() {
              
 
             <section className="header-container" >
-                <h5>Monday</h5>
+                <div className="monday-brand">
+                    <span className="monday-logo">
+                        <svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="4" cy="4" r="4" fill="#6161ff"/>
+                            <circle cx="16" cy="4" r="4" fill="#6161ff"/>  
+                            <circle cx="10" cy="16" r="4" fill="#6161ff"/>
+                        </svg>
+                    </span>
+                    <span className="brand-text">monday</span>
+                    <span className="work-management">work management</span>
+                </div>
                 <nav className="app-nav">
                     <MagnifyingGlassIcon className='navbarIcon' style={styles.navbarIconStyle}/>
                     <BellIcon className='navbarIcon' style={styles.navbarIconStyle}/>
-                    <UserCircleIcon className='navbarIcon' style={styles.navbarIconStyle}/>
-                    <CiSearch className='navbarIcon' onClick={() => console.log('test')} style={styles.navbarIconStyle}/>
-                    <IoIosNotifications className='navbarIcon' onClick={() => openUpdateModal()} style={styles.navbarIconStyle}/>
+                    <UserPlusIcon className='navbarIcon' style={styles.navbarIconStyle}/>
+                    <QuestionMarkCircleIcon className='navbarIcon' style={styles.navbarIconStyle}/>
+                    {/* <CiSearch className='navbarIcon' onClick={() => console.log('test')} style={styles.navbarIconStyle}/> */}
+                    {/* <IoIosNotifications className='navbarIcon' onClick={() => openUpdateModal()} style={styles.navbarIconStyle}/> */}
                 {ismodalOpen && (
         <div className="priority-modal">
             asdasdasda <button type='button' onClick={() => setIsModalOpen(false)}>close</button>
@@ -87,5 +98,5 @@ export function AppHeader() {
     )
 }
 const styles = {
-    navbarIconStyle: {width: '100%', height: '1.6rem',marginLeft:'1rem'}
+    navbarIconStyle: {width: '100%', height: '1.4rem',marginLeft:'1rem'}
 }

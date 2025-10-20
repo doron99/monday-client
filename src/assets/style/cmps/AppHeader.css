@@ -1,23 +1,53 @@
-.app-header {
+/* .app-header {
     background-color: var(--clr1);
-    /* color: var(--clr1bg); */
     background:#e2f0e7
-    
-}
+} */
+
 .app-header h5,svg {
     color:black;
 }
+
+.monday-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.monday-logo {
+    display: flex;
+    align-items: center;
+}
+
+.brand-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #323338;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.work-management {
+    font-size: 18px;
+    font-weight: 400;
+    color: #676879;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
 .header-container {
     display: flex;
     align-items: center;
-    background:var(--clr1bg);
+    /* background:var(--clr1bg); */
+    background: #edf1fc; /*taken from real monday*/
     position: fixed;
     left: 0;
     top: 0;
     z-index: 1000;
-    width:100%;
-    padding-right:15px;
-    padding-left:15px;
+    width: 100%;
+    height: 50px;
+    padding-right: 25px;
+    padding-left: 25px;
+    box-sizing: border-box;
 
 }
 .header-container h5{
