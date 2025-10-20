@@ -7,12 +7,15 @@
   text-align: center;
 }
 .task-title {
-        border: 1px solid transparent; /* No border initially */
-        transition: border-color 0.3s; /* Smooth transition for border */
+        border: none; /* Remove all borders initially */
+        background-color: transparent; /* Transparent background */
+        transition: border 0.3s ease; /* Smooth transition for border */
     }
     
-    .task-title:hover {
-        border: 1px solid gray; /* Border appears on hover */
+    .task-title:hover,
+    .task-title:focus {
+        border: 1px solid gray; /* Border appears on hover and focus */
+        outline: none; /* Remove default focus outline */
     }
 
 .task-dropdown-item {
@@ -74,13 +77,6 @@
 .task-details-link {
     transition: background-color 0.3s ease, transform 0.3s ease;
     cursor: pointer;
-}
-.task-details-link:hover {
-
-    /*background-color: rgba(0, 0, 0, 0.1);  Light background on hover */
-    /*transform: scale(1.05);  Slightly increase size */
-    /*box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);  Add a shadow */
-
 }
 
 
