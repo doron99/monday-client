@@ -18,7 +18,7 @@ export function BoardPreview({boardPreview,toggleStar}) {
             <div className='board-preview-details'>
                 <div className='board-preview-details-left'>
                     <LuPanelLeft style={styles.constSize}/>
-                    <span style={styles.boardNameStyle}>{boardPreview.name}</span>
+                    <span style={styles.boardNameStyle}>{boardPreview.title}</span>
                 </div>
                 <div style={{zIndex:'3'}}
                     onClick={() => toggleStarInner(boardPreview.id)} 
