@@ -11,6 +11,7 @@ import {useState} from 'react'
 // const { useSelector, useDispatch } = ReactRedux
 import { CiSearch } from "react-icons/ci";
 import { IoIosNotifications } from "react-icons/io";
+import { BellIcon, MagnifyingGlassIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 
 export function AppHeader() {
     const dispatch = useDispatch()
@@ -66,8 +67,11 @@ export function AppHeader() {
             <section className="header-container" >
                 <h5>Monday</h5>
                 <nav className="app-nav">
-                    <CiSearch onClick={() => console.log('test')} style={{width: '100%', height: '2rem'}}/>
-                    <IoIosNotifications onClick={() => openUpdateModal()} style={{width: '100%', height: '2rem'}}/>
+                    <MagnifyingGlassIcon className='navbarIcon' style={styles.navbarIconStyle}/>
+                    <BellIcon className='navbarIcon' style={styles.navbarIconStyle}/>
+                    <UserCircleIcon className='navbarIcon' style={styles.navbarIconStyle}/>
+                    <CiSearch className='navbarIcon' onClick={() => console.log('test')} style={styles.navbarIconStyle}/>
+                    <IoIosNotifications className='navbarIcon' onClick={() => openUpdateModal()} style={styles.navbarIconStyle}/>
                 {ismodalOpen && (
         <div className="priority-modal">
             asdasdasda <button type='button' onClick={() => setIsModalOpen(false)}>close</button>
@@ -77,20 +81,22 @@ export function AppHeader() {
         </div>
       )}
                 </nav>
-                {user ? (
-                < section >
-                    <span to={`/user/${user._id}`}>Hello {user.fullname} <span>${user.score.toLocaleString()}</span></span>
-                    <button onClick={onLogout}>Logout</button>
-                </ section >
+                {/* {user ? (
+                // < section >
+                //     <span to={`/user/${user._id}`}>Hello {user.fullname} <span>${user.score.toLocaleString()}</span></span>
+                //     <button onClick={onLogout}>Logout</button>
+                // </ section >
             ) : (
-                <section>
-                    loginsignup
-                    {/* <LoginSignup /> */}
-                </section>
-            )}
+                // <section>
+                //     loginsignup
+                // </section>
+            )} */}
             </section>
             
             <UserMsg />
         </header>
     )
+}
+const styles = {
+    navbarIconStyle: {width: '100%', height: '1.6rem',marginLeft:'1rem'}
 }
