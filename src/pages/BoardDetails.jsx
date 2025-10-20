@@ -16,7 +16,7 @@ export function BoardDetails() {
   const filterBy = useSelector(state => state.boardModule.filterBy);
   const isDev = useSelector(storeState => storeState.devToolModule.isDev)
   const { boardId } = useParams();
-  
+
   useEffect(() => {
     loadBoardById(boardId)
       .then(loadedBoard => {
@@ -99,7 +99,7 @@ export function BoardDetails() {
               boardToDisplay.groups.map((group) => (
                 <GroupPreview
                   group={group}
-                  labels={labels}
+                  labels={board.cmpOrder}
                   cmpOrder={board.cmpOrder}
                   progress={progress}
                   toggleSelectedTask={toggleSelectedTask}
