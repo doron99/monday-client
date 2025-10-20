@@ -10,7 +10,7 @@
 .header-container {
     display: flex;
     align-items: center;
-    background:#edeff8;
+    background:var(--clr1bg);
     position: fixed;
     left: 0;
     top: 0;
