@@ -7,41 +7,24 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
 import { updateBoard, loadBoardById } from "../store/actions/board.actions.js";
 import { boardActions } from "../store/actions/board.actions.js";
-import { useEffectUpdate } from "../cmps/customHooks/useEffectUpdate.js";
 
 export function BoardDetails() {
   const [selectedTasks, setSelectedTasks] = useState([]);
-  const [filteredBoard,setFilteredBoard] = useState(null)
   const board = useSelector(state => {
-    //doron fix:
     return state.boardModule.selectedBoard;
   });
   const filterBy = useSelector(state => state.boardModule.filterBy);
   const isDev = useSelector(storeState => storeState.devToolModule.isDev)
   const { boardId } = useParams();
-  const [labels,setLabels] = useState(null)//labels represent cmpOrders
-
-
-
-
+  
   useEffect(() => {
-        console.log('filterBy changed', filterBy);
-        if (board) {
-          setFilteredBoard(boardActions.filterBoard(board, filterBy));
-          setLabels(board?.cmpOrder)
-        }
-        
-    }, [filterBy, board]); // Ensure board is a dependency as well
+    loadBoardById(boardId)
+      .then(loadedBoard => {
+        console.log("Board loaded:", loadedBoard);
+      })
+      .catch((err) => console.error("Error fetching board:", err));
+  }, [boardId]);
 
-    useEffect(() => {
-        loadBoardById(boardId)
-            .then((loadedBoard) => {
-                console.log("Board loaded:", loadedBoard);
-                // Assuming you want to directly set the board here after loading
-                setFilteredBoard(loadedBoard); // Set loaded board instead of just logging
-            })
-            .catch((err) => console.error("Error fetching board:", err));
-    }, [boardId]);
 
   function toggleSelectedTask(groupId, taskId) {
     console.log(groupId, taskId);
@@ -93,31 +76,37 @@ export function BoardDetails() {
   }
 
   const uid = () => Math.random().toString(36).slice(2);
-
+  const labels = [null, "task", "status", "priority", "date", "members"];
   const progress = [null, null, "status", "priority", null, "date"];
 
+  //   if (!board)
+  //     return (
+  //       <>
+  //         <h1>Loading... </h1>{" "}
+  //       </>
+  //     );
 
+  const boardToDisplay = boardActions.filterBoard(board, filterBy)
 
   return (
     <div className="board-details">
-      {isDev && <pre>{JSON.stringify(board.groups,null,2)}</pre>}
+      {isDev && JSON.stringify(filterBy,null,2)}
       <div style={{display:'flex'}}>
         <div style={{display:'flex',flexDirection:'column',width:'100%'}}>
           <BoardHeader />
           <section className="group-list">
-            {filteredBoard &&
-              filteredBoard.groups.map((group) => (
-                <div key={group.id}>
-                  <GroupPreview
-                    group={group}
-                    labels={labels}
-                    cmpOrder={filteredBoard.cmpOrder}
-                    progress={progress}
-                    toggleSelectedTask={toggleSelectedTask}
-                    selectedTasks={selectedTasks}
-                    board={filteredBoard}
-                  />
-                </div>
+            {boardToDisplay &&
+              boardToDisplay.groups.map((group) => (
+                <GroupPreview
+                  group={group}
+                  labels={labels}
+                  cmpOrder={board.cmpOrder}
+                  progress={progress}
+                  toggleSelectedTask={toggleSelectedTask}
+                  selectedTasks={selectedTasks}
+                  board={board} // ask tal 
+                  key={uid()}
+                />
               ))}
             <div className="add-group-section">
               <button className="add-group-btn" onClick={addNewGroup}>
