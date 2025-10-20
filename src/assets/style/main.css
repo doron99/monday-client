@@ -39,6 +39,8 @@
 @import 'cmps/Members.css';
 @import 'cmps/Task.css';
 @import 'cmps/priority.css';
+@import 'cmps/TaskSelectedModal.css';
+@import 'cmps/DeleteConfirmationModal.css';
 
 
 /* Layouts */
