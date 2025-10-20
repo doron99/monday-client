@@ -176,7 +176,7 @@
   align-items: center;
   border-right: 1px solid #e6e9ef;
   transition: background-color 0.2s ease;
-  min-height: 32px;
+  min-height: 28px;
 }
 
 .labels-grid > div:hover {
@@ -201,7 +201,7 @@
   display: flex;
   align-items: center;
   border-right: 1px solid #e6e9ef;
-  min-height: 40px;
+  min-height: 32px;
   transition: all 0.2s ease;
   position: relative;
 }
@@ -236,7 +236,7 @@
   align-items: center;
   justify-content: center;
   border-right: 1px solid #e6e9ef;
-  min-height: 32px;
+  min-height: 28px;
 }
 
 .progress-grid .with-status,

@@ -65,8 +65,7 @@ export function TaskTitle({ info, onTaskUpdate,taskId,commentsLength }) {
       placeholder="Add new..." // Optional placeholder text
       style={{
         width: '200px', // Adjust width as needed
-        border: '1px solid gray', // Optional: add border styling
-        padding: '5px', // Optional: add padding
+        padding: '2px 5px', // Reduced padding for smaller height
       }}
     />
     {/* <span
@@ -101,5 +100,5 @@ export function TaskTitle({ info, onTaskUpdate,taskId,commentsLength }) {
 }
 const styles = {
   buttonWithComments:{width:'1.6rem',height:'1.6rem',color: '#0073ea'},
-  buttonWithoutComments:{width:'1.6rem',height:'1.6rem',color: '#black'},
+  buttonWithoutComments:{width:'1.6rem',height:'1.6rem',color: '#676879'},
 }
