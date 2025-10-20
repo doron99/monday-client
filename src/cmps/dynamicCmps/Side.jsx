@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
-// import { useEffect } from "react/cjs/react.production.min";
 
 export function Side({ onTaskUpdate, selectedTasks, taskId }) {
-  // Memoized value: Checks if the current task is in the selected tasks
-  const [isChecked, setIsChecked] = useState(selectedTasks.includes(taskId));
+  // Check if the current task is in the selected tasks array (which contains objects)
+  const isTaskSelected = selectedTasks ? selectedTasks.some(selectedTask => selectedTask.taskId === taskId) : false;
+  const [isChecked, setIsChecked] = useState(isTaskSelected);
 
+  // Update checkbox state when selectedTasks changes
   useEffect(() => {
-    //console.log(taskId);
-  }, []);
+    const newIsSelected = selectedTasks ? selectedTasks.some(selectedTask => selectedTask.taskId === taskId) : false;
+    setIsChecked(newIsSelected);
+  }, [selectedTasks, taskId]);
 
   function handleCheckboxChange() {
     setIsChecked(!isChecked);

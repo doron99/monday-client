@@ -1,0 +1,148 @@
+.task-selected-modal {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: auto;
+  min-width: 600px;
+  transition: all 0.3s ease;
+}
+
+.task-selected-modal-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+.task-selected-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.task-count-indicator {
+  background-color: #0073ea;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 24px;
+}
+
+.task-selected-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #323338;
+  white-space: nowrap;
+}
+
+.task-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.task-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 11px;
+  color: #3b3b3f;
+  white-space: nowrap;
+  min-width: 60px;
+}
+
+.task-action-btn:hover {
+  background-color: transparent;
+  color: #0073ea;
+}
+
+.task-action-btn:hover svg {
+  color: #0073ea;
+}
+
+.task-action-btn:active {
+  background-color: #dfe1ed;
+}
+
+.task-action-btn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #676879;
+  transition: color 0.2s ease;
+}
+
+.modal-close-btn {
+  background: transparent;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  margin-left: 12px;
+}
+
+.modal-close-btn:hover {
+  background-color: #e6e9f4;
+}
+
+.modal-close-btn svg {
+  width: 20px;
+  height: 20px;
+  color: #676879;
+}
+
+/* Animation for slide in/out */
+@keyframes slideUp {
+  from {
+    transform: translateX(-50%) translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-50%) translateY(100px);
+    opacity: 0;
+  }
+}
+
+.task-selected-modal.entering {
+  animation: slideUp 0.3s ease forwards;
+}
+
+.task-selected-modal.exiting {
+  animation: slideDown 0.3s ease forwards;
+}
