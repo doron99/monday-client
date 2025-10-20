@@ -256,7 +256,7 @@ const gridItemStyle = {
         <section className="group grid" key={`task-${999}`}>
             <section></section>
             <section
-                className={`grid-item ${999}`}
+                className={`grid-item taskTitle`}
                 key={`task-${999}-cmp-${999}`}
               >
                 <DynamicCmp

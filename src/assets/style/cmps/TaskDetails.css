@@ -73,9 +73,70 @@ form button {
 }
 
 .update-user {
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 
 .update-text {
     margin-top: 5px;
+}
+.tab-bar {
+  display: flex;
+  cursor: pointer;
+  /* margin-bottom: 1rem; */
+}
+
+.tab-bar button {
+  /* flex: 1;
+  padding: 10px;
+  border: none;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  transition: background-color 0.3s; */
+  display: flex
+;
+    justify-content: center;
+    gap: 2px;
+    align-items: center;
+    background-color: #0000;
+    border-radius: 4px;
+    color: #323338;
+    font-weight: 400;
+    position: relative;
+    padding: 8px 14px;
+    margin: 0;
+}
+.tab-bar-hr {
+    content: "";
+    position: relative;
+    right: 0;
+    width: 500px;
+    height: .5px;
+    border-block-end: 1px solid #d1d4e3;
+    margin-bottom: 1rem;
+}
+.tab-bar button.active-tab {
+  /* background-color: #007bff;
+  color: white; */
+}
+.tab-bar button.active-tab::before {
+  content: "";
+    position: absolute;
+    bottom: -1px;
+    width: 100%;
+    height: 2.5px;
+    background-color: #3c72e6;
+}
+.tab-bar button::after {
+      content: "";
+    position: absolute;
+    right: 0;
+    height: 16px;
+    border-inline-end: 1px solid #d1d4e3;
+}
+
+.tab-content {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  width:100%;
 }

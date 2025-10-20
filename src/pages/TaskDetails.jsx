@@ -8,20 +8,21 @@ import { updateBoard } from "../store/actions/board.actions";
 
 export function TaskDetails(){
     const {boardId,taskId} = useParams();
+    const [activeTab, setActiveTab] = useState('updates');
 
     const [rightPosition, setRightPosition] = useState('0');
     const user = useSelector(storeState => storeState.userModule.loggedInUser)
     const selectedBoard = useSelector(state => state.boardModule.selectedBoard);
     const [comments, setComments] = useState(null);
     const [groupId, setGroupId] = useState(null);
-
+    const [taskTitle, setTaskTitle] = useState(null);
     useEffect(() => {
         if (selectedBoard) {
 //get comments
         const groupIdAndTaskId = findGroupAndTaskByTaskId(taskId);
         setGroupId(groupIdAndTaskId.group.id)
         const _comments = groupIdAndTaskId.task.comments;//['tasks'].find(t => t.id == taskId);
-
+        setTaskTitle(groupIdAndTaskId.task.taskTitle)
         // Sort comments by createdAt field in descending order
         const sortedComments = _comments.sort((a, b) => b.createdAt - a.createdAt);
         setComments(sortedComments);
@@ -57,6 +58,9 @@ export function TaskDetails(){
     const handleUpdateChange = (e) => {
         setNewUpdate(e.target.value);
     };
+    const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
 
     const handleUpdateSubmit = (e) => {
         e.preventDefault();
@@ -95,34 +99,66 @@ export function TaskDetails(){
   
     return(
         <div className="task-details-container" style={{ ...styles.mainStyle, right: rightPosition }}>
-            {/* <FaTimes onClick={() => onClickX()}/>
-
-            <br/>
-            Task Details Page */}
+            
             <div><FaTimes  style={{ fontSize: '1.4rem', marginRight: '0.5rem' }} onClick={() => onClickX()}/></div>
-            <h2>Test1</h2>
-            <form className="task-details-form" onSubmit={handleUpdateSubmit}>
-                <input 
-                    type="text" 
-                    value={newUpdate} 
-                    onChange={handleUpdateChange} 
-                    placeholder="Write an update..." 
-                />
-                <button type="submit">Update</button>
-            </form>
-            <div className="updates" style={{width:'100%'}}>
-                {comments && comments.map((comment, index) => (
-                    <div key={index} className="update-item">
-                        <div className="update-user" style={{display:'flex',justifyContent:'space-between',textAlign:'center'}}>
-                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <PiUserCircleThin style={{ fontSize: '1.4rem', marginRight: '0.5rem' }} />
-                                {comment.byMember.name}
-                            </div>
-                            <span className="time">{dateFormat(comment.createdAt)}</span></div>
-                        <div className="update-text">{comment.title}</div>
-                    </div>
-                ))}
+            <h2>{taskTitle}</h2>
+            
+            <div className="tab-bar">
+                <button
+                onClick={() => handleTabClick('updates')}
+                className={activeTab === 'updates' ? 'active-tab' : ''}
+                >
+                Updates
+                </button>
+                <button
+                onClick={() => handleTabClick('activityLog')}
+                className={activeTab === 'activityLog' ? 'active-tab' : ''}
+                >
+                Activity Log
+                </button>
             </div>
+            <div className="tab-bar-hr"></div>
+            
+            <div className="tab-content">
+                {activeTab === 'updates' ? (
+                    <div>
+                        {/*------------------------------ 
+                        ---------------updates-----------
+                        ------------------------------*/}
+                        <form className="task-details-form" onSubmit={handleUpdateSubmit}>
+                            <input 
+                                type="text" 
+                                value={newUpdate} 
+                                onChange={handleUpdateChange} 
+                                placeholder="Write an update..." 
+                            />
+                            <button type="submit">Update</button>
+                        </form>
+                        <div className="updates" style={{width:'100%'}}>
+                            {comments && comments.map((comment, index) => (
+                                <div key={index} className="update-item">
+                                    <div className="update-user" style={{display:'flex',justifyContent:'space-between',textAlign:'center'}}>
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <PiUserCircleThin style={{ fontSize: '1.4rem', marginRight: '0.5rem' }} />
+                                            {comment.byMember.name}
+                                        </div>
+                                        <span className="time">{dateFormat(comment.createdAt)}</span></div>
+                                    <div className="update-text">{comment.title}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                <div>
+                    {/*------------------------------ 
+                    ---------------activity log-----------
+                     ------------------------------*/}
+                    <h3>Activity Log</h3>
+                    <p>No activity logged yet.</p>
+                </div>
+                )}
+            </div>
+            
         </div>
     );
 }
