@@ -36,7 +36,7 @@ export function BoardPreview({boardPreview,toggleStar}) {
     )
 }
 const styles ={
-    constSize:{fontSize: '1.5rem' },
-    boardNameStyle:{fontWeight:'bold',fontSize:'1.5rem', marginLeft:'10px'},
-    selectedStar:{ fontSize: '1.5rem', color: '#ffcb00' }
+    constSize:{fontSize: '1.2rem', color:'#4a4a4a' },
+    boardNameStyle:{fontWeight:'600',fontSize:'1.1rem', marginLeft:'10px', color:'#2d2d2d'},
+    selectedStar:{ fontSize: '1.2rem', color: '#ffcb00' }
 }
