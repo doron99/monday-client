@@ -193,8 +193,6 @@ export function BoardDetails() {
   return (
     <div className="board-details">
       {isDev && JSON.stringify(filterBy,null,2)}
-      <div style={{display:'flex'}}>
-        <div style={{display:'flex',flexDirection:'column',width:'100%'}}>
       <div style={{ display: "flex" }}>
         <div
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
