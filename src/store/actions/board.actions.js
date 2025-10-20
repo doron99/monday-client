@@ -12,6 +12,9 @@ import {
 } from '../reducers/board.reducer.js'
 
 
+export const boardActions = {
+  filterBoard
+}
 export function loadBoards(filterBy) {
   store.dispatch({ type: SET_LOADING, isLoading: true })
   return boardService.query(filterBy)
@@ -130,9 +133,9 @@ export function setActiveBoard(board) {
 
 
 function filterBoard(board, filterBy) {
-  console.log(
-    'board, filterBy',board, filterBy
-  )
+  // console.log(
+  //   'board, filterBy',board, filterBy
+  // )
   if (!board) return null
   let filteredGroups = board.groups
 
