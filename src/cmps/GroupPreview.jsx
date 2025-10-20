@@ -191,6 +191,7 @@ const gridItemStyle = {
             <div className="collapsed-headers">
               {cmpOrder.slice(1).map((cmpName, index) => (
                 <div key={cmpName} className="collapsed-header-item">
+                  
                   {labels[index + 1] || cmpName}
                 </div>
               ))}
@@ -216,7 +217,7 @@ const gridItemStyle = {
 
             {cmpOrder.map((cmpName, index) => (
               <DraggableCmpHeader key={cmpName} id={cmpName}>
-                {labels[index] || cmpName}
+                {index > 0 ? labels[index] || cmpName : ''}
               </DraggableCmpHeader>
             ))}
           </section>
