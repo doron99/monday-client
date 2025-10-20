@@ -1,11 +1,15 @@
 /* main app page layout with sidebar */
 .main-page-layout {
     display: flex;
-    height: 100%;
+    height: 100vh;
     width: 100%;
+    overflow: hidden;
 }
 
 .main-page-layout > div:last-child {
     flex: 1;
     width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }

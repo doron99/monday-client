@@ -45,15 +45,14 @@ export const BoardHeader = ({ board, onUpdateBoard }) => {
   };
 
   return (
-    <header className="board-header flex items-center gap-4 p-3">
+    <header>
       <div
         className={`board-title-wrapper ${isFocused ? "focused" : ""}`}
         style={{
           display: "flex",
           alignItems: "center",
           border: isFocused ? "1px solid #c3c6d4" : "1px solid transparent",
-          borderRadius: "4px",
-          padding: "2px 6px",
+          borderRadius: "4px"
         }}
       >
         <span
@@ -62,7 +61,7 @@ export const BoardHeader = ({ board, onUpdateBoard }) => {
           onFocus={handleFocus}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          className="board-title text-2xl font-bold cursor-text"
+          className="board-title"
           style={{
             outline: "none",
             userSelect: "text",
