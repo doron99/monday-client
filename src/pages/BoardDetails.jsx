@@ -34,6 +34,18 @@ export function BoardDetails() {
     setSelectedTasks([]);
   }
 
+  async function handleUpdateBoard(gid, tid, update) {
+  try {
+    const updatedBoard = await updateBoard(gid, tid, update);
+    console.log("✅ Board updated:", updatedBoard);
+    return updatedBoard;
+  } catch (err) {
+    console.error("❌ Error updating board:", err);
+    throw err;
+  }
+}
+
+
   function onAction(actionType) {
     console.log('Action triggered:', actionType, 'on tasks:', selectedTasks);
     
@@ -197,7 +209,7 @@ export function BoardDetails() {
         <div
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
-          <BoardHeader />
+          <BoardHeader board={board} onUpdateBoard={handleUpdateBoard} />
           <section className="group-list">
             {boardToDisplay &&
               boardToDisplay.groups.map((group) => (
