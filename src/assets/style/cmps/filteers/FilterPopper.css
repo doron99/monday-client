@@ -1,9 +1,9 @@
 .filter-popper {
-  background-color: #fff;
-  border: 1px solid #d0d4e4;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  padding: 12px;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
   z-index: 9999;
   min-width: 240px;
   max-width: 320px;
