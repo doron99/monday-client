@@ -20,6 +20,7 @@ import { PopperDynamic } from "./cmps/contextMenuCmps/PopperDynamic.jsx";
 export default function App() {   
   console.log("this is from 101");
   console.log("this is confliact from f-102");
+  console.log("this is confilct");
 
   const [visible, setVisible] = useState(false);
 const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
