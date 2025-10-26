@@ -10,10 +10,12 @@ html {
 
 body {
   margin: 0;
+  background-color: #f6f8fd;
   color: var(--gray3);
   overflow: hidden;
   height: 100vh;
 }
+
 h5 {
   margin:1rem;
 }
