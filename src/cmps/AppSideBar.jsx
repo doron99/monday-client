@@ -7,7 +7,6 @@ import {
   removeBoard,
   addBoard,
   updateBoard,
-  setActiveBoard,
 } from "../store/actions/board.actions.js"
 import { BoardFilter } from "../cmps/filters/BoardFilter.jsx"
 import { PopperBoardMenu } from "../cmps/contextMenuCmps/PopperBoardMenu.jsx"
@@ -15,7 +14,6 @@ import {
   EllipsisHorizontalIcon,
   CalendarDaysIcon,
   HomeIcon,
-  StarIcon,
   PlusIcon,
   ChevronDownIcon,
   ChevronRightIcon,
@@ -34,7 +32,14 @@ export function AppSideBar() {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeBoardId, setActiveBoardId] = useState(null)
+  const [activeBoard, setActiveBoard] = useState(null)
+
   const buttonRefs = useRef({})
+
+  const { pathname } = location
+  const currentBoardId = pathname.startsWith("/board/")
+    ? pathname.split("/")[2]
+    : null
 
   useEffect(() => {
     loadBoards()
@@ -44,7 +49,9 @@ export function AppSideBar() {
   const toggleFavorites = () => setIsFavoritesOpen(!isFavoritesOpen)
   const goToHome = () => navigate("/")
   const goToBoard = () => navigate("/board")
-  const isBoardActive = () => location.pathname.startsWith("/board")
+
+  const isBoardActive = () =>
+    pathname === "/board" || pathname === "/board/"
 
   const goToBoardDetails = (boardId) => {
     setIsMenuOpen(false)
@@ -52,18 +59,17 @@ export function AppSideBar() {
     navigate(`/board/${boardId}`)
   }
 
-async function onAddBoard() {
-  const savedBoard = await addBoard()
-  if (savedBoard?._id) navigate(`/board/${savedBoard._id}`)
-}
-
+  async function onAddBoard() {
+    const savedBoard = await addBoard()
+    if (savedBoard?._id) navigate(`/board/${savedBoard._id}`)
+  }
 
   function handleRename(boardId) {
     const board = boards.find(b => b._id === boardId)
     if (!board) return
 
     const newName = prompt("Enter new board name:", board.title)
-    if (!newName || newName.trim() === "") return
+    if (!newName?.trim()) return
 
     const update = { key: "title", value: newName.trim() }
     updateBoard(null, null, update)
@@ -84,9 +90,7 @@ async function onAddBoard() {
     await removeBoard(boardId)
     await loadFavorites()
 
-    if (location.pathname.includes(`/board/${boardId}`)) {
-      navigate("/board")
-    }
+    if (pathname.includes(`/board/${boardId}`)) navigate("/board")
   }
 
   return (
@@ -94,11 +98,10 @@ async function onAddBoard() {
       <aside className={`sidebar ${isOpen ? "open" : "closed"}`}>
         {isOpen && (
           <div className="sidebar-content">
-            <div className="sidebar-header"></div>
 
             <nav className="sidebar-nav">
               <div
-                className={`nav-item ${location.pathname === "/" ? "active" : ""}`}
+                className={`nav-item ${pathname === "/" ? "active" : ""}`}
                 onClick={goToHome}
               >
                 <HomeIcon style={{ width: "16px", height: "16px" }} />
@@ -118,12 +121,10 @@ async function onAddBoard() {
               <div className="favorites-header" onClick={toggleFavorites}>
                 <span>Favorites</span>
                 {isFavoritesOpen ? (
-                  <ChevronDownIcon style={{width: "16px", height: "16px"}} />
+                  <ChevronDownIcon style={{ width: "16px", height: "16px" }} />
                 ) : (
-                  <ChevronRightIcon style={{width: "16px", height: "16px"}} />
+                  <ChevronRightIcon style={{ width: "16px", height: "16px" }} />
                 )}
-                {/* <StarIcon style={{width: "16px", height: "16px"}} className="icon star-icon" /> */}
-                
               </div>
 
               {isFavoritesOpen && (
@@ -131,7 +132,7 @@ async function onAddBoard() {
                   {favorites.length > 0 ? (
                     favorites.map(board => (
                       <li key={board._id}>
-                        <FolderOpenIcon style={{ width: "16px", height: "16px" }} className="icon" />
+                        <FolderOpenIcon style={{ width: "16px", height: "16px" }} />
                         {board.title}
                       </li>
                     ))
@@ -144,66 +145,69 @@ async function onAddBoard() {
 
             <section className="workspaces">
               <div className="workspace-header">
-                {!isFilterOpen && (
-                  <>
-                    <span>Workspaces</span>
-                  </>
-                )}
-
+                {!isFilterOpen && <span>Workspaces</span>}
                 <BoardFilter onToggleFilter={setIsFilterOpen} />
               </div>
 
               <div className="workspace-item">
                 <span>
-                  <FolderOpenIcon style={{ width: "16px", height: "16px" }} className="icon workspace-item-icon" /> Guest's main workspace
+                  Guest's main workspace
                 </span>
+
                 <button className="add-btn" onClick={onAddBoard}>
-                  <PlusIcon style={{ width: "16px", height: "16px", color: "white" }} />
+                  <PlusIcon className="add-icon" />
                 </button>
               </div>
 
               <ul>
                 {boards.map(board => (
                   <li
-                    key={board._id}
-                    className="board-item flex items-center justify-between p-2 hover:bg-gray-100 rounded-md"
-                  >
-                    <div
-                      onClick={() => goToBoardDetails(board._id)}
-                      className="board-title-section">
-                      <FolderOpenIcon style={{ width: "16px", height: "16px" }} className="icon board-icon" />
-                      <span className="truncate">{board.title}</span>
-                    </div>
+  key={board._id}
+  className={`
+    board-item 
+    ${currentBoardId === board._id ? "active-board" : ""}
+  `}
+>
+  <div
+    onClick={() => goToBoardDetails(board._id)}
+    className="board-title-section"
+  >
+    <FolderOpenIcon style={{ width: "16px", height: "16px" }} />
+    <span className="truncate">{board.title}</span>
+  </div>
 
-                    <div className="relative">
-                      <button
-                        ref={el => (buttonRefs.current[board._id] = el)}
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          setActiveBoard(board)
-                          setActiveBoardId(board._id)
-                          setIsMenuOpen(prev =>
-                            activeBoardId !== board._id || !prev
-                          )
-                        }}
-                      >
-                        <EllipsisHorizontalIcon />
-                      </button>
+  <div className="board-actions">
+    <button
+  className="ellipsis-btn"
+  ref={el => (buttonRefs.current[board._id] = el)}
+  onClick={(e) => {
+    e.stopPropagation()
+    setActiveBoard(board)
+    setActiveBoardId(board._id)
+    setIsMenuOpen(prev =>
+      board._id !== activeBoardId || !prev
+    )
+  }}
+>
+  <EllipsisHorizontalIcon />
+</button>
 
-                      {activeBoardId === board._id && (
-                        <PopperBoardMenu
-                          isOpen={isMenuOpen}
-                          buttonRef={{ current: buttonRefs.current[board._id] }}
-                          onOpenBoard={() => goToBoardDetails(board._id)}
+
+    {activeBoardId === board._id && (
+      <PopperBoardMenu
+        isOpen={isMenuOpen}
+        buttonRef={{ current: buttonRefs.current[board._id] }}
+        onOpenBoard={() => goToBoardDetails(board._id)}
                           onRename={() => handleRename(board._id)}
-                          onToggleFavorite={() => handleToggleFavorite(board._id)}
-                          onDelete={() => handleDelete(board._id)}
-                          onClose={() => setIsMenuOpen(false)}
-                          isFavorite={board.isStarred}
-                        />
-                      )}
-                    </div>
-                  </li>
+        onToggleFavorite={() => handleToggleFavorite(board._id)}
+        onDelete={() => handleDelete(board._id)}
+        onClose={() => setIsMenuOpen(false)}
+        isFavorite={board.isStarred}
+      />
+    )}
+  </div>
+</li>
+
                 ))}
               </ul>
             </section>
