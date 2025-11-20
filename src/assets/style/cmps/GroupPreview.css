@@ -238,17 +238,23 @@
   border-right: 1px solid #e6e9ef;
   min-height: 28px;
 }
+.progress-grid > div:first-child {
+  border:none;
+}
+
 
 .progress-grid .with-status,
 .progress-grid .with-priority,
 .progress-grid .with-date {
-  background:#579bfc;
-  color: white;
-  border-radius: 20px;
+  /* background:#579bfc; */
+  /* color: white; */
+  /* border-radius: 20px; */
   font-size: 12px;
   font-weight: 600;
-  margin: 10px 15px;
+  /* margin: 10px 5px; */
   transition: all 0.2s ease;
+  border-right:1px solid #e6e9ef!important;
+
 }
 
 .progress-grid .with-status:hover,
@@ -370,5 +376,85 @@
     height: 14px;
   }
 }
+.summary-bar {
+  display: flex;
+  height: 100%;
+  /* border-radius: 4px; */
+  overflow: hidden;
+  width:100%;
+    margin: 10px 5px;
+  padding:5px;
+}
 
+.summary-segment {
+  height: 100%;
+}
+.summary-bar {
+  display: flex;
+  height: 100%;
+  /* border-radius: 4px; */
+  overflow: hidden;
+  position: relative;
+}
 
+.summary-segment {
+  height: 100%;
+  cursor: pointer;
+}
+
+ .summary-tooltip {
+  transform: translate(-50%, -100%);
+  background: #2d2d2d;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  z-index: 9999;
+}  
+/* .summary-tooltip {
+  opacity: 0;
+  transform: translate(-50%, -100%) scale(0.95);
+  background: #2d2d2d;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 9999;
+} */
+
+.summary-tooltip.visible {
+  opacity: 1;
+  transform: translate(-50%, -100%) scale(1);
+}
+/* .summary-tooltip {
+  position: fixed;
+  transform: translate(-50%, -100%);
+  background: #2d2d2d;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  z-index: 9999;
+} 
+*/
+.tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tooltip-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}

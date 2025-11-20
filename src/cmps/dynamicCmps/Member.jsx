@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { FaPlus, FaUserPlus } from "react-icons/fa6";
 import { eventBusService } from "../../services/event-bus.service";
+import UserAvatarSvg from '../../assets/svgs/user-avatar.svg';
 
  const allPeople = [
         { _id: 'u100',name: 'Doron test' },
@@ -61,17 +62,24 @@ const devSection = isDev
         alignItems: 'center', // Vertically center
         justifyContent: 'center' // Horizontally center
     }}  ref={buttonRef} onClick={() => openDynamicPopper()}>
+      <button class="add-person-btn fa-solid plus"></button>
         {selected && selected.length > 0 
             ? selected.length == 1 
                 ? allPeople.filter(person => selected.includes(person._id)).map(x =>  {
-                    return <span key={x.name} title={x.name}><HiOutlineUserCircle style={{ fontSize: '1.4rem' }}/></span>})
+                    return <span key={x.name} title={x.name}>
+                      <img src={UserAvatarSvg} alt="person-icon"></img>
+                      <HiOutlineUserCircle style={{ fontSize: '1.4rem' }}/>
+                      </span>})
                 : (
                 <>
+                
                     <HiOutlineUserCircle style={{ fontSize: '1.4rem' }} />
                     +{allPeople.filter(person => selected.includes(person._id)).length - 1}
                 </>
             )
-            : <FaUserPlus style={{ fontSize: '1.4rem' }}  />}</div>
+            : <div><img src={UserAvatarSvg} alt="person-icon" style={{ fontSize: '1.4rem',height:'1.4rem' }}></img></div>}</div>
+
+            {/* <FaUserPlus style={{ fontSize: '1.4rem' }}  /> */}
     </div>
     );
 

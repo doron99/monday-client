@@ -25,6 +25,7 @@ import {
 import { DraggableCmpHeader } from "./DraggableCmpHeader";
 import { utilService } from "../services/util.service.js";
 import { eventBusService } from "../services/event-bus.service.js";
+import { SummaryBar } from "./SummaryBar.jsx";
 // import { DraggableTask } from "./DraggableTask.jsx";
 
 export function GroupPreview({
@@ -153,7 +154,8 @@ const gridItemStyle = {
         height: '100px', // Set a fixed height for the grid item
         width: '100%', // Full width
     };
-  const progressComponents = ["date", "priority", "status"];
+  const progressComponents = ["priority", "status"];//"date", 
+
   return (
     <section>
       {isExpanded ? (
@@ -212,15 +214,38 @@ const gridItemStyle = {
         {/* Wrap the headers with SortableContext */}
 
         <SortableContext items={cmpOrder} strategy={horizontalListSortingStrategy}>
-          <section className="labels-grid">
-                        {/* {JSON.stringify(cmpOrder,null,2)} */}
+           <section className="labels-grid">
+            {cmpOrder.map((cmpName, index) => {
+              // שני הפריטים הראשונים – לא draggable
+              if (index < 2) {
+                const style = {
+                    textAlign: 'center',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  };
+                return (
+                  <div key={cmpName} style={style} className="static-header">
+                    {cmpName !== 'side' ? (labels[index] || cmpName) : ''}
+                  </div>
+                );
+              }
 
+              // משאר הפריטים כן draggable
+              return (
+                <DraggableCmpHeader key={cmpName} id={cmpName}>
+                  {labels[index] || cmpName}
+                </DraggableCmpHeader>
+              );
+            })}
+          </section>
+          {/* <section className="labels-grid">
             {cmpOrder.map((cmpName, index) => (
               <DraggableCmpHeader key={cmpName} id={cmpName}>
                 {index > 0 ? labels[index] || cmpName : ''}
               </DraggableCmpHeader>
             ))}
-          </section>
+          </section> */}
         </SortableContext>
     {/* <DndContext onDragEnd={handleDragEnd1}>
       {group.tasks.map(task => (
@@ -289,7 +314,8 @@ const gridItemStyle = {
           </section>
 
         {/* Render progress based on the current cmpOrder */}
-        <section className="progress-grid">
+        {/* <section className="progress-grid">
+          <pre>{JSON.stringify(cmpOrder,null,2)}</pre>
           {cmpOrder.map((cmp, index) =>
             // Assuming `progressComponents` is a predefined array
             progressComponents.includes(cmp) ? (
@@ -300,6 +326,29 @@ const gridItemStyle = {
               <div className={cmp} key={`progress-${index}`}></div>
             )
           )}
+        </section> */}
+        <section className="progress-grid">
+          {/* <div className="empty-col"></div> */}
+          {/* <pre>{JSON.stringify(cmpOrder,null,2)}</pre> */}
+          {cmpOrder.map((cmp) =>
+          progressComponents.includes(cmp) ? (
+            <div className={`with-${cmp}`} key={`progress-${cmp}`}>
+              <SummaryBar tasks={group.tasks} cmp={cmp} />
+            </div>
+          ) : (
+            <div className={cmp} key={`progress-${cmp}`}></div>
+          )
+          )}
+          
+            {/* // progressComponents.includes(cmp) ? (
+            //   <div className={`with-${cmp}`} key={`progress-${cmp}`}>
+            //               <pre>{JSON.stringify(cmp,null,2)}</pre>
+
+            //     {progress[cmp]}  
+            //   </div>
+            // ) : (
+            //   <div className={cmp} key={`progress-${cmp}`}></div>
+            // ) */}
         </section>
       </DndContext>
     </section>
@@ -335,4 +384,71 @@ const DynamicCmp = ({ cmpType, info, onTaskUpdate,content, selectedTasks, taskId
       console.error(`Unknown component type: ${cmpType}`);
       return <div>Unknown component: {cmpType}</div>;
   }
+};
+export function SummaryBar1({ tasks, cmp }) {
+  const counts = getSummaryCounts(tasks, cmp);
+  const items = toPercents(counts);
+  console.log('#### counts',counts,'items',items)
+  return (
+    <div className="summary-bar">
+      
+      {items.map(item => (
+        <div
+          key={item.key}
+          className="summary-segment"
+          style={{
+            width: `${item.percent}%`,
+            backgroundColor: priorityStatusColors[normalizeKey(item.key)] || "#ccc"
+          }}
+        ></div>
+      ))}
+    </div>
+  );
+}
+export  function getSummaryCounts(tasks, cmp) {
+    const counts = {};
+
+    tasks.forEach(task => {
+      const val = task[cmp];
+      if (!val) return;
+
+      if (!counts[val]) counts[val] = 0;
+      counts[val]++;
+    });
+
+    return counts;
+  }
+export  function toPercents(counts) {
+    const total = Object.values(counts).reduce((a, b) => a + b, 0);
+
+    return Object.entries(counts).map(([key, count]) => ({
+      key,
+      value: count,
+      percent: (count / total) * 100
+    }));
+  }
+export function normalizeKey(str) {
+  if (!str) return "";
+  return str
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .trim();
+}
+ export const priorityColors = {
+  high: "#472085",
+  low: "#60a5fa",
+  medium: "#eab308",
+  stuck: "#d84141ff",
+  workingonit: "#263a97ff",
+  //Medium: "#eab308"
+};
+export const priorityStatusColors = {
+  done: "#00c875",          // ירוק
+  progress: "#0091ea",      // כחול
+  stuck: "#e2445c",         // אדום
+  workingonit: "#fdab3d",   // כתום
+  notstarted: "#c4c4c4",     // אפור
+    high: "#e2445c",
+    low: "#0091ea",
+    medium: "#fdab3d",
 };
