@@ -9,11 +9,13 @@ import { updateBoard, loadBoardById } from "../store/actions/board.actions.js";
 import { boardActions } from "../store/actions/board.actions.js";
 import { TasksSelectedModal } from "../cmps/TasksSelectedModal.jsx";
 import { DeleteConfirmationModal } from "../cmps/DeleteConfirmationModal.jsx";
+import { MoveToConfirmationModal } from "../cmps/MoveToConfirmationModal.jsx";
 
 export function BoardDetails() {
 
   const [selectedTasks, setSelectedTasks] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showMoveToModal, setShowMoveToModal] = useState(false);
 
   const board = useSelector((state) => {
     return state.boardModule.selectedBoard;
@@ -102,6 +104,48 @@ export function BoardDetails() {
     setShowDeleteModal(true);
   }
 
+  function confirmMoveToTasks(targetGroupId) {
+    console.log('confirmMoveToTasks targetGroupId:', targetGroupId);
+    //logic
+    // Create a deep copy of the groups array to avoid mutating the original
+    const updatedGroups = board.groups.map(group => ({ ...group, tasks: [...group.tasks] }));
+    return;
+
+    const targetGroupIndex = updatedGroups.findIndex(group => group.id === targetGroupId);
+
+    // Iterate over each selected task and remove it from its corresponding group
+    selectedTasks.forEach((selectedTask, index) => {
+      console.log(`Task ${index + 1}: taskId = ${selectedTask.taskId}, groupId = ${selectedTask.groupId}`);
+      
+      // Find the group that contains this task
+      const groupIndex = updatedGroups.findIndex(group => group.id === selectedTask.groupId);
+      
+      if (groupIndex !== -1) {
+        // Remove the task from this group's tasks array
+        updatedGroups[groupIndex].tasks.find(task => task.id == selectedTask.taskId).isDeleted = true;
+        //this is the first logic was
+        // updatedGroups[groupIndex].tasks = updatedGroups[groupIndex].tasks.filter(
+        //   task => task.id !== selectedTask.taskId
+        // );
+        console.log(`Removed task ${selectedTask.taskId} from group ${selectedTask.groupId}`);
+      }
+    });
+    
+    const update = { key: "groups", value: updatedGroups }
+    updateBoard(null, null, update)
+
+    setShowMoveToModal(false);
+    unselectAll();
+    return;
+
+
+    console.log('Deleting tasks:', selectedTasks);
+
+    
+
+    setShowMoveToModal(false);
+    unselectAll();
+  }
   function confirmDeleteTasks() {
     console.log('Deleting tasks:', selectedTasks);
 
@@ -117,9 +161,11 @@ export function BoardDetails() {
       
       if (groupIndex !== -1) {
         // Remove the task from this group's tasks array
-        updatedGroups[groupIndex].tasks = updatedGroups[groupIndex].tasks.filter(
-          task => task.id !== selectedTask.taskId
-        );
+        updatedGroups[groupIndex].tasks.find(task => task.id == selectedTask.taskId).isDeleted = true;
+        //this is the first logic was
+        // updatedGroups[groupIndex].tasks = updatedGroups[groupIndex].tasks.filter(
+        //   task => task.id !== selectedTask.taskId
+        // );
         console.log(`Removed task ${selectedTask.taskId} from group ${selectedTask.groupId}`);
       }
     });
@@ -134,11 +180,14 @@ export function BoardDetails() {
   function cancelDeleteTasks() {
     setShowDeleteModal(false);
   }
-
+  function cancelMoveToTasks() {
+    setShowMoveToModal(false);
+  }
   function handleMoveTasks() {
     if (!selectedTasks.length) return;
     
     console.log('Moving tasks:', selectedTasks);
+    setShowMoveToModal(true);
     // TODO: Implement task move logic (show group selector modal)
     //alert(`Moving ${selectedTasks.length} task(s)`);
   }
@@ -206,6 +255,9 @@ export function BoardDetails() {
     <div className="board-details">
       {isDev && JSON.stringify(filterBy,null,2)}
       <div>
+         {/* <pre>
+        {JSON.stringify(boardToDisplay, null, 2)}
+        </pre>  */}
         <div>
           <BoardHeader board={board} onUpdateBoard={handleUpdateBoard} />
           <section className="group-list">
@@ -244,6 +296,14 @@ export function BoardDetails() {
         onConfirm={confirmDeleteTasks}
         taskCount={selectedTasks.length}
       />
+     
+      {boardToDisplay && boardToDisplay.groups &&<MoveToConfirmationModal
+        groups={boardToDisplay.groups}
+        isOpen={showMoveToModal}
+        onClose={cancelMoveToTasks}
+        onConfirm={confirmMoveToTasks}
+        taskCount={selectedTasks.length}
+      />}
     </div>
   );
 }

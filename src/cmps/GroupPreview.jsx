@@ -125,7 +125,9 @@ export function GroupPreview({
           "priority": "Low",
           "members": [],
           "date": null,
-          "comments":[]
+          "comments":[],
+          "isDeleted":false,
+          "isArchived":false
         };
       const taskArr = [...board.groups.find(g => g.id === group.id).tasks, newTask];
       updateBoard(group.id, null, {key: 'tasks', value: taskArr});
@@ -264,11 +266,11 @@ const gridItemStyle = {
   onDragEnd={handleDragEndRows}
 >
   <SortableContext
-    items={group.tasks.map(t => t.id)}
+    items={group.tasks.filter(t => !t.isDeleted).map(t => t.id)}
     strategy={verticalListSortingStrategy}
   >
 
-    {group.tasks.map(task => (
+    {group.tasks.filter(t => !t.isDeleted).map(task => (
       <DraggableTask
         key={task.id}
         task={task}
@@ -304,7 +306,7 @@ const gridItemStyle = {
     {cmpOrder.map((cmp) =>
       progressComponents.includes(cmp) ? (
         <div className={`with-${cmp}`} key={`progress-${cmp}`}>
-          <SummaryBar tasks={group.tasks} cmp={cmp} />
+          <SummaryBar tasks={group.tasks.filter(t => !t.isDeleted)} cmp={cmp} />
         </div>
       ) : (
         <div className={cmp} key={`progress-${cmp}`}></div>

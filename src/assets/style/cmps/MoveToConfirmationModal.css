@@ -1,0 +1,13 @@
+.moveToButton {
+    list-style-type: none;
+}
+.moveToButton:hover {
+    /* background-color: #eee; */
+}
+.moveToButton button:hover {
+    background-color: #eee!important;
+    color:black;
+}
+.colorIndicator {
+
+}
