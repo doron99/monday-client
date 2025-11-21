@@ -45,42 +45,131 @@ const devSection = isDev
       eventBusService.emit('openPopperDynamic', { x, y, content:content,component:'member' }); // Emit the event with x, y
 
     };
+    const selectedPeople = allPeople.filter(person => selected.includes(person._id));
+const count = selectedPeople.length;
   return (
-    <div className="task-member">
-    {devSection}
-      {/* <button
-        ref={buttonRef}
-        onClick={() => handleOpen()} // Call handleOpen correctly
-        className="status-button"
-        style={{ backgroundColor: selected.color }}
-      > */}
-        {/* {selected && selected.length > 0 ? selected.map(x => x).join(',') : '+'} */}
-      {/* </button> */}
-      <div style={{ 
-        cursor: 'pointer', 
-        display: 'flex', 
-        alignItems: 'center', // Vertically center
-        justifyContent: 'center' // Horizontally center
-    }}  ref={buttonRef} onClick={() => openDynamicPopper()}>
+    <div className="task-member" ref={buttonRef} onClick={() => openDynamicPopper()}>
       <button class="add-person-btn fa-solid plus"></button>
-        {selected && selected.length > 0 
-            ? selected.length == 1 
-                ? allPeople.filter(person => selected.includes(person._id)).map(x =>  {
-                    return <span key={x.name} title={x.name}>
-                      <img src={UserAvatarSvg} alt="person-icon"></img>
-                      <HiOutlineUserCircle style={{ fontSize: '1.4rem' }}/>
-                      </span>})
-                : (
-                <>
-                
-                    <HiOutlineUserCircle style={{ fontSize: '1.4rem' }} />
-                    +{allPeople.filter(person => selected.includes(person._id)).length - 1}
-                </>
-            )
-            : <div><img src={UserAvatarSvg} alt="person-icon" style={{ fontSize: '1.4rem',height:'1.4rem' }}></img></div>}</div>
 
-            {/* <FaUserPlus style={{ fontSize: '1.4rem' }}  /> */}
-    </div>
+    {devSection}
+
+
+
+
+  <div style={{ display: 'flex', alignItems: 'center' }}>
+    
+    {/* -------- אין בכלל אנשים -------- */}
+    {count === 0 && (
+      <img 
+        src={UserAvatarSvg} 
+        alt="no-members" 
+        style={{ fontSize: '2rem', height:'2rem' }} 
+      />
+    )}
+
+    {/* -------- אדם אחד -------- */}
+    {count === 1 && selectedPeople.map(x => {
+      const letter = x.name.charAt(0).toUpperCase();
+      return (
+        <div 
+          key={x._id}
+          title={x.name}
+          style={styles.iconUserSingle}
+        >
+          {letter}
+        </div>
+      );
+    })}
+
+    {/* -------- שני אנשים -------- */}
+    {count === 2 && selectedPeople.map(x => {
+      const letter = x.name.charAt(0).toUpperCase();
+      return (
+        <div 
+          key={x._id}
+          title={x.name}
+          style={styles.iconUser2people}
+        >
+          {letter}
+        </div>
+      );
+    })}
+
+    {/* -------- יותר משני אנשים -------- */}
+    {count > 2 && (
+      <>
+        {/* הראשון */}
+        <div 
+          title={selectedPeople[0].name}
+          style={styles.iconUserGt2_first}
+        >
+          {selectedPeople[0].name.charAt(0).toUpperCase()}
+        </div>
+
+        {/* השני = +כמה נוסף */}
+        <div 
+          style={styles.iconUserGt2_rest}
+        >
+          +{count - 1}
+        </div>
+      </>
+    )}
+  </div>
+
+
+    </div> 
     );
+
+  }
+const styles = {
+  iconUserSingle:{
+            width: '28px',
+            height: '28px',
+            background: '#fff',
+            border: '1px solid #ccc',
+            borderRadius: '50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontWeight: 'bold',
+            marginRight: '4px'
+          },
+  iconUser2people:{
+            width: '28px',
+            height: '28px',
+            background: '#fff',
+            border: '1px solid #ccc',
+            borderRadius: '50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontWeight: 'bold',
+            marginRight: '-6px'
+          },
+  iconUserGt2_first:{
+            width: '28px',
+            height: '28px',
+            background: '#fff',
+            border: '1px solid #ccc',
+            borderRadius: '50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontWeight: 'bold',
+            marginRight: '-6px'
+          },
+  iconUserGt2_rest:{
+            width: '28px',
+            height: '28px',
+            background: '#fff',
+            border: '1px solid #ccc',
+            borderRadius: '50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontWeight: 'bold'
+          }
+
+
 
 }
