@@ -266,11 +266,11 @@ const gridItemStyle = {
   onDragEnd={handleDragEndRows}
 >
   <SortableContext
-    items={group.tasks.filter(t => !t.isDeleted).map(t => t.id)}
+    items={group.tasks.filter(t => !t.isDeleted && !t.isArchived).map(t => t.id)}
     strategy={verticalListSortingStrategy}
   >
 
-    {group.tasks.filter(t => !t.isDeleted).map(task => (
+    {group.tasks.filter(t => !t.isDeleted && !t.isArchived).map(task => (
       <DraggableTask
         key={task.id}
         task={task}
@@ -306,7 +306,7 @@ const gridItemStyle = {
     {cmpOrder.map((cmp) =>
       progressComponents.includes(cmp) ? (
         <div className={`with-${cmp}`} key={`progress-${cmp}`}>
-          <SummaryBar tasks={group.tasks.filter(t => !t.isDeleted)} cmp={cmp} />
+          <SummaryBar tasks={group.tasks.filter(t => !t.isDeleted && !t.isArchived)} cmp={cmp} />
         </div>
       ) : (
         <div className={cmp} key={`progress-${cmp}`}></div>

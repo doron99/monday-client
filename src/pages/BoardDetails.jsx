@@ -10,12 +10,15 @@ import { boardActions } from "../store/actions/board.actions.js";
 import { TasksSelectedModal } from "../cmps/TasksSelectedModal.jsx";
 import { DeleteConfirmationModal } from "../cmps/DeleteConfirmationModal.jsx";
 import { MoveToConfirmationModal } from "../cmps/MoveToConfirmationModal.jsx";
-
+import { ArchiveConfirmationModal } from "../cmps/ArchiveConfirmationModal.jsx";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 export function BoardDetails() {
 
   const [selectedTasks, setSelectedTasks] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showMoveToModal, setShowMoveToModal] = useState(false);
+  const [showArchiveModal, setShowArchiveModal] = useState(false);
 
   const board = useSelector((state) => {
     return state.boardModule.selectedBoard;
@@ -75,28 +78,67 @@ export function BoardDetails() {
   function handleDuplicateTasks() {
     if (!selectedTasks.length) return;
     
-    console.log('Duplicating tasks:', selectedTasks);
-    // TODO: Implement task duplication logic
-    // For each selected task, create a copy and add it to the same group
-    // alert(`Duplicating ${selectedTasks.length} task(s)`);
-    // unselectAll();
+    console.log('handleDuplicateTasks tasks:', selectedTasks);
+
+    // Create a deep copy of the groups array to avoid mutating the original
+    const updatedGroups = board.groups.map(group => ({ ...group, tasks: [...group.tasks] }));
+    
+    // Iterate over each selected task and remove it from its corresponding group
+    selectedTasks.forEach((selectedTask, index) => {
+      console.log(`Task ${index + 1}: taskId = ${selectedTask.taskId}, groupId = ${selectedTask.groupId}`);
+      
+      // Find the group that contains this task
+      const groupIndex = updatedGroups.findIndex(group => group.id === selectedTask.groupId);
+      
+      
+      if (groupIndex !== -1) {
+        const currTask = JSON.parse(JSON.stringify(
+          updatedGroups[groupIndex].tasks.find(task => task.id == selectedTask.taskId)
+        ));
+        currTask.id = makeId();
+        updatedGroups[groupIndex].tasks.push(currTask);
+       
+      }
+    });
+    
+    const update = { key: "groups", value: updatedGroups }
+    updateBoard(null, null, update)
+  
+    unselectAll();
   }
 
   function handleExportTasks() {
     if (!selectedTasks.length) return;
+    const arrToExcel = [];
+    // Create a deep copy of the groups array to avoid mutating the original
+    const updatedGroups = board.groups.map(group => ({ ...group, tasks: [...group.tasks] }));
     
-    console.log('Exporting tasks:', selectedTasks);
-    // TODO: Implement task export logic (CSV, JSON, etc.)
-    //alert(`Exporting ${selectedTasks.length} task(s)`);
+    // Iterate over each selected task and remove it from its corresponding group
+    selectedTasks.forEach((selectedTask, index) => {
+      console.log(`Task ${index + 1}: taskId = ${selectedTask.taskId}, groupId = ${selectedTask.groupId}`);
+      
+      // Find the group that contains this task
+      const groupIndex = updatedGroups.findIndex(group => group.id === selectedTask.groupId);
+      
+      
+      if (groupIndex !== -1) {
+        arrToExcel.push(updatedGroups[groupIndex].tasks.find(task => task.id == selectedTask.taskId))
+       
+        //updatedGroups[groupIndex].tasks.push(currTask);
+       
+      }
+    });
+    
+    //const update = { key: "groups", value: updatedGroups }
+    console.log('arrToExcel',arrToExcel)
+    exportToExcel(arrToExcel)
+
+
   }
 
   function handleArchiveTasks() {
     if (!selectedTasks.length) return;
-    
-    console.log('Archiving tasks:', selectedTasks);
-    // TODO: Implement task archiving logic
-    // alert(`Archiving ${selectedTasks.length} task(s)`);
-    // unselectAll();
+    setShowArchiveModal(true);
   }
 
   function handleDeleteTasks() {
@@ -109,8 +151,8 @@ export function BoardDetails() {
     //logic
     // Create a deep copy of the groups array to avoid mutating the original
     const updatedGroups = board.groups.map(group => ({ ...group, tasks: [...group.tasks] }));
-    return;
-
+    
+    //get target group index
     const targetGroupIndex = updatedGroups.findIndex(group => group.id === targetGroupId);
 
     // Iterate over each selected task and remove it from its corresponding group
@@ -120,14 +162,16 @@ export function BoardDetails() {
       // Find the group that contains this task
       const groupIndex = updatedGroups.findIndex(group => group.id === selectedTask.groupId);
       
-      if (groupIndex !== -1) {
+      if (groupIndex !== -1 && groupIndex != targetGroupIndex) {
+        // get task object
+        const taskToMove = updatedGroups[groupIndex].tasks.find(task => task.id == selectedTask.taskId);
+        // add the task to target group
+        updatedGroups[targetGroupIndex].tasks.push(taskToMove);
         // Remove the task from this group's tasks array
-        updatedGroups[groupIndex].tasks.find(task => task.id == selectedTask.taskId).isDeleted = true;
-        //this is the first logic was
-        // updatedGroups[groupIndex].tasks = updatedGroups[groupIndex].tasks.filter(
-        //   task => task.id !== selectedTask.taskId
-        // );
-        console.log(`Removed task ${selectedTask.taskId} from group ${selectedTask.groupId}`);
+        updatedGroups[groupIndex].tasks = updatedGroups[groupIndex].tasks.filter(
+          task => task.id !== selectedTask.taskId
+        );
+        //console.log(`Removed task ${selectedTask.taskId} from group ${selectedTask.groupId}`);
       }
     });
     
@@ -138,16 +182,9 @@ export function BoardDetails() {
     unselectAll();
     return;
 
-
-    console.log('Deleting tasks:', selectedTasks);
-
-    
-
-    setShowMoveToModal(false);
-    unselectAll();
   }
-  function confirmDeleteTasks() {
-    console.log('Deleting tasks:', selectedTasks);
+  function confirmDeleteArchiveTasks(deleteOrArchive) {
+    console.log('confirmDeleteArchiveTasks tasks:', selectedTasks, 'action:',deleteOrArchive);
 
     // Create a deep copy of the groups array to avoid mutating the original
     const updatedGroups = board.groups.map(group => ({ ...group, tasks: [...group.tasks] }));
@@ -160,8 +197,14 @@ export function BoardDetails() {
       const groupIndex = updatedGroups.findIndex(group => group.id === selectedTask.groupId);
       
       if (groupIndex !== -1) {
+        const currTask = updatedGroups[groupIndex].tasks.find(task => task.id == selectedTask.taskId)
         // Remove the task from this group's tasks array
-        updatedGroups[groupIndex].tasks.find(task => task.id == selectedTask.taskId).isDeleted = true;
+        if (deleteOrArchive == 'delete') {
+          currTask.isDeleted = true;
+
+        } else {
+          currTask.isArchived = true;
+        }
         //this is the first logic was
         // updatedGroups[groupIndex].tasks = updatedGroups[groupIndex].tasks.filter(
         //   task => task.id !== selectedTask.taskId
@@ -172,13 +215,21 @@ export function BoardDetails() {
     
     const update = { key: "groups", value: updatedGroups }
     updateBoard(null, null, update)
+    if (deleteOrArchive == 'delete') {
+      setShowDeleteModal(false);
 
-    setShowDeleteModal(false);
+    } else {
+      setShowArchiveModal(false);
+
+    }
     unselectAll();
   }
 
   function cancelDeleteTasks() {
     setShowDeleteModal(false);
+  }
+   function cancelArchiveTasks() {
+    setShowArchiveModal(false);
   }
   function cancelMoveToTasks() {
     setShowMoveToModal(false);
@@ -242,12 +293,21 @@ export function BoardDetails() {
   const labels = [null, "task", "status", "priority", "date", "members"];
   const progress = [null, null, "status", "priority", null, "date"];
 
-  //   if (!board)
-  //     return (
-  //       <>
-  //         <h1>Loading... </h1>{" "}
-  //       </>
-  //     );
+  const exportToExcel = (jsonData, fileName = "data.xlsx") => {
+    // המרה של אובייקטים ל־Sheet
+    const worksheet = XLSX.utils.json_to_sheet(jsonData);
+
+    // יצירת Workbook
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // המרה לבינארי
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+
+    // הורדת הקובץ
+    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(blob, fileName);
+  };
 
   const boardToDisplay = boardActions.filterBoard(board, filterBy)
 
@@ -293,10 +353,16 @@ export function BoardDetails() {
       <DeleteConfirmationModal
         isOpen={showDeleteModal}
         onClose={cancelDeleteTasks}
-        onConfirm={confirmDeleteTasks}
+        onConfirm={() => confirmDeleteArchiveTasks('delete')}
         taskCount={selectedTasks.length}
       />
-     
+
+      <ArchiveConfirmationModal
+        isOpen={showArchiveModal}
+        onClose={cancelArchiveTasks}
+        onConfirm={() => confirmDeleteArchiveTasks('archive')}
+        taskCount={selectedTasks.length}
+      />
       {boardToDisplay && boardToDisplay.groups &&<MoveToConfirmationModal
         groups={boardToDisplay.groups}
         isOpen={showMoveToModal}

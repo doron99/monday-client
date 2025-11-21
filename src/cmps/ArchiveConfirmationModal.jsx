@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export function DeleteConfirmationModal({ 
+export function ArchiveConfirmationModal({ 
   isOpen, 
   onClose, 
   onConfirm
@@ -26,10 +26,10 @@ export function DeleteConfirmationModal({
       <div className="delete-modal">
         <div className="delete-modal-content">
           <h3 className="delete-modal-title">
-            Delete these tasks?
+            Archive these tasks?
           </h3>
           <p className="delete-modal-description">
-            We'll keep it in your trash for 30 days, and then permanently delete it.
+            {/* We'll keep it in your trash for 30 days, and then permanently delete it. */}
           </p>
         </div>
         <div className="delete-modal-actions">
@@ -43,7 +43,7 @@ export function DeleteConfirmationModal({
             className="delete-modal-btn delete-btn"
             onClick={onConfirm}
           >
-            Delete
+            Archive
           </button>
         </div>
       </div>
