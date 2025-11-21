@@ -239,13 +239,6 @@ const gridItemStyle = {
               );
             })}
           </section>
-          {/* <section className="labels-grid">
-            {cmpOrder.map((cmpName, index) => (
-              <DraggableCmpHeader key={cmpName} id={cmpName}>
-                {index > 0 ? labels[index] || cmpName : ''}
-              </DraggableCmpHeader>
-            ))}
-          </section> */}
         </SortableContext>
     {/* <DndContext onDragEnd={handleDragEnd1}>
       {group.tasks.map(task => (
@@ -295,38 +288,10 @@ const gridItemStyle = {
                   }
                 />
               </section>
-            {/* {cmpOrder.map((cmp, idx) => (
-              <section
-                className={`grid-item ${cmp}`}
-                key={`task-${999}-cmp-${999}`}
-              >
-                <DynamicCmp
-                  cmpType={'taskTitle'}
-                  info={''}
-                  selectedTasks={null}
-                  taskId={null}
-                  onTaskUpdate={(updateInfo) =>
-                    onTaskUpdate(task.id, updateInfo)
-                  }
-                />
-              </section>
-            ))} */}
+           
           </section>
 
-        {/* Render progress based on the current cmpOrder */}
-        {/* <section className="progress-grid">
-          <pre>{JSON.stringify(cmpOrder,null,2)}</pre>
-          {cmpOrder.map((cmp, index) =>
-            // Assuming `progressComponents` is a predefined array
-            progressComponents.includes(cmp) ? (
-              <div className={`with-${cmp}`} key={`progress-${index}`}>
-                {progress[index]}
-              </div>
-            ) : (
-              <div className={cmp} key={`progress-${index}`}></div>
-            )
-          )}
-        </section> */}
+        
         <section className="progress-grid">
           {/* <div className="empty-col"></div> */}
           {/* <pre>{JSON.stringify(cmpOrder,null,2)}</pre> */}
@@ -340,15 +305,6 @@ const gridItemStyle = {
           )
           )}
           
-            {/* // progressComponents.includes(cmp) ? (
-            //   <div className={`with-${cmp}`} key={`progress-${cmp}`}>
-            //               <pre>{JSON.stringify(cmp,null,2)}</pre>
-
-            //     {progress[cmp]}  
-            //   </div>
-            // ) : (
-            //   <div className={cmp} key={`progress-${cmp}`}></div>
-            // ) */}
         </section>
       </DndContext>
     </section>
