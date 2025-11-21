@@ -19,14 +19,15 @@ import {
 } from "@dnd-kit/core";
 import {
   SortableContext,
-  horizontalListSortingStrategy,
-  arrayMove,
+  horizontalListSortingStrategy,verticalListSortingStrategy,
+  arrayMove,useSortable 
 } from "@dnd-kit/sortable";
 import { DraggableCmpHeader } from "./DraggableCmpHeader";
 import { utilService } from "../services/util.service.js";
 import { eventBusService } from "../services/event-bus.service.js";
 import { SummaryBar } from "./SummaryBar.jsx";
-// import { DraggableTask } from "./DraggableTask.jsx";
+import { DraggableTask } from "./DraggableTask.jsx";
+import { DynamicCmp } from "./DynamicCmp.jsx";
 
 export function GroupPreview({
   labels,
@@ -92,6 +93,22 @@ export function GroupPreview({
     //   // });
     // }
   };
+  function handleDragEndRows(event) {
+  const { active, over } = event;
+
+  if (!over || active.id === over.id) return;
+
+  const oldIndex = group.tasks.findIndex(t => t.id === active.id);
+  const newIndex = group.tasks.findIndex(t => t.id === over.id);
+
+  const reordered = arrayMove(group.tasks, oldIndex, newIndex);
+    console.log('reordered',reordered)
+    console.log('group.id',group.id)
+
+    updateBoard(group.id, null, {key: 'tasks', value: reordered});
+
+  //onReorderTasks(reordered); // פונקציה שלך שמעדכנת state
+}
  
   function onTaskUpdate(taskId, updatedInfo) {
     console.log('onTaskUpdate func -> taskId, updatedInfo',taskId, updatedInfo)
@@ -240,73 +257,63 @@ const gridItemStyle = {
             })}
           </section>
         </SortableContext>
-    {/* <DndContext onDragEnd={handleDragEnd1}>
-      {group.tasks.map(task => (
-        <DraggableTask key={task.id} task={task} cmpOrder={cmpOrder} onTaskUpdate={onTaskUpdate} selectedTasks={selectedTasks} />
-      ))}
-    </DndContext> */}
-        {/* Render tasks based on the current cmpOrder */}
-        {group.tasks.map((task) => (
-          <section className="group grid" key={`task-${task.id}`}>
-            {/* //group.tasks[task.id].comments.length */}
-                {/* <pre>{JSON.stringify(group.tasks.find(t => t.id == task.id).comments.length,null,2)}</pre> */}
-            {cmpOrder.map((cmp, idx) => (
-              <section 
-                className={`grid-item ${cmp}`}
-                key={`task-${task.id}-cmp-${idx}`}
-              >
-                
-                <DynamicCmp
-                  commentsLength={group.tasks.find(t => t.id == task.id).comments.length}
-                  cmpType={cmp}
-                  info={task[cmp]}
-                  selectedTasks={selectedTasks}
-                  content={{groupId:group.id,taskId:task.id}}
-                  taskId={task.id}
-                  onTaskUpdate={(updateInfo) =>
-                    onTaskUpdate(task.id, updateInfo)
-                  }
-                />
-              </section>
-            ))}
-          </section>
-        ))}
-        {/* ####-----------add new task-------------######### */}
-        <section className="group grid" key={`task-${999}`}>
-            <section></section>
-            <section
-                className={`grid-item taskTitle`}
-                key={`task-${999}-cmp-${999}`}
-              >
-                <DynamicCmp
-                  cmpType={'taskTitle'}
-                  info={''}
-                  selectedTasks={null}
-                  taskId={null}
-                  onTaskUpdate={(updateInfo) =>
-                    onTaskUpdate('newTask', updateInfo)
-                  }
-                />
-              </section>
-           
-          </section>
-
+</DndContext>
         
-        <section className="progress-grid">
-          {/* <div className="empty-col"></div> */}
-          {/* <pre>{JSON.stringify(cmpOrder,null,2)}</pre> */}
-          {cmpOrder.map((cmp) =>
-          progressComponents.includes(cmp) ? (
-            <div className={`with-${cmp}`} key={`progress-${cmp}`}>
-              <SummaryBar tasks={group.tasks} cmp={cmp} />
-            </div>
-          ) : (
-            <div className={cmp} key={`progress-${cmp}`}></div>
-          )
-          )}
-          
-        </section>
-      </DndContext>
+     <DndContext
+  collisionDetection={closestCenter}
+  onDragEnd={handleDragEndRows}
+>
+  <SortableContext
+    items={group.tasks.map(t => t.id)}
+    strategy={verticalListSortingStrategy}
+  >
+
+    {group.tasks.map(task => (
+      <DraggableTask
+        key={task.id}
+        task={task}
+        cmpOrder={cmpOrder}
+        group={group}
+        selectedTasks={selectedTasks}
+        onTaskUpdate={onTaskUpdate}
+      />
+    ))}
+
+  </SortableContext>
+</DndContext>
+  {/* ####-----------add new task-------------######### */}
+  <section className="group grid" key={`task-${999}`}>
+    <section></section>
+    <section
+      className={`grid-item taskTitle`}
+      key={`task-${999}-cmp-${999}`}
+    >
+      <DynamicCmp
+        cmpType={'taskTitle'}
+        info={''}
+        selectedTasks={null}
+        taskId={null}
+        onTaskUpdate={(updateInfo) =>
+          onTaskUpdate('newTask', updateInfo)
+        }
+      />
+    </section>
+  </section>
+
+  <section className="progress-grid">
+    {cmpOrder.map((cmp) =>
+      progressComponents.includes(cmp) ? (
+        <div className={`with-${cmp}`} key={`progress-${cmp}`}>
+          <SummaryBar tasks={group.tasks} cmp={cmp} />
+        </div>
+      ) : (
+        <div className={cmp} key={`progress-${cmp}`}></div>
+      )
+    )}
+  </section>
+
+
+      
     </section>
       )}
       
@@ -314,33 +321,33 @@ const gridItemStyle = {
   );
 }
 
-const DynamicCmp = ({ cmpType, info, onTaskUpdate,content, selectedTasks, taskId,commentsLength }) => {
+// const DynamicCmp = ({ cmpType, info, onTaskUpdate,content, selectedTasks, taskId,commentsLength }) => {
 
-  switch (cmpType) {
-    case "side":
-      return (
-        <Side
-          info={info}
-          taskId={taskId}
-          selectedTasks={selectedTasks}
-          onTaskUpdate={onTaskUpdate}
-        />
-      );
-    case "priority":
-      return <Priority info={info} content={{...content,priority:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
-    case "taskTitle":
-      return <TaskTitle info={info} onTaskUpdate={onTaskUpdate} taskId={taskId} commentsLength={commentsLength}/>;
-    case "status":
-      return <Status info={info} content={{...content,status:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
-    case "members":
-      return <Member info={info} content={{...content,members:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
-    case "date":
-      return <DateEl info={info} content={{...content,strSelectedDate:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
-    default:
-      console.error(`Unknown component type: ${cmpType}`);
-      return <div>Unknown component: {cmpType}</div>;
-  }
-};
+//   switch (cmpType) {
+//     case "side":
+//       return (
+//         <Side
+//           info={info}
+//           taskId={taskId}
+//           selectedTasks={selectedTasks}
+//           onTaskUpdate={onTaskUpdate}
+//         />
+//       );
+//     case "priority":
+//       return <Priority info={info} content={{...content,priority:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
+//     case "taskTitle":
+//       return <TaskTitle info={info} onTaskUpdate={onTaskUpdate} taskId={taskId} commentsLength={commentsLength}/>;
+//     case "status":
+//       return <Status info={info} content={{...content,status:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
+//     case "members":
+//       return <Member info={info} content={{...content,members:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
+//     case "date":
+//       return <DateEl info={info} content={{...content,strSelectedDate:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
+//     default:
+//       console.error(`Unknown component type: ${cmpType}`);
+//       return <div>Unknown component: {cmpType}</div>;
+//   }
+// };
 export function SummaryBar1({ tasks, cmp }) {
   const counts = getSummaryCounts(tasks, cmp);
   const items = toPercents(counts);
