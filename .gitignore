@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 /.vs/monday-client
 /.vs
+/package-lock.json
