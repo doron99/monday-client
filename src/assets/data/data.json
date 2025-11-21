@@ -54,7 +54,9 @@
                 }
 						}
 
-            ]
+            ],
+            "isDeleted":false,
+            "isArchived":false
           },
           {
             "id": "t102",
@@ -64,7 +66,9 @@
             "priority": "Low",
             "members": [],
             "date": null,
-            "comments":[]
+            "comments":[],
+            "isDeleted":false,
+            "isArchived":false
           }
         ],
         "style": { "color": "red" }
@@ -81,7 +85,9 @@
             "priority": "Low",
             "members": [],
             "date": null,
-            "comments":[]
+            "comments":[],
+            "isDeleted":false,
+            "isArchived":false
           },
           {
             "id": "t104",
@@ -91,7 +97,9 @@
             "priority": "High",
             "members": ["u101"],
             "date": "2024-09-24",
-            "comments":[]
+            "comments":[],
+            "isDeleted":false,
+            "isArchived":false
           }
         ],
         "style": { "color": "#61bd33" }
@@ -143,7 +151,9 @@
             "priority": "Medium",
             "members": ["u103"],
             "date": "2025-01-15",
-            "comments":[]
+            "comments":[],
+            "isDeleted":false,
+            "isArchived":false
           },
           {
             "id": "t202",
@@ -153,7 +163,9 @@
             "priority": "Medium",
             "members": [],
             "date": null,
-            "comments":[]
+            "comments":[],
+            "isDeleted":false,
+            "isArchived":false
           }
         ],
         "style": { "color": "green" }
@@ -170,7 +182,9 @@
             "priority": "Medium",
             "members": ["u103"],
             "date": "2025-02-15",
-            "comments":[]
+            "comments":[],
+            "isDeleted":false,
+            "isArchived":false
           },
           {
             "id": "t204",
@@ -180,7 +194,9 @@
             "priority": "High",
             "members": ["u103", "u104"],
             "date": "2025-03-01",
-            "comments":[]
+            "comments":[],
+            "isDeleted":false,
+            "isArchived":false
           }
         ],
         "style": { "color": "#61bd4f" }
