@@ -49,7 +49,7 @@ const devSection = isDev
 const count = selectedPeople.length;
   return (
     <div className="task-member" ref={buttonRef} onClick={() => openDynamicPopper()}>
-      <button class="add-person-btn fa-solid plus"></button>
+      <button className="add-person-btn fa-solid plus"></button>
 
     {devSection}
 

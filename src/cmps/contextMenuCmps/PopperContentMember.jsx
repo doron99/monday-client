@@ -69,10 +69,10 @@ export const PopperContentMember = ({ content, buttonRef, onSelect, onClose }) =
             {selectedPeople.length > 0 
               && <div style={styles.personPopperSearchSeperator}></div>}
             
-      <div class="person-popper-search-container">
+      <div className="person-popper-search-container">
         <input
           type="text"
-          class="person-popper-input"
+          className="person-popper-input"
           value={searchTerm}
           onChange={handleSearch}
           placeholder="Search names, roles or teams"
@@ -81,7 +81,7 @@ export const PopperContentMember = ({ content, buttonRef, onSelect, onClose }) =
       </div>
       <div className="person-popper-suggested">
             {/* <h3>Suggested People</h3> */}
-              <div class="person-popper-suggested-title">Suggested people</div>
+              <div className="person-popper-suggested-title">Suggested people</div>
 
             <div>
                 {filteredPeople.map((person, index) => 
