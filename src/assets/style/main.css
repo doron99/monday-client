@@ -26,8 +26,13 @@
 @import 'cmps/filteers/BoardFiltersBar.css';
 @import 'cmps/filteers/FilterPopper.css';
 @import 'cmps/filteers/PopperContentPerson.css';
+@import 'cmps/filteers/SearchFilter.css';
+@import 'cmps/filteers/PopperContentSort.css';
+@import 'cmps/filteers/PopperContentHide.css';
 @import 'cmps/BoardHeader.css';
 @import 'cmps/TaskDetails.css';
+@import 'cmps/AddTaskMenu.css';
+@import 'cmps/PopperContentTask.css';
 @import 'cmps/MoveToConfirmationModal.css';
 
 

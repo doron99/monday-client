@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { TaskCount } from './TaskCount.jsx';
 import { updateBoard } from '../store/actions/board.actions.js';
+import { useSelector } from "react-redux";
 import {
   DndContext,
   closestCenter,
@@ -41,6 +42,13 @@ export function GroupPreview({
 
 
   const [isExpanded, setIsExpanded] = useState(true);
+  const hiddenColumns = useSelector(state => state.boardModule.hiddenColumns);
+  const visibleCmpOrder = cmpOrder.filter(
+  cmp => cmp === "side" || cmp === "taskTitle" || !hiddenColumns.includes(cmp)
+);
+
+
+
 
   // dnd-kit sensors for handling different input types
   const sensors = useSensors(
@@ -210,10 +218,10 @@ const gridItemStyle = {
               </div>
             </div>
             <div className="collapsed-headers">
-              {cmpOrder.slice(1).map((cmpName, index) => (
+              {visibleCmpOrder.slice(1).map((cmpName, index) => (
                 <div key={cmpName} className="collapsed-header-item">
                   
-                  {labels[index + 1] || cmpName}
+                  {labels[cmpOrder.indexOf(cmpName)] || cmpName}
                 </div>
               ))}
             </div>
@@ -232,31 +240,32 @@ const gridItemStyle = {
         >
         {/* Wrap the headers with SortableContext */}
 
-        <SortableContext items={cmpOrder} strategy={horizontalListSortingStrategy}>
+        <SortableContext items={visibleCmpOrder} strategy={horizontalListSortingStrategy}>
            <section className="labels-grid">
-            {cmpOrder.map((cmpName, index) => {
-              // שני הפריטים הראשונים – לא draggable
-              if (index < 2) {
-                const style = {
-                    textAlign: 'center',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  };
-                return (
-                  <div key={cmpName} style={style} className="static-header">
-                    {cmpName !== 'side' ? (labels[index] || cmpName) : ''}
-                  </div>
-                );
-              }
+            {visibleCmpOrder.map((cmpName, index) => {
+  // שני הטורים הראשונים הם סטטיים (side + taskTitle)
+  if (index < 2) {
+    const style = {
+      textAlign: 'center',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    };
+    return (
+      <div key={cmpName} style={style} className="static-header">
+        {cmpName !== 'side' ? (labels[cmpOrder.indexOf(cmpName)] || cmpName) : ''}
+      </div>
+    );
+  }
 
-              // משאר הפריטים כן draggable
-              return (
-                <DraggableCmpHeader key={cmpName} id={cmpName}>
-                  {labels[index] || cmpName}
-                </DraggableCmpHeader>
-              );
-            })}
+  // שאר הטורים — draggable
+  return (
+    <DraggableCmpHeader key={cmpName} id={cmpName}>
+      {labels[cmpOrder.indexOf(cmpName)] || cmpName}
+    </DraggableCmpHeader>
+  );
+})}
+
           </section>
         </SortableContext>
 </DndContext>
@@ -274,7 +283,7 @@ const gridItemStyle = {
       <DraggableTask
         key={task.id}
         task={task}
-        cmpOrder={cmpOrder}
+        cmpOrder={visibleCmpOrder}
         group={group}
         selectedTasks={selectedTasks}
         onTaskUpdate={onTaskUpdate}
@@ -303,7 +312,7 @@ const gridItemStyle = {
   </section>
 
   <section className="progress-grid">
-    {cmpOrder.map((cmp) =>
+    {visibleCmpOrder.map((cmp) =>
       progressComponents.includes(cmp) ? (
         <div className={`with-${cmp}`} key={`progress-${cmp}`}>
           <SummaryBar tasks={group.tasks.filter(t => !t.isDeleted && !t.isArchived)} cmp={cmp} />

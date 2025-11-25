@@ -37,7 +37,7 @@ export function PersonFilter() {
       <button
         ref={buttonRef}
         onClick={toggleMenu}
-        className="person-filter"
+        className="board-filter-btn"
       >
         <UserCircleIcon className="icon" />
         People

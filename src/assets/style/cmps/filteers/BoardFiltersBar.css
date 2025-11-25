@@ -9,68 +9,46 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: #fff;
-  border: 1px solid #d0d4e4;
-  border-radius: 6px;
-  padding: 6px 10px;
-  min-width: 160px;
-  transition: all 0.2s ease;
-}
-
-.filter-container:hover {
-  border-color: #a8b0c2;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.filter-container:focus-within {
-  border-color: #0073ea;
-  box-shadow: 0 0 0 2px rgba(0, 115, 234, 0.15);
-}
-
-.filter-container .icon,
-.filter-container svg {
-  width: 18px;
-  height: 18px;
-  color: #6b7280;
-  flex-shrink: 0;
-}
-
-.filter-container input {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  flex: 1;
-  color: #333;
   background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
 }
 
-.filter-container input::placeholder {
-  color: #9ca3af;
-  font-weight: 400;
-}
-
-button.person-filter {
+.board-filter-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  padding: 10px 18px;        
+  border-radius: 12px;        
+  background-color: transparent;
   border: none;
-  border-radius: 8px;
-  background-color: #fff;
-  color: #333;
   font-size: 14px;
-  padding: 6px 12px;
+  color: #222;             
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, 
+              box-shadow 0.2s ease, 
+              color 0.2s ease;
+}
+
+.board-filter-btn:hover {
+  background-color: #eceff3;   
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  color: #222 !important;     
 }
 
-.person-filter:hover {
-  background-color: #f6f7fb;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.person-filter svg {
+.board-filter-btn svg {
   width: 18px;
   height: 18px;
   color: #555;
+}
+
+.board-filter-btn:hover svg {
+  color: #555;
+}
+
+.person-filter {
+  all: unset;
+  display: flex;
+  align-items: center;
 }

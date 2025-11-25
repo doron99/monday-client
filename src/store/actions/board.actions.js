@@ -9,6 +9,7 @@ import {
   SET_LOADING,
   SET_FAVORITES,
   SET_ACTIVE_BOARD,
+  SET_HIDDEN_COLUMNS,
 } from '../reducers/board.reducer.js'
 
 
@@ -133,43 +134,126 @@ export function setActiveBoard(board) {
 
 
 function filterBoard(board, filterBy) {
-  // console.log(
-  //   'board, filterBy',board, filterBy
-  // )
-  if (!board) return null
-  let filteredGroups = board.groups
+  if (!board || !board.groups) return board;
 
-  if (filterBy.txt) {
-    const txt = filterBy.txt.toLowerCase()
-    filteredGroups = filteredGroups.map(group => ({
-      ...group,
-      tasks: group.tasks.filter(task =>
-        Object.values(task).some(
-          value => typeof value === "string" && value.toLowerCase().includes(txt)
-        )
-      ),
-    }))
+  const txt = filterBy.txt?.toLowerCase() || "";
+  const membersFilter = filterBy.members || [];
+  const isStarred = filterBy.isStarred || false;
+  const sort = filterBy.sort || null;
+
+  const txtExists = !!txt;
+
+  let filteredBoard = {
+    ...board,
+    groups: board.groups.map(group => {
+      let tasks = group.tasks.map(task =>
+        enrichTaskMembersSafe(task, board.members)
+      );
+
+      if (txtExists) {
+        tasks = tasks.filter(task => deepSearch(task, txt));
+      }
+
+      if (membersFilter.length) {
+        tasks = tasks.filter(task =>
+          task.membersDetails?.some(m => membersFilter.includes(m._id))
+        );
+      }
+
+      if (isStarred) {
+        tasks = tasks.filter(task => task.isStarred);
+      }
+
+      if (sort) {
+        const { by, dir } = sort;
+        tasks = [...tasks].sort((a, b) => sortTasks(a, b, by, dir));
+      }
+
+      return { ...group, tasks };
+    })
+  };
+
+  if (txtExists || membersFilter.length || isStarred) {
+    filteredBoard.groups = filteredBoard.groups.filter(g => g.tasks.length);
   }
 
-  if (filterBy.members && filterBy.members.length > 0) {
-    filteredGroups = filteredGroups.map(group => ({
-      ...group,
-      tasks: group.tasks.filter(task =>
-        task.members?.some(member =>
-          typeof member === "string"
-            ? filterBy.members.includes(member)
-            : filterBy.members.includes(member._id)
-        )
-      ),
-    }))
+  return filteredBoard;
+}
+
+
+export function setHiddenColumns(hiddenColumns) {
+  store.dispatch({ 
+    type: SET_HIDDEN_COLUMNS, 
+    hiddenColumns 
+  });
+}
+
+function enrichTaskMembersSafe(task, boardMembers) {
+  return {
+    ...task,
+    membersDetails: (task.members || []).map(memberId => {
+      return boardMembers.find(m => m._id === memberId) || null;
+    }).filter(Boolean)
+  };
+}
+
+
+export async function addTaskToFirstGroup() {
+  const board = store.getState().boardModule.selectedBoard
+  if (!board) throw new Error("No board selected")
+
+  const firstGroup = board.groups[0]
+  if (!firstGroup) throw new Error("Board has no groups")
+
+  const newTask = boardService.getEmptyTask()
+  const newTasks = [...firstGroup.tasks, newTask]
+
+  return updateBoard(firstGroup.id, null, {
+    key: "tasks",
+    value: newTasks
+  })
+}
+
+
+export async function addGroupWithTask() {
+  const board = store.getState().boardModule.selectedBoard
+  if (!board) throw new Error("No board selected")
+
+  const newGroup = boardService.getEmptyGroup()
+  const newTask = boardService.getEmptyTask()
+
+  newGroup.tasks = [newTask]
+
+  return updateBoard(null, null, {
+    key: "groups",
+    value: [...board.groups, newGroup]
+  })
+}
+
+function sortTasks(a, b, by, dir = "asc") {
+  const factor = dir === "desc" ? -1 : 1;
+
+  switch (by) {
+
+    case "status":
+      return a.status.localeCompare(b.status) * factor;
+
+    case "priority":
+      return a.priority.localeCompare(b.priority) * factor;
+
+    case "taskTitle":
+      return a.taskTitle.localeCompare(b.taskTitle) * factor;
+
+    case "date": {
+      const aDate = a.date ? new Date(a.date) : 0;
+      const bDate = b.date ? new Date(b.date) : 0;
+      return (aDate - bDate) * factor;
+    }
+
+    case "members":
+      return ((a.members?.length || 0) - (b.members?.length || 0)) * factor;
+
+    default:
+      return 0;
   }
-
-  // If no filters are applied (no text and no members), keep all groups
-  const hasActiveFilter = Boolean(filterBy.txt) || (filterBy.members && filterBy.members.length > 0)
-
-  if (hasActiveFilter) {
-    filteredGroups = filteredGroups.filter(g => g.tasks.length > 0)
-  }
-
-  return { ...board, groups: filteredGroups }
 }
