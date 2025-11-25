@@ -1,0 +1,64 @@
+.add-task-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+}
+
+.add-task-button {
+  background-color: #0073EA;
+  color: #FFFFFF;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px 0 0 4px; 
+  cursor: pointer;
+  font-family: 'Figtree', 'Roboto', 'Noto Sans Hebrew', sans-serif;
+  font-weight: 400;
+  font-size: 13.33px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.add-task-button:hover {
+  background-color: #0066d6;
+}
+
+.add-task-arrow {
+  background-color: #0073EA;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  border-left: 1px solid rgba(0, 0, 0, 0.3);
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  margin-left: -1px;
+}
+
+.add-task-arrow:hover {
+  background-color: #0066d6;
+}
+
+.add-task-arrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+.add-task-popper {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: white;
+  padding: 4px 0;
+  border-radius: 8px;
+  min-width: 220px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 3000;
+}

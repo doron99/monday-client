@@ -13,7 +13,9 @@ export const boardService = {
   updateBoard,
   getFavorites,
   getEmptyBoard,
-  getDefaultFilter
+  getDefaultFilter,
+  getEmptyTask,
+  getEmptyGroup
 }
 
 async function query(filterBy = {}) {
@@ -173,3 +175,28 @@ async function getFavorites() {
 function getDefaultFilter() {
   return { txt: '', isStarred: false }
 }
+
+function getEmptyTask() {
+  return {
+    id: utilService.makeId(),
+    side: "right",
+    taskTitle: "",
+    status: "Not started",
+    priority: "Low",
+    members: [],
+    date: null,
+    comments: [],
+    isDeleted: false,
+    isArchived: false
+  }
+}
+
+function getEmptyGroup() {
+  return {
+    id: utilService.makeId(),
+    title: "New group",
+    style: { color: utilService.getRandomColor() },
+    tasks: []
+  }
+}
+

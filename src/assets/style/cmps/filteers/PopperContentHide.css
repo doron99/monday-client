@@ -1,0 +1,71 @@
+.hide-popper {
+  width: 360px;
+  background: #fff;        
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 9999;           
+  position: relative;
+}
+
+.hide-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #323338;
+}
+
+.hide-search-container {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #d0d4e4;
+  padding: 6px 10px;
+  background-color: #fff;
+}
+
+.hide-search-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #333;
+}
+
+.hide-all-row {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.hide-columns-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;        
+}
+
+
+.hide-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  padding: 6px 0;
+  cursor: pointer;
+}
+
+.hide-row input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.hide-column-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.hide-column-label {
+  flex: 1;
+}

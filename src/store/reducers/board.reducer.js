@@ -6,6 +6,8 @@ export const SET_FILTER_BY = 'SET_FILTER_BY'
 export const SET_LOADING = 'SET_LOADING'
 export const SET_FAVORITES = 'SET_FAVORITES'
 export const SET_ACTIVE_BOARD = 'SET_ACTIVE_BOARD'
+export const SET_HIDDEN_COLUMNS = 'SET_HIDDEN_COLUMNS'
+
 
 const initialState = {
   boards: [],
@@ -13,6 +15,7 @@ const initialState = {
   favorites: [],
   filterBy: { txt: '', isStarred: false, members: [] },
   isLoading: false,
+  hiddenColumns: [],
 }
 
 export function boardReducer(state = initialState, action) {
@@ -59,8 +62,11 @@ export function boardReducer(state = initialState, action) {
 
     case SET_ACTIVE_BOARD:
       return { ...state, selectedBoard: action.board }
-
-
+      case SET_HIDDEN_COLUMNS:
+        return { 
+          ...state,
+          hiddenColumns: action.hiddenColumns
+        }
     default:
       return state
   }
