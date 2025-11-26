@@ -27,7 +27,7 @@
   border: none;
   border-radius: 0;
   height: 100%;
-  overflow: hidden;
+  overflow: visible;
   transition: width 0.35s ease;
   position: relative;
   z-index: 2;

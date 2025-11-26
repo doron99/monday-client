@@ -1,4 +1,5 @@
 import { boardService } from '../../services/board.service.js'
+import { utilService } from '../../services/util.service.js';
 import { store } from '../store.js'
 import {
   SET_BOARDS,
@@ -72,25 +73,28 @@ export function removeBoard(boardId) {
 }
 
 export async function updateBoard(gid = null, tid = null, update) {
-  store.dispatch({ type: SET_LOADING, isLoading: true })
+  store.dispatch({ type: SET_LOADING, isLoading: true });
+  
   try {
-    const board = store.getState().boardModule.selectedBoard
-    if (!board) throw new Error('No board selected in state')
+    const board = store.getState().boardModule.selectedBoard;
+    if (!board) throw new Error('No board selected in state');
 
-    const updatedBoard = await boardService.updateBoard(board, gid, tid, update)
+    const updatedBoard = await boardService.updateBoard(board, gid, tid, update);
 
-    store.dispatch({ type: SET_BOARD , board: updatedBoard })
+    store.dispatch({ type: SET_BOARD, board: updatedBoard });
 
-    return updatedBoard
+    return updatedBoard;
   } 
   catch (err) {
-    console.error('Cannot update board', err)
-    throw err
+    console.error('Cannot update board', err);
+    throw err;
   }
   finally {
-    store.dispatch({ type: SET_LOADING, isLoading: false })
+    store.dispatch({ type: SET_LOADING, isLoading: false });
   }
 }
+
+
 
 
 
@@ -255,5 +259,100 @@ function sortTasks(a, b, by, dir = "asc") {
 
     default:
       return 0;
+  }
+}
+
+export async function moveGroupToBoard(groupId, targetBoardId) {
+  store.dispatch({ type: SET_LOADING, isLoading: true });
+  
+  try {
+    const currentBoard = store.getState().boardModule.selectedBoard;
+    if (!currentBoard) throw new Error('No board selected in state');
+
+    // Find the group to move
+    const groupToMove = currentBoard.groups.find(g => g.id === groupId);
+    if (!groupToMove) throw new Error('Group not found');
+
+    // Remove group from current board
+    const updatedCurrentBoard = {
+      ...currentBoard,
+      groups: currentBoard.groups.filter(g => g.id !== groupId)
+    };
+
+    // Get target board
+    const targetBoard = await boardService.getById(targetBoardId);
+    if (!targetBoard) throw new Error('Target board not found');
+
+    // Add group to target board
+    const updatedTargetBoard = {
+      ...targetBoard,
+      groups: [...targetBoard.groups, groupToMove]
+    };
+
+    // Save both boards
+    await boardService.save(updatedCurrentBoard);
+    await boardService.save(updatedTargetBoard);
+
+    // Update Redux state with current board
+    store.dispatch({ type: SET_BOARD, board: updatedCurrentBoard });
+
+    // Reload boards list to reflect changes
+    await loadBoards();
+
+    return updatedCurrentBoard;
+  } catch (err) {
+    console.error('Cannot move group to board', err);
+    throw err;
+  } finally {
+    store.dispatch({ type: SET_LOADING, isLoading: false });
+  }
+}
+
+export async function duplicateGroup(groupId) {
+  store.dispatch({ type: SET_LOADING, isLoading: true });
+  
+  try {
+    const board = store.getState().boardModule.selectedBoard;
+    if (!board) throw new Error('No board selected in state');
+
+    // Find the group to duplicate
+    const groupToDuplicate = board.groups.find(g => g.id === groupId);
+    if (!groupToDuplicate) throw new Error('Group not found');
+
+    // Create a deep copy of the group with new IDs
+    const duplicatedGroup = {
+      ...JSON.parse(JSON.stringify(groupToDuplicate)),
+      id: utilService.makeId(),
+      title: `${groupToDuplicate.title} (Copy)`,
+      tasks: groupToDuplicate.tasks.map(task => ({
+        ...task,
+        id: utilService.makeId()
+      }))
+    };
+
+    // Find the index of the original group
+    const originalIndex = board.groups.findIndex(g => g.id === groupId);
+    
+    // Insert the duplicated group right after the original
+    const updatedGroups = [
+      ...board.groups.slice(0, originalIndex + 1),
+      duplicatedGroup,
+      ...board.groups.slice(originalIndex + 1)
+    ];
+
+    // Update the board
+    const updatedBoard = await boardService.updateBoard(board, null, null, {
+      key: 'groups',
+      value: updatedGroups
+    });
+
+    store.dispatch({ type: SET_BOARD, board: updatedBoard });
+
+    return updatedBoard;
+  } catch (err) {
+    console.error('Cannot duplicate group', err);
+    throw err;
+  } finally {
+    store.dispatch({ type: SET_LOADING, isLoading: false });
   }
 }

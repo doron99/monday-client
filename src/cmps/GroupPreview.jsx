@@ -8,8 +8,10 @@ import { Priority } from "./dynamicCmps/Priority.jsx";
 import { useEffect, useState } from "react";
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { TaskCount } from './TaskCount.jsx';
-import { updateBoard } from '../store/actions/board.actions.js';
+import { updateBoard, moveGroupToBoard, duplicateGroup } from '../store/actions/board.actions.js';
 import { useSelector } from "react-redux";
+import { MoveGroupToBoardModal } from "./MoveGroupToBoardModal";
+import { boardService } from "../services/board.service.js";
 import {
   DndContext,
   closestCenter,
@@ -183,6 +185,16 @@ const gridItemStyle = {
     };
   const progressComponents = ["priority", "status"];//"date", 
 
+  function handleMoveGroup(groupId, targetBoardId) {
+  moveGroupToBoard(groupId, targetBoardId)
+    .then(() => {
+      console.log('Group moved successfully to board:', targetBoardId);
+    })
+    .catch(err => {
+      console.error('Failed to move group:', err);
+    });
+}
+
   return (
     <section>
       {isExpanded ? (
@@ -192,6 +204,9 @@ const gridItemStyle = {
           onToggleExpanded={() => setIsExpanded(!isExpanded)}
           onUpdateGroup={updateGroup}
           onDeleteGroup={deleteGroup}
+          currentBoardId={board._id}
+          onMoveGroup={handleMoveGroup}
+          onDuplicateGroup={duplicateGroup}
         />
       ) : (
         <section 
