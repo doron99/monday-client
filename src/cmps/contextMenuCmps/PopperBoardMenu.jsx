@@ -1,5 +1,7 @@
 import { createPopper } from "@popperjs/core"
 import { useEffect, useRef } from "react"
+import { createPortal } from "react-dom"
+
 import {
   PencilIcon,
   TrashIcon,
@@ -25,8 +27,7 @@ export const PopperBoardMenu = ({
       popperInstance.current = createPopper(buttonRef.current, popperRef.current, {
         placement: "right-start",
         modifiers: [
-          { name: "offset", options: { offset: [8, 8] } },
-          { name: "preventOverflow", options: { boundary: "viewport" } },
+          { name: "offset", options: { offset: [6, 8] } },
           { name: "flip", options: { fallbackPlacements: ["left-start", "bottom-start"] } },
         ],
       })
@@ -38,9 +39,8 @@ export const PopperBoardMenu = ({
         popperInstance.current = null
       }
     }
-  }, [isOpen, buttonRef])
+  }, [isOpen])
 
-  // סגירה בלחיצה מחוץ
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -53,7 +53,7 @@ export const PopperBoardMenu = ({
 
     if (isOpen) document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [isOpen, buttonRef, onClose])
+  }, [isOpen])
 
   if (!isOpen) return null
 
@@ -68,8 +68,8 @@ export const PopperBoardMenu = ({
     { label: "Delete", icon: <TrashIcon className="w-4 h-4 icon" />, action: onDelete },
   ]
 
-  return (
-    <div ref={popperRef} className={`context-menu ${isOpen ? "active" : ""}`}>
+  return createPortal(
+    <div ref={popperRef} className="context-menu active">
       {menuItems.map((item, idx) => (
         <button
           key={idx}
@@ -82,6 +82,7 @@ export const PopperBoardMenu = ({
           {item.icon}
         </button>
       ))}
-    </div>
+    </div>,
+    document.body
   )
 }
