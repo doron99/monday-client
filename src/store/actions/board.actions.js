@@ -72,31 +72,16 @@ export function removeBoard(boardId) {
     })
 }
 
-export async function updateBoard(boardId = null, gid = null, tid = null, update) {
+export async function updateBoard(gid = null, tid = null, update) {
   store.dispatch({ type: SET_LOADING, isLoading: true });
-
+  
   try {
-    let board;
+    const board = store.getState().boardModule.selectedBoard;
+    if (!board) throw new Error('No board selected in state');
 
-    // אם נשלח boardId → טוענים את הלוח מהשרת
-    if (boardId) {
-      board = await boardService.getById(boardId);
-    } else {
-      // אחרת → משתמשים בלוח שנבחר כרגע בסטייט
-      board = store.getState().boardModule.selectedBoard;
-    }
-
-    if (!board) throw new Error('No board selected');
-
-    // עדכון ה־BOARD בפועל
     const updatedBoard = await boardService.updateBoard(board, gid, tid, update);
 
-    // עדכון ה־Redux
     store.dispatch({ type: SET_BOARD, board: updatedBoard });
-
-    // רענון רשימת הלוחות + פייבוריטים
-    await loadBoards();
-    await loadFavorites();
 
     return updatedBoard;
   } 
@@ -108,6 +93,7 @@ export async function updateBoard(boardId = null, gid = null, tid = null, update
     store.dispatch({ type: SET_LOADING, isLoading: false });
   }
 }
+
 
 
 
