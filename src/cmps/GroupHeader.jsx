@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { TaskCount } from "./TaskCount.jsx";
 import { GroupMenu } from "./GroupMenu.jsx";
+import { MoveGroupToBoardModal } from "./MoveGroupToBoardModal.jsx";
+
 
 
 import {
@@ -14,15 +16,21 @@ export function GroupHeader({
   isExpanded,
   onToggleExpanded,
   onUpdateGroup,
-  onDeleteGroup
+  onDeleteGroup,
+  currentBoardId,
+  onMoveGroup,
+  onDuplicateGroup
 }) {
   const [isColorModalOpen, setIsColorModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [originalTitle, setOriginalTitle] = useState(group.title);
   const [isGroupMenuOpen, setIsGroupMenuOpen] = useState(false);
+  const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
+  const titleRef = useRef(null);
+
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -126,23 +134,39 @@ export function GroupHeader({
   };
 
   // Menu item handlers (placeholders)
-  const handleRenameGroup = () => {
-    setIsGroupMenuOpen(false);
-    // TODO: Implement rename functionality
-    console.log("Rename group");
-  };
+const handleRenameGroup = () => {
+  setIsGroupMenuOpen(false);
+  // Focus on the title to enable editing
+  if (titleRef.current) {
+    titleRef.current.focus();
+    // Select all text for easy replacement
+    const range = document.createRange();
+    range.selectNodeContents(titleRef.current);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+};
 
-  const handleDuplicateGroup = () => {
-    setIsGroupMenuOpen(false);
-    // TODO: Implement duplicate functionality
-    console.log("Duplicate group");
-  };
+const handleDuplicateGroup = () => {
+  setIsGroupMenuOpen(false);
+  if (onDuplicateGroup) {
+    onDuplicateGroup(group.id);
+  }
+};
 
   const handleMoveGroup = () => {
     setIsGroupMenuOpen(false);
-    // TODO: Implement move functionality
+    setIsMoveModalOpen(true);
     console.log("Move group");
   };
+
+  const handleMoveGroupToBoard = (targetBoardId) => {
+  if (onMoveGroup) {
+    onMoveGroup(group.id, targetBoardId);
+  }
+  setIsMoveModalOpen(false);
+};
 
   return (
     <div
@@ -206,6 +230,7 @@ export function GroupHeader({
             ></div>
           )}
           <span
+            ref={titleRef}
             suppressContentEditableWarning
             contentEditable
             onFocus={handleTitleFocus}
@@ -251,6 +276,15 @@ export function GroupHeader({
           onDeleteGroup={handleDeleteGroup}
         />
       )}
+
+      {isMoveModalOpen && (
+  <MoveGroupToBoardModal
+    group={group}
+    currentBoardId={currentBoardId}
+    onClose={() => setIsMoveModalOpen(false)}
+    onMove={handleMoveGroupToBoard}
+  />
+  )}
     </div>
   );
 }
