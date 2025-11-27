@@ -44,17 +44,9 @@ export const BoardHeader = ({ board, onUpdateBoard }) => {
     }
   };
 
-  return (
-    <header>
-      <div
-        className={`board-title-wrapper ${isFocused ? "focused" : ""}`}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          border: isFocused ? "1px solid #c3c6d4" : "1px solid transparent",
-          borderRadius: "4px"
-        }}
-      >
+return (
+    <header className="board-header">
+      <div className={`board-title-wrapper ${isFocused ? "focused" : ""}`}>
         <span
           suppressContentEditableWarning
           contentEditable
@@ -62,13 +54,13 @@ export const BoardHeader = ({ board, onUpdateBoard }) => {
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           className="board-title"
-          style={{
-            outline: "none",
-            userSelect: "text",
-          }}
         >
           {board.title}
         </span>
+      </div>
+
+      <div className="main-table-section">
+        <span className="main-table-text">Main table</span>
       </div>
 
       <BoardFiltersBar />
