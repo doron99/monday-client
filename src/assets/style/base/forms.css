@@ -8,7 +8,7 @@ button {
 }
 
 button:hover {
-    background-color: var(--clr2);
+    background-color: var(--gray2);
     color: white;
     transition: .3s;
 }
