@@ -18,7 +18,7 @@ export function AddTaskMenu({ onAddTask, onAddGroup }) {
         className="add-task-arrow"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <ChevronDownIcon />
+        <ChevronDownIcon className="add-task-icon" />
       </div>
 
       {isOpen && (
