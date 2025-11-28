@@ -100,7 +100,9 @@ export function TaskDetails(){
     return(
         <div className="task-details-container" style={{ ...styles.mainStyle, right: rightPosition }}>
             
-            <div><FaTimes  style={{ fontSize: '1.4rem', marginRight: '0.5rem' }} onClick={() => onClickX()}/></div>
+            <div><span className="task-details-x-button" style={{ fontSize: '1rem', 
+                marginRight: '0.5rem',
+                padding:'0.3rem',cursor:'pointer' }} onClick={() => onClickX()}>✕</span></div>
             <h2>{taskTitle}</h2>
             
             <div className="tab-bar">

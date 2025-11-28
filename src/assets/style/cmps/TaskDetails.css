@@ -12,6 +12,10 @@
 .task-details-container h2 {
     margin-bottom: 15px;
 }
+.task-details-x-button:hover {
+    border-radius: 4px;
+    background-color: #6768791a;
+}
 .task-details-form {
   width:100%;
   display: block;
