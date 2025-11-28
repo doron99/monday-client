@@ -83,6 +83,7 @@
   border-top: 1px solid #eee;
   padding-top: 8px;
   box-sizing: border-box;
+  width:300px;
 }
 
 .person-popper-suggested-title {
@@ -100,6 +101,9 @@
   transition: background-color 0.2s ease;
   box-sizing: border-box;
   margin: 0;
+  height: 35px;
+  display:flex;
+  align-items:anchor-center;
 }
 
 .person-popper-suggested-row:hover {

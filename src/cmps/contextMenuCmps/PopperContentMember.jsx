@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { FaRegTimesCircle } from "react-icons/fa";
 import { updateBoard } from "../../store/actions/board.actions";
 import { useEffectUpdate } from "../customHooks/useEffectUpdate";
+import UserAvatarSvg from '../../assets/svgs/user-avatar.svg';
 
  const allPeople = [
         { _id: 'u100',name: 'Doron test' },
@@ -89,7 +90,12 @@ export const PopperContentMember = ({ content, buttonRef, onSelect, onClose }) =
                       <div 
                       onClick={() => handleAddPerson(person)} 
                       className="person-popper-suggested-row" key={index}>
-                          <span>{person.name}</span>
+                          <img 
+                                  src={UserAvatarSvg} 
+                                  alt="no-members" 
+                                  style={{ fontSize: '1.5rem', height:'1.5rem',display:'block',marginRight:'3px' }} 
+                                />
+                          <span style={{ display:'block' }}>{person.name}</span>
                           {/* <button onClick={() => handleAddPerson(person)}>Add</button> */}
                       </div>
                   )
