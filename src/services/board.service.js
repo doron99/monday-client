@@ -76,13 +76,14 @@ async function save(board) {
       board.createdAt = Date.now()
       board.createdBy = { username: 'Guest' }
       board.isStarred = false
-      board.cmpOrder = board.cmpOrder || ["side", "taskTitle", "status", "priority", "date", "members"] 
-      board.groups = []
+      board.cmpOrder = board.cmpOrder || ["side", "taskTitle", "status", "priority", "date", "members"]
+
+
       board.activities = []
-      
       board.statuses = getInitialStatuses();
       board.priorities = getInitialPriorities();
       board.members = getInitialMembers();
+
       return await storageService.post(STORAGE_KEY, board)
     }
   } catch (err) {
@@ -90,6 +91,9 @@ async function save(board) {
     throw err
   }
 }
+
+
+
 function getInitialStatuses() {
   return [
       { "id": "l101", "label": "Done", "color": "#00c875" },
@@ -151,7 +155,9 @@ function updateBoard(board, gid, tid, { key, value }) {
 }
 
 function getEmptyBoard() {
-  return {
+  let itemCounter = 1; 
+
+  const board = {
     title: 'New Board',
     isStarred: false,
     createdAt: Date.now(),
@@ -163,7 +169,21 @@ function getEmptyBoard() {
     groups: [],
     activities: [],
   }
+
+  for (let i = 1; i <= 2; i++) {
+    const group = getEmptyGroup()
+    group.title = `Group ${i}`
+
+    group.tasks.push(getEmptyTask(`Item ${itemCounter++}`))
+    group.tasks.push(getEmptyTask(`Item ${itemCounter++}`))
+
+    board.groups.push(group)
+  }
+
+  return board
 }
+
+
 
 
 
@@ -176,11 +196,11 @@ function getDefaultFilter() {
   return { txt: '', isStarred: false }
 }
 
-function getEmptyTask() {
+function getEmptyTask(title = "New item") {
   return {
     id: utilService.makeId(),
     side: "right",
-    taskTitle: "",
+    taskTitle: title,   
     status: "Not started",
     priority: "Low",
     members: [],
@@ -190,6 +210,7 @@ function getEmptyTask() {
     isArchived: false
   }
 }
+
 
 function getEmptyGroup() {
   return {
