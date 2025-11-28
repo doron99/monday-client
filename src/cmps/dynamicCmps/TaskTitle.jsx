@@ -62,7 +62,7 @@ export function TaskTitle({ info, onTaskUpdate,taskId,commentsLength }) {
       onBlur={(ev) => handleBlur(ev)} // Call update function on blur
       onKeyDown={(ev) => handleKeyDown(ev)}
 
-      placeholder="Add new..." // Optional placeholder text
+      placeholder="+ Add task..." // Optional placeholder text
       style={{
         width: '200px', // Adjust width as needed
         padding: '2px 5px', // Reduced padding for smaller height
@@ -87,9 +87,9 @@ export function TaskTitle({ info, onTaskUpdate,taskId,commentsLength }) {
     {taskId &&<div className='task-details-link' onClick={() => handleNavigateToTask()} 
     >
       {commentsLength > 0 
-      ? <div style={{display:'flex',marginLeft:'15px'}}><LuMessageCircle 
+      ? <div style={{display:'flex',marginLeft:'15px',position:'relative'}}><LuMessageCircle 
           style={styles.buttonWithComments} />
-          <span className=''>{commentsLength}</span>
+          <span className='task-details-link-count'>{commentsLength}</span>
         </div>
       : <div style={{display:'flex',marginLeft:'15px'}}><LuMessageCirclePlus style={styles.buttonWithoutComments} /></div>
       }

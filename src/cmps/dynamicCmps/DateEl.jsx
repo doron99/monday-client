@@ -62,9 +62,13 @@ function parseISO(dateString) {
 
   
   return (
-    <div className="task-date" style={styles.styleTaskDate}>
+    <div ref={buttonRef} onClick={openDynamicPopper} className="task-date" style={{
+    ...styles.styleTaskDate,
+    background: selected ? "#579bfc" : "gray"
+  }}>
 
-      <span style={styles.styleTaskDateSpan} ref={buttonRef} onClick={openDynamicPopper}>{selected ? formatDateString(selected) : '+'}</span>
+      <span style={styles.styleTaskDateSpan} >
+        {selected ? formatDateString(selected) : '+'}</span>
         {/* <button  onClick={handleOpen}>{info}</button> */}
       {/* <PopperDate strSelectedDate={selected} isOpen={open} buttonRef={buttonRef} onSelect={(s) => onSelect(s)} onClose={handleClose} /> */}
     </div>
@@ -73,14 +77,15 @@ function parseISO(dateString) {
 }
 const styles={
   styleTaskDate:{
-    background: '#579bfc',
     color: 'white',
     borderRadius: '20px',
-    padding: '0rem 0.5rem',
-    cursor:'pointer'
+    padding: '0.2rem 3rem',
+    width:'85%',
+    cursor:'pointer',
+    textAlign:'center'
   },
   styleTaskDateSpan:{
-    fontSize:'0.8rem'
+    fontSize:'1rem'
   
   }
 }

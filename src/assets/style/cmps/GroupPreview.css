@@ -1,18 +1,23 @@
 
+body {
+  /* overflow-x: auto; */
+}
 .group-preview {
   /* font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; */
   background: #ffffff;
-  border-radius: 8px;
+  /* border-radius: 8px; */
   border: 1px solid #e6e9ef;
+  border-right: none;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   margin-bottom: 16px;
   /* overflow: hidden; */
   transition: all 0.2s ease;
   border-left: 4px solid #579bfc;
+  width:max-content;
 }
 
 .group-preview:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); */
 }
 
 /* Group Preview Collapsed State */
@@ -159,8 +164,9 @@
 /* Labels Grid - Table Header */
 .labels-grid {
   display: grid;
-  grid-template-columns: 40px 2fr 1fr 1fr 1fr 1fr 1fr;
-  border-bottom: 1px solid #e6e9ef;
+  grid-template-columns: 40px 340px 190px 190px 190px 190px 190px 190px 190px;
+  width: max-content;  
+  border: 1px solid #e6e9ef;
   font-size: 11px;
   font-weight: 500;
   color: #676879;
@@ -186,11 +192,22 @@
 /* Task Grid - Table Rows */
 .group.grid {
   display: grid;
-  grid-template-columns: 40px 2fr 1fr 1fr 1fr 1fr 1fr;
+  /* grid-template-columns: 40px 2fr 1fr 1fr 1fr 1fr 1fr; */
+  grid-template-columns: 40px 340px 190px 190px 190px 190px 190px 190px 190px;
+  width: max-content;  
   border-bottom: 1px solid #e6e9ef;
   transition: all 0.2s ease;
+  height:36px;
 }
-
+.group.grid.new-task {
+  display: grid;
+  /* grid-template-columns: 40px 2fr 1fr 1fr 1fr 1fr 1fr; */
+  grid-template-columns: 40px 340px ;
+  width: max-content;  
+  border-bottom: 1px solid #e6e9ef;
+  transition: all 0.2s ease;
+  height:36px;
+}
 /* Hover on the whole line */
 .group.grid:hover {
   background:#f0f1f3;
@@ -226,8 +243,10 @@
 /* Progress Grid - Summary Row */
 .progress-grid {
   display: grid;
-  grid-template-columns: 40px 2fr 1fr 1fr 1fr 1fr 1fr;
+  /* grid-template-columns: 40px 2fr 1fr 1fr 1fr 1fr 1fr; */
+  grid-template-columns: 40px 340px 190px 190px 190px 190px 190px 190px 190px;
   font-size: 12px;
+  width: max-content;  
 }
 
 .progress-grid > div {
@@ -300,7 +319,7 @@
 /* Task Title */
 .grid-item.taskTitle input,
 .grid-item.taskTitle [contentEditable],
-.grid-item.taskTitle span {
+.grid-item.taskTitle span:not(.task-details-link-count) {
   font-size: 14px;
   color: #323338;
   font-weight: 400;
@@ -311,10 +330,27 @@
   padding: 4px 8px;
   border-radius: 4px;
   transition: all 0.2s ease;
-  width: 100%;
-  margin-left:5px
+  /* width: 100%; */
+  margin-left:5px;
+  
 }
-
+.task-details-link-count {
+        align-items: center;
+    background-color: #0073ea;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    font-size: .8rem;
+    height: 17px;
+    justify-content: center;
+    margin: 0;
+    position: absolute;
+    right: -4px;
+    top: 10px;
+    width: 16px;
+  
+}
 .grid-item.taskTitle input:focus,
 .grid-item.taskTitle [contentEditable]:focus {
   background: #f8f9fb;
@@ -329,27 +365,27 @@
   align-items:center;
 }
 /* Responsive Design */
-@media (max-width: 1400px) {
+/* @media (max-width: 1400px) {
   .labels-grid,
   .group.grid,
   .progress-grid {
     grid-template-columns: 35px 1.8fr 100px 120px 120px 90px 120px;
   }
-}
+} */
 
-@media (max-width: 1200px) {
+/* @media (max-width: 1200px) {
   .labels-grid,
   .group.grid,
   .progress-grid {
     grid-template-columns: 35px 1.5fr 90px 100px 100px 80px 100px;
-  }
+  } 
   
   .grid-item {
     padding: 6px 10px;
     min-height: 36px;
   }
-}
-
+}*/
+/* 
 @media (max-width: 768px) {
   .labels-grid,
   .group.grid,
@@ -375,12 +411,12 @@
     width: 14px;
     height: 14px;
   }
-}
+} */
 .summary-bar {
   display: flex;
   height: 100%;
   /* border-radius: 4px; */
-  overflow: hidden;
+  /* overflow: hidden; */
   width:100%;
     margin: 10px 5px;
   padding:5px;
@@ -393,7 +429,7 @@
   display: flex;
   height: 100%;
   /* border-radius: 4px; */
-  overflow: hidden;
+  /* overflow: hidden; */
   position: relative;
 }
 

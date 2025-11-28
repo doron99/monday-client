@@ -2,9 +2,13 @@
     background-color: rgb(207, 229, 247);
     transition: background-color 1s;
 } */
+.static-header {
+  height:36px;
+}
 .task-status {
     width:100%;
   text-align: center;
+      height: 99%;
 }
 .task-title {
         border: none; /* Remove all borders initially */
@@ -59,7 +63,52 @@
     background-color: #0073ea;
     color: #fff;
 }
-.grid-item.taskTitle span {
+
+.labels-grid div:nth-child(1) {
+  width: 40px;
+}
+.labels-grid div:nth-child(2) {
+  width: 340px;
+}
+.labels-grid div:nth-child(3) {
+  width: 190px;
+}
+.labels-grid div:nth-child(4) {
+  width: 190px;
+}
+.labels-grid div:nth-child(5) {
+  width: 190px;
+}
+.labels-grid div:nth-child(6) {
+  width: 190px;
+}
+.labels-grid div:nth-child(7) {
+  width: 190px;
+}
+/* .group.grid section:nth-child(1) {
+  width: 40px;
+} */
+/* .group.grid section:nth-child(2) {
+  width: 40px;
+} */
+.group.grid section:nth-child(3) {
+  width: 340px;
+}
+.group.grid section:nth-child(4) {
+  width: 190px;
+}
+.group.grid section:nth-child(5) {
+  width: 190px;
+}
+.group.grid section:nth-child(6) {
+  width: 190px;
+}
+.group.grid section:nth-child(7) {
+  width: 190px;
+}
+
+/* .labels-grid. */
+/* .grid-item.taskTitle span {
     position: absolute;
     display: block;
     right: -8px;
@@ -73,7 +122,7 @@
     width: auto;
     cursor: pointer;
     
-}
+} */
 .task-details-link {
     transition: background-color 0.3s ease, transform 0.3s ease;
     cursor: pointer;

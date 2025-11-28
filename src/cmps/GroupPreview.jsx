@@ -267,10 +267,14 @@ const gridItemStyle = {
       alignItems: 'center',
     };
     return (
-      <div key={cmpName} style={style} className="static-header">
-        {cmpName !== 'side' ? (labels[cmpOrder.indexOf(cmpName)] || cmpName) : ''}
+      // <div key={cmpName} style={style} className="static-header">
+      //   {cmpName !== 'side' ? (labels[cmpOrder.indexOf(cmpName)] || cmpName) : ''}
+      // </div>
+       <div key={cmpName} style={style} className="static-header">
+        {cmpName !== 'side' ? 'Task' : ''}
       </div>
     );
+    
   }
 
   // שאר הטורים — draggable
@@ -308,7 +312,7 @@ const gridItemStyle = {
   </SortableContext>
 </DndContext>
   {/* ####-----------add new task-------------######### */}
-  <section className="group grid" key={`task-${999}`}>
+  <section className="group grid new" key={`task-${999}`}>
     <section></section>
     <section
       className={`grid-item taskTitle`}
