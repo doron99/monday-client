@@ -1,35 +1,72 @@
-.board-list-container {
-     height:100vh;
-     width:100%;
-}
-.board-list {
-    display:flex;
-    flex-wrap:wrap;
-    gap:20px;
-    padding:30px;
-}
-.board-list-item {
-    margin: 5px;
-    border: 1px solid #d0d4e4;
-    padding: 16px;
-    background: white;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
-}
-.board-list-item img .img-cover {
-    aspect-ratio:16/9;
-    min-width: 100%;
-}
-.board-list-item:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-    border-color: #c3c6d4;
-}
-.board-list-item-details {
-    display:flex;
-    justify-content:space-between;
-    margin-top:0.5rem;
+.board-list-wrapper {
+    min-height: 100vh;
+    overflow-y: auto;
 }
 
+.board-list-container {
+    background-color: #ffffff;
+    padding: 24px 32px 32px 32px;
+    max-width: 900px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.board-list-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.board-list-icon {
+    font-size: 24px;
+    color: #323338;
+    transition: transform 0.2s ease;
+}
+
+.board-list-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #323338;
+    margin: 0;
+}
+
+.board-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 240px));
+    gap: 24px;
+    justify-content: start;
+}
+
+.empty-board-list {
+    text-align: center;
+    padding: 40px;
+    color: #676879;
+    font-size: 14px;
+}
+
+.scroll-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 40px;
+    height: 80px;
+    background-color: #c4c4c4;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.scroll-to-top:hover {
+    background-color: #a8a8a8;
+}

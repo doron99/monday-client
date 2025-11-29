@@ -74,6 +74,7 @@ async function save(board) {
     } else {
       board._id = utilService.makeId()
       board.createdAt = Date.now()
+      board.lastVisited = Date.now()
       board.createdBy = { username: 'Guest' }
       board.isStarred = false
       board.cmpOrder = board.cmpOrder || ["side", "taskTitle", "status", "priority", "date", "members"]
@@ -161,6 +162,7 @@ function getEmptyBoard() {
     title: 'New Board',
     isStarred: false,
     createdAt: Date.now(),
+    lastVisited: Date.now(),
     createdBy: userService.getLoggedinUser() || { fullname: 'Guest' },
     style: {},
     labels: [],

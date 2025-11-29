@@ -46,20 +46,26 @@ export function loadFavorites() {
       store.dispatch({ type: SET_LOADING, isLoading: false })
     })
 }
-
-export function loadBoardById(boardId) {
+export async function loadBoardById(boardId) {
   store.dispatch({ type: SET_LOADING, isLoading: true })
-  return boardService.getById(boardId)
-    .then(board => {
-      store.dispatch({ type: SET_BOARD, board })
-      return board
-    })
-    .catch(err => {
-      console.log('Cannot load board', err)
-    })
-    .finally(() => {
-      store.dispatch({ type: SET_LOADING, isLoading: false })
-    })
+  try {
+    const board = await boardService.getById(boardId)
+    
+    const updatedBoard = {
+      ...board,
+      lastVisited: Date.now()
+    }
+    await boardService.save(updatedBoard)
+    store.dispatch({ type: SET_BOARD, board: updatedBoard })
+    await loadBoards()
+    
+    return updatedBoard
+  } catch (err) {
+    console.log('Cannot load board', err)
+    throw err
+  } finally {
+    store.dispatch({ type: SET_LOADING, isLoading: false })
+  }
 }
 
 export function removeBoard(boardId) {
