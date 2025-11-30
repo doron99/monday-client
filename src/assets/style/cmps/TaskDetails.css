@@ -12,6 +12,11 @@
 .task-details-container h2 {
     margin-bottom: 15px;
 }
+.task-details-name {
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
 .task-details-x-button:hover {
     border-radius: 4px;
     background-color: #6768791a;
@@ -28,11 +33,15 @@
     width:100%;
     margin-bottom:5px;
 }
+.task-details-form-button-wrapper {
+  display: flex;
+  justify-content: end;
+}
 .task-details-form button{
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width:100%;
+    /* width:100%; */
     margin:0;
 }
 .update-section {
@@ -139,7 +148,6 @@ form button {
 }
 
 .tab-content {
-  border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
   width:100%;

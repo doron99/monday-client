@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router-dom';
 import { makeId, getRandomColor } from "../services/util.service.js";
 import { updateBoard } from "../store/actions/board.actions";
+import UserAvatarSvg from '../assets/svgs/user-avatar.svg';
 
 export function TaskDetails(){
     const {boardId,taskId} = useParams();
@@ -103,7 +104,7 @@ export function TaskDetails(){
             <div><span className="task-details-x-button" style={{ fontSize: '1rem', 
                 marginRight: '0.5rem',
                 padding:'0.3rem',cursor:'pointer' }} onClick={() => onClickX()}>✕</span></div>
-            <h2>{taskTitle}</h2>
+            <div className="task-details-name">{taskTitle}</div>
             
             <div className="tab-bar">
                 <button
@@ -134,14 +135,22 @@ export function TaskDetails(){
                                 onChange={handleUpdateChange} 
                                 placeholder="Write an update..." 
                             />
+                            <div className="task-details-form-button-wrapper">
                             <button type="submit">Update</button>
+
+                            </div>
                         </form>
                         <div className="updates" style={{width:'100%'}}>
                             {comments && comments.map((comment, index) => (
                                 <div key={index} className="update-item">
                                     <div className="update-user" style={{display:'flex',justifyContent:'space-between',textAlign:'center'}}>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <PiUserCircleThin style={{ fontSize: '1.4rem', marginRight: '0.5rem' }} />
+                                            <img 
+                                                src={UserAvatarSvg} 
+                                                alt="no-members" 
+                                                style={{ fontSize: '1.5rem', height:'1.5rem',display:'block',marginRight:'3px' }} 
+                                            />
+                                            {/* <PiUserCircleThin style={{ fontSize: '1.4rem', marginRight: '0.5rem' }} /> */}
                                             {comment.byMember.name}
                                         </div>
                                         <span className="time">{dateFormat(comment.createdAt)}</span></div>
