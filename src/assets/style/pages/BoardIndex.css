@@ -2,3 +2,10 @@ main {
     display: flex;
 }
 
+.board-index {
+    width: 100%;
+    background-color: #fafbfc;
+    min-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
+}

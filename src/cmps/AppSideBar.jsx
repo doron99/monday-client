@@ -131,7 +131,8 @@ export function AppSideBar() {
                 <ul>
                   {favorites.length > 0 ? (
                     favorites.map(board => (
-                      <li key={board._id}>
+                      <li key={board._id} onClick={() => goToBoardDetails(board._id)}
+                      className={currentBoardId === board._id ? "active-board" : ""}>
                         <FolderOpenIcon style={{ width: "16px", height: "16px" }} />
                         {board.title}
                       </li>

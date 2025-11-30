@@ -4,6 +4,8 @@
     "title": "Robot dev proj",
     "isStarred": false,
     "archivedAt": 1589983468418,
+    "createdAt": 1589983468418,
+    "lastVisited": 1732896000000,
     "createdBy": {
       "_id": "u101",
       "fullname": "Abi Abambi",
@@ -45,15 +47,14 @@
             "date": null,
             "comments":[
               {
-							"id": "ZdPnm",
-							"title": "also @yaronb please CR this",
-							"createdAt": 1590999817436,
-							"byMember": {
+                "id": "ZdPnm",
+                "title": "also @yaronb please CR this",
+                "createdAt": 1590999817436,
+                "byMember": {
                   "_id": "u101",
                   "name": "Gil test"
                 }
-						}
-
+              }
             ],
             "isDeleted":false,
             "isArchived":false
@@ -113,6 +114,8 @@
     "title": "AI Research",
     "isStarred": true,
     "archivedAt": null,
+    "createdAt": 1589983468418,
+    "lastVisited": 1732982400000,
     "createdBy": {
       "_id": "u102",
       "fullname": "Dana D.",
