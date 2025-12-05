@@ -320,7 +320,11 @@ return (
           </section>
         </section>
 
-        <section className="progress-grid">
+        <section
+  className="progress-grid summary-row"
+  style={{ '--group-color': group.style.color }}
+>
+
           {visibleCmpOrder.map((cmp) =>
             progressComponents.includes(cmp) ? (
               <div className={`with-${cmp}`} key={`progress-${cmp}`}>
