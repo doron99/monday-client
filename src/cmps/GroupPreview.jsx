@@ -312,7 +312,12 @@ const gridItemStyle = {
   </SortableContext>
 </DndContext>
   {/* ####-----------add new task-------------######### */}
-  <section className="group grid new" key={`task-${999}`}>
+  <section
+  className="group grid new-task"
+  key={`task-${999}`}
+  style={{ '--group-color': group.style.color }}
+>
+
     <section></section>
     <section
       className={`grid-item taskTitle`}
