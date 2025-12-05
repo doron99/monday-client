@@ -28,6 +28,8 @@ export const DynamicCmp = ({ cmpType, info, onTaskUpdate,content, selectedTasks,
       return <Member info={info} content={{...content,members:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
     case "date":
       return <DateEl info={info} content={{...content,strSelectedDate:info}} taskId={taskId} onTaskUpdate={onTaskUpdate} />;
+    case "Files":
+      return null
     default:
       console.error(`Unknown component type: ${cmpType}`);
       return <div>Unknown component: {cmpType}</div>;

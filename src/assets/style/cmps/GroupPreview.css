@@ -169,13 +169,15 @@
 }
 
 .labels-grid > div {
-  /* padding: 1px 9px; */
   display: flex;
   align-items: center;
+  justify-content: center;   
   border-right: 1px solid #e6e9ef;
   transition: background-color 0.2s ease;
   min-height: 28px;
+  padding: 0;                /* ✅ מבטל הזזה הצידה */
 }
+
 
 .labels-grid > div:hover {
   background-color: rgba(87, 155, 252, 0.05);
@@ -530,3 +532,4 @@
 .summary-row .sticky-cell .side {
   display: none !important;
 }
+

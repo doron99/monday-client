@@ -39,12 +39,15 @@ export function GroupPreview({
   progress,
   toggleSelectedTask,
   selectedTasks,
-  board //needed it to access the tasks list
+  board,
+  dragListeners,
+  dragAttributes
 }) {
 
 
   const [isExpanded, setIsExpanded] = useState(true);
   const hiddenColumns = useSelector(state => state.boardModule.hiddenColumns);
+  const [openGroupsBeforeDrag, setOpenGroupsBeforeDrag] = useState([]);
   const visibleCmpOrder = cmpOrder.filter(
   cmp => cmp === "side" || cmp === "taskTitle" || !hiddenColumns.includes(cmp)
 );
@@ -117,7 +120,7 @@ export function GroupPreview({
 
     updateBoard(group.id, null, {key: 'tasks', value: reordered});
 
-  //onReorderTasks(reordered); // פונקציה שלך שמעדכנת state
+  //onReorderTasks(reordered); // ×¤×•× ×§×¦×™×” ×©×œ×š ×©×ž×¢×“×›× ×ª state
 }
  
   function onTaskUpdate(taskId, updatedInfo) {
@@ -195,9 +198,10 @@ const gridItemStyle = {
     });
 }
 
-  return (
-    <section>
-      {isExpanded ? (
+return (
+  <section>
+    {isExpanded ? (
+      <DraggableCmpHeader id={group.id} disabled={isExpanded} align="left" >
         <GroupHeader 
           group={group}
           isExpanded={isExpanded}
@@ -207,153 +211,134 @@ const gridItemStyle = {
           currentBoardId={board._id}
           onMoveGroup={handleMoveGroup}
           onDuplicateGroup={duplicateGroup}
+          dragListeners={dragListeners}
+          dragAttributes={dragAttributes}  
         />
-      ) : (
-        <section 
-          className="group-preview-collapsed"
-          style={{borderLeft: `4px solid ${group.style.color}`}}
-          onClick={() => setIsExpanded(true)}>
-          <div className="collapsed-content">
-            <div className="collapsed-left-section">
-              <div 
-                className="arrow-toggle" 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsExpanded(true);
-                }}
-                style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-              >
-                <ChevronRightIcon style={{ width: '16px', height: '16px', color: group.style.color }} />
-              </div>
-              <div className="collapsed-group-info">
-                <span className="collapsed-group-title" style={{color: group.style.color}}>
-                  {group.title}
-                </span>
-                <TaskCount taskCount={group.tasks.length} />
-              </div>
+      </DraggableCmpHeader>
+    ) : (
+      <section 
+        className="group-preview-collapsed"
+        style={{ borderLeft: `4px solid ${group.style.color}` }}
+        onClick={() => setIsExpanded(true)}
+      >
+        <div className="collapsed-content">
+          <div className="collapsed-left-section">
+            <div 
+              className="arrow-toggle" 
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsExpanded(true);
+              }}
+              style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+            >
+              <ChevronRightIcon style={{ width: '16px', height: '16px', color: group.style.color }} />
             </div>
-            <div className="collapsed-headers">
-              {visibleCmpOrder.slice(1).map((cmpName, index) => (
-                <div key={cmpName} className="collapsed-header-item">
-                  
-                  {labels[cmpOrder.indexOf(cmpName)] || cmpName}
-                </div>
-              ))}
+            <div className="collapsed-group-info">
+              <span className="collapsed-group-title" style={{ color: group.style.color }}>
+                {group.title}
+              </span>
+              <TaskCount taskCount={group.tasks.length} />
             </div>
           </div>
-        </section>
-      )}
-      {isExpanded && (
-        <section 
-          className="group-preview"
-          style={{borderLeft: `4px solid ${group.style.color}`}}>
-        {/* Wrap the component and its children with DndContext */}
+
+          <div className="collapsed-headers">
+            {visibleCmpOrder.slice(1).map((cmpName) => (
+              <div key={cmpName} className="collapsed-header-item">
+                {labels[cmpOrder.indexOf(cmpName)] || cmpName}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {isExpanded && (
+      <section 
+        className="group-preview"
+        style={{ borderLeft: `4px solid ${group.style.color}` }}
+      >
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
         >
-        {/* Wrap the headers with SortableContext */}
+          <SortableContext items={visibleCmpOrder} strategy={horizontalListSortingStrategy}>
+            <section className="labels-grid">
+              {visibleCmpOrder.map((cmpName, index) => {
+                if (index < 2) {
+                  return (
+                    <div key={cmpName} className="static-header">
+                      {cmpName !== 'side' ? 'Task' : ''}
+                    </div>
+                  );
+                }
 
-        <SortableContext items={visibleCmpOrder} strategy={horizontalListSortingStrategy}>
-           <section className="labels-grid">
-            {visibleCmpOrder.map((cmpName, index) => {
-  // שני הטורים הראשונים הם סטטיים (side + taskTitle)
-  if (index < 2) {
-    const style = {
-      textAlign: 'center',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    };
-    return (
-      // <div key={cmpName} style={style} className="static-header">
-      //   {cmpName !== 'side' ? (labels[cmpOrder.indexOf(cmpName)] || cmpName) : ''}
-      // </div>
-       <div key={cmpName} style={style} className="static-header">
-        {cmpName !== 'side' ? 'Task' : ''}
-      </div>
-    );
-    
-  }
+                return (
+                  <DraggableCmpHeader key={cmpName} id={cmpName}>
+                    {labels[cmpOrder.indexOf(cmpName)] || cmpName}
+                  </DraggableCmpHeader>
+                );
+              })}
+            </section>
+          </SortableContext>
+        </DndContext>
 
-  // שאר הטורים — draggable
-  return (
-    <DraggableCmpHeader key={cmpName} id={cmpName}>
-      {labels[cmpOrder.indexOf(cmpName)] || cmpName}
-    </DraggableCmpHeader>
-  );
-})}
+        <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEndRows}>
+          <SortableContext
+            items={group.tasks.filter(t => !t.isDeleted && !t.isArchived).map(t => t.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {group.tasks.filter(t => !t.isDeleted && !t.isArchived).map(task => (
+              <DraggableTask
+                key={task.id}
+                task={task}
+                cmpOrder={visibleCmpOrder}
+                group={group}
+                selectedTasks={selectedTasks}
+                onTaskUpdate={onTaskUpdate}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
 
+        <section
+          className="group grid new-task"
+          key={`task-${999}`}
+          style={{ '--group-color': group.style.color }}
+        >
+          <section></section>
+          <section className="grid-item taskTitle">
+            <DynamicCmp
+              cmpType={'taskTitle'}
+              info={''}
+              selectedTasks={null}
+              taskId={null}
+              onTaskUpdate={(updateInfo) =>
+                onTaskUpdate('newTask', updateInfo)
+              }
+            />
           </section>
-        </SortableContext>
-</DndContext>
-        
-     <DndContext
-  collisionDetection={closestCenter}
-  onDragEnd={handleDragEndRows}
->
-  <SortableContext
-    items={group.tasks.filter(t => !t.isDeleted && !t.isArchived).map(t => t.id)}
-    strategy={verticalListSortingStrategy}
-  >
+        </section>
 
-    {group.tasks.filter(t => !t.isDeleted && !t.isArchived).map(task => (
-      <DraggableTask
-        key={task.id}
-        task={task}
-        cmpOrder={visibleCmpOrder}
-        group={group}
-        selectedTasks={selectedTasks}
-        onTaskUpdate={onTaskUpdate}
-      />
-    ))}
-
-  </SortableContext>
-</DndContext>
-  {/* ####-----------add new task-------------######### */}
-  <section
-  className="group grid new-task"
-  key={`task-${999}`}
-  style={{ '--group-color': group.style.color }}
->
-
-    <section></section>
-    <section
-      className={`grid-item taskTitle`}
-      key={`task-${999}-cmp-${999}`}
-    >
-      <DynamicCmp
-        cmpType={'taskTitle'}
-        info={''}
-        selectedTasks={null}
-        taskId={null}
-        onTaskUpdate={(updateInfo) =>
-          onTaskUpdate('newTask', updateInfo)
-        }
-      />
-    </section>
-  </section>
-
-  <section className="progress-grid">
-    {visibleCmpOrder.map((cmp) =>
-      progressComponents.includes(cmp) ? (
-        <div className={`with-${cmp}`} key={`progress-${cmp}`}>
-          <SummaryBar tasks={group.tasks.filter(t => !t.isDeleted && !t.isArchived)} cmp={cmp} />
-        </div>
-      ) : (
-        <div className={cmp} key={`progress-${cmp}`}></div>
-      )
+        <section className="progress-grid">
+          {visibleCmpOrder.map((cmp) =>
+            progressComponents.includes(cmp) ? (
+              <div className={`with-${cmp}`} key={`progress-${cmp}`}>
+                <SummaryBar
+                  tasks={group.tasks.filter(t => !t.isDeleted && !t.isArchived)}
+                  cmp={cmp}
+                />
+              </div>
+            ) : (
+              <div className={cmp} key={`progress-${cmp}`}></div>
+            )
+          )}
+        </section>
+      </section>
     )}
   </section>
+);
 
-
-      
-    </section>
-      )}
-      
-    </section>
-  );
 }
 
 // const DynamicCmp = ({ cmpType, info, onTaskUpdate,content, selectedTasks, taskId,commentsLength }) => {
@@ -441,11 +426,11 @@ export function normalizeKey(str) {
   //Medium: "#eab308"
 };
 export const priorityStatusColors = {
-  done: "#00c875",          // ירוק
-  progress: "#0091ea",      // כחול
-  stuck: "#e2445c",         // אדום
-  workingonit: "#fdab3d",   // כתום
-  notstarted: "#c4c4c4",     // אפור
+  done: "#00c875",          // ×™×¨×•×§
+  progress: "#0091ea",      // ×›×—×•×œ
+  stuck: "#e2445c",         // ××“×•×
+  workingonit: "#fdab3d",   // ×›×ª×•×
+  notstarted: "#c4c4c4",     // ××¤×•×¨
     high: "#e2445c",
     low: "#0091ea",
     medium: "#fdab3d",
