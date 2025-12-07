@@ -143,6 +143,8 @@ export function setActiveBoard(board) {
 }
 
 
+// Replace the filterBoard function in board.actions.js
+
 function filterBoard(board, filterBy) {
   if (!board || !board.groups) return board;
 
@@ -161,7 +163,16 @@ function filterBoard(board, filterBy) {
       );
 
       if (txtExists) {
-        tasks = tasks.filter(task => deepSearch(task, txt));
+        // Check if group title matches search
+        const groupTitleMatches = group.title.toLowerCase().includes(txt);
+        
+        if (groupTitleMatches) {
+          // If group title matches, show all tasks in this group
+          tasks = tasks;
+        } else {
+          // Otherwise, filter tasks by search text
+          tasks = tasks.filter(task => deepSearch(task, txt));
+        }
       }
 
       if (membersFilter.length) {
@@ -184,7 +195,11 @@ function filterBoard(board, filterBy) {
   };
 
   if (txtExists || membersFilter.length || isStarred) {
-    filteredBoard.groups = filteredBoard.groups.filter(g => g.tasks.length);
+    filteredBoard.groups = filteredBoard.groups.filter(g => {
+      // Keep group if its title matches OR it has tasks
+      const groupTitleMatches = txtExists && g.title.toLowerCase().includes(txt);
+      return groupTitleMatches || g.tasks.length > 0;
+    });
   }
 
   return filteredBoard;
@@ -363,23 +378,19 @@ export async function duplicateGroup(groupId) {
   }
 }
 
-// Add this function before filterBoard function in board.actions.js
 
 function deepSearch(obj, searchText) {
   if (!obj || !searchText) return false;
   
   const text = searchText.toLowerCase();
   
-  // Check all string properties
   for (const key in obj) {
     const value = obj[key];
     
-    // If it's a string, check if it includes the search text
     if (typeof value === 'string' && value.toLowerCase().includes(text)) {
       return true;
     }
     
-    // If it's an array, check each item
     if (Array.isArray(value)) {
       for (const item of value) {
         if (typeof item === 'string' && item.toLowerCase().includes(text)) {
