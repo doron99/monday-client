@@ -7,9 +7,9 @@ import { utilService } from "../../services/util.service";
 export const SearchFilter = () => {
   const filterBy = useSelector(state => state.boardModule.filterBy);
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
-
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef(null);
+  const wrapperRef = useRef(null);
 
   const onSetFilterByDebounce = useRef(
     utilService.debounce(setFilter, 500)
@@ -17,7 +17,7 @@ export const SearchFilter = () => {
 
   useEffect(() => {
     onSetFilterByDebounce(filterByToEdit);
-  }, [filterByToEdit]);
+  }, [filterByToEdit, onSetFilterByDebounce]);
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -25,39 +25,63 @@ export const SearchFilter = () => {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   function handleChange(ev) {
     const { value } = ev.target;
     setFilterByToEdit(prev => ({ ...prev, txt: value }));
   }
 
-  function closeSearch() {
-    setIsOpen(false);
+  function toggleSearch() {
+    setIsOpen(prev => !prev);
+    if (isOpen) {
+      setFilterByToEdit(prev => ({ ...prev, txt: "" }));
+    }
   }
 
   return (
-    <div className="search-filter-wrapper">
-
+    <div className="search-filter-wrapper" ref={wrapperRef}>
       {!isOpen && (
         <button
           className="board-filter-btn"
-          onClick={() => setIsOpen(true)}
+          onClick={toggleSearch}
         >
-          <MagnifyingGlassIcon className="icon" />
+          <MagnifyingGlassIcon style={{ width: "18px", height: "18px" }} />
           <span>Search</span>
         </button>
       )}
 
       {isOpen && (
         <div className="search-open">
-          <MagnifyingGlassIcon className="icon" />
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder="Search this board"
-            value={filterByToEdit.txt || ""}
-            onChange={handleChange}
-            onBlur={closeSearch}
-          />
+          <div className="filter-input-container">
+            <input
+              ref={inputRef}
+              className="filter-input"
+              type="text"
+              placeholder="Search this board"
+              value={filterByToEdit.txt || ""}
+              onChange={handleChange}
+            />
+            <MagnifyingGlassIcon 
+              className="search-icon inside"
+              style={{ width: "16px", height: "16px" }}
+              onClick={toggleSearch}
+            />
+          </div>
         </div>
       )}
     </div>

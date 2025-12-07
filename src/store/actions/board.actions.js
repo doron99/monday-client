@@ -362,3 +362,39 @@ export async function duplicateGroup(groupId) {
     store.dispatch({ type: SET_LOADING, isLoading: false });
   }
 }
+
+// Add this function before filterBoard function in board.actions.js
+
+function deepSearch(obj, searchText) {
+  if (!obj || !searchText) return false;
+  
+  const text = searchText.toLowerCase();
+  
+  // Check all string properties
+  for (const key in obj) {
+    const value = obj[key];
+    
+    // If it's a string, check if it includes the search text
+    if (typeof value === 'string' && value.toLowerCase().includes(text)) {
+      return true;
+    }
+    
+    // If it's an array, check each item
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        if (typeof item === 'string' && item.toLowerCase().includes(text)) {
+          return true;
+        }
+        if (typeof item === 'object' && deepSearch(item, searchText)) {
+          return true;
+        }
+      }
+    }
+    
+    if (value && typeof value === 'object' && deepSearch(value, searchText)) {
+      return true;
+    }
+  }
+  
+  return false;
+}
