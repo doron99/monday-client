@@ -23,7 +23,9 @@ export function PopperContentPerson({ allPeople, selectedPeople, onAdd, onRemove
         <div className="person-popper-badge-list">
           {selectedPeople.map(person => (
             <span key={person._id} className="person-popper-badge">
-              {person.name}
+              <span className="person-avatar small">
+                {person.name.charAt(0).toUpperCase()}
+              </span>
               <span
                 className="person-popper-remove"
                 onClick={() => onRemove(person._id)}
@@ -45,7 +47,12 @@ export function PopperContentPerson({ allPeople, selectedPeople, onAdd, onRemove
             }`}
             onClick={() => onAdd(person)}
           >
-            {person.name}
+            <div className="person-row-with-avatar">
+              <div className="person-avatar">
+                {person.name.charAt(0).toUpperCase()}
+              </div>
+            <span>{person.name}</span>
+            </div>
           </div>
         ))}
       </div>
