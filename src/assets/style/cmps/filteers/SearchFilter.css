@@ -61,3 +61,7 @@
 .filter-input-container .search-icon.inside:hover {
   color: #323338; 
 }
+
+.search-open {
+  margin-left: 20px;
+}

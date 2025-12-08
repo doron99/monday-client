@@ -11,7 +11,11 @@ import { TasksSelectedModal } from "../cmps/TasksSelectedModal.jsx";
 import { DeleteConfirmationModal } from "../cmps/DeleteConfirmationModal.jsx";
 import { MoveToConfirmationModal } from "../cmps/MoveToConfirmationModal.jsx";
 import { ArchiveConfirmationModal } from "../cmps/ArchiveConfirmationModal.jsx";
+import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { DraggableGroup } from "../cmps/DraggableGroup.jsx";
+import { useSensor, useSensors, MouseSensor, TouchSensor } from "@dnd-kit/core";
 import * as XLSX from "xlsx";
+import { DndContext, closestCenter } from "@dnd-kit/core";
 import { saveAs } from "file-saver";
 export function BoardDetails() {
 
@@ -19,6 +23,13 @@ export function BoardDetails() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showMoveToModal, setShowMoveToModal] = useState(false);
   const [showArchiveModal, setShowArchiveModal] = useState(false);
+  const [openGroupsBeforeDrag, setOpenGroupsBeforeDrag] = useState([]);
+  const sensors = useSensors(
+  useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
+  useSensor(TouchSensor, { activationConstraint: { delay: 5, tolerance: 5 } })
+);
+
+
 
   const board = useSelector((state) => {
     return state.boardModule.selectedBoard;
@@ -311,65 +322,133 @@ export function BoardDetails() {
 
   const boardToDisplay = boardActions.filterBoard(board, filterBy)
 
-  return (
-    <div className="board-details">
-      {isDev && JSON.stringify(filterBy,null,2)}
+
+
+function handleGroupDragStart() {
+  if (!board?.groups) return;
+
+  const openIds = board.groups
+    .filter(g => g.isExpanded)
+    .map(g => g.id);
+
+  setOpenGroupsBeforeDrag(openIds);
+
+  board.groups.forEach(g => {
+    if (g.isExpanded) {
+      updateBoard(g.id, null, {
+        key: "isExpanded",
+        value: false
+      });
+    }
+  });
+}
+
+function handleGroupDragEnd(event) {
+  const { active, over } = event;
+  if (!over || active.id === over.id) return;
+
+  const oldIndex = board.groups.findIndex(g => g.id === active.id);
+  const newIndex = board.groups.findIndex(g => g.id === over.id);
+  if (oldIndex === -1 || newIndex === -1) return;
+
+  const reorderedGroups = arrayMove(board.groups, oldIndex, newIndex);
+
+  const finalGroups = reorderedGroups.map(g => ({
+    ...g,
+    isExpanded: openGroupsBeforeDrag.includes(g.id)
+  }));
+
+  updateBoard(null, null, {
+    key: "groups",
+    value: finalGroups
+  });
+
+  setOpenGroupsBeforeDrag([]);
+}
+
+
+return (
+  <div className="board-details">
+    {isDev && JSON.stringify(filterBy, null, 2)}
+    <div>
       <div>
-         {/* <pre>
-        {JSON.stringify(boardToDisplay, null, 2)}
-        </pre>  */}
-        <div>
-          <BoardHeader board={board} onUpdateBoard={handleUpdateBoard} />
-          <section className="group-list">
-            {boardToDisplay &&
-              boardToDisplay.groups.map((group) => (
-                <GroupPreview
-                  group={group}
-                  labels={board.cmpOrder}
-                  cmpOrder={board.cmpOrder}
-                  progress={progress}
-                  toggleSelectedTask={toggleSelectedTask}
-                  selectedTasks={selectedTasks}
-                  board={board} // ask tal
-                  key={uid()}
-                />
-              ))}
-            <div className="add-group-section">
-              <button className="add-group-btn" onClick={addNewGroup}>
-                <PlusIcon
-                  style={{ width: "20px", height: "20px", color: "#3c3c3f" }}
-                />
-                <span>Add new group</span>
-              </button>
-            </div>
-          </section>
-        </div>
-        {/* Outlet for TaskDetails modal */}
-        <Outlet />
+        <BoardHeader board={board} onUpdateBoard={handleUpdateBoard} />
+
+        <section className="group-list">
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragStart={handleGroupDragStart}
+            onDragEnd={handleGroupDragEnd}
+          >
+            <SortableContext
+              items={boardToDisplay?.groups?.map(g => g.id) || []}
+              strategy={verticalListSortingStrategy}
+            >
+              {boardToDisplay &&
+                boardToDisplay.groups.map((group) => (
+                  <DraggableGroup key={group.id} id={group.id}>
+                    <GroupPreview
+                      group={group}
+                      labels={board.cmpOrder}
+                      cmpOrder={board.cmpOrder}
+                      progress={progress}
+                      toggleSelectedTask={toggleSelectedTask}
+                      selectedTasks={selectedTasks}
+                      board={board}
+                    />
+                  </DraggableGroup>
+                ))}
+            </SortableContext>
+          </DndContext>
+
+          <div className="add-group-section">
+            <button className="add-group-btn" onClick={addNewGroup}>
+              <PlusIcon
+                style={{ width: "20px", height: "20px", color: "#3c3c3f" }}
+              />
+              <span>Add new group</span>
+            </button>
+          </div>
+        </section>
       </div>
 
-      {selectedTasks.length > 0 && <TasksSelectedModal selectedCount={selectedTasks.length} onClose={unselectAll} onAction={onAction}/>}
-      
-      <DeleteConfirmationModal
-        isOpen={showDeleteModal}
-        onClose={cancelDeleteTasks}
-        onConfirm={() => confirmDeleteArchiveTasks('delete')}
-        taskCount={selectedTasks.length}
-      />
+      {/* Outlet for TaskDetails modal */}
+      <Outlet />
+    </div>
 
-      <ArchiveConfirmationModal
-        isOpen={showArchiveModal}
-        onClose={cancelArchiveTasks}
-        onConfirm={() => confirmDeleteArchiveTasks('archive')}
-        taskCount={selectedTasks.length}
+    {selectedTasks.length > 0 && (
+      <TasksSelectedModal
+        selectedCount={selectedTasks.length}
+        onClose={unselectAll}
+        onAction={onAction}
       />
-      {boardToDisplay && boardToDisplay.groups &&<MoveToConfirmationModal
+    )}
+
+    <DeleteConfirmationModal
+      isOpen={showDeleteModal}
+      onClose={cancelDeleteTasks}
+      onConfirm={() => confirmDeleteArchiveTasks("delete")}
+      taskCount={selectedTasks.length}
+    />
+
+    <ArchiveConfirmationModal
+      isOpen={showArchiveModal}
+      onClose={cancelArchiveTasks}
+      onConfirm={() => confirmDeleteArchiveTasks("archive")}
+      taskCount={selectedTasks.length}
+    />
+
+    {boardToDisplay && boardToDisplay.groups && (
+      <MoveToConfirmationModal
         groups={boardToDisplay.groups}
         isOpen={showMoveToModal}
         onClose={cancelMoveToTasks}
         onConfirm={confirmMoveToTasks}
         taskCount={selectedTasks.length}
-      />}
-    </div>
-  );
+      />
+    )}
+  </div>
+);
+
 }

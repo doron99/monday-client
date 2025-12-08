@@ -218,6 +218,7 @@ function getEmptyGroup() {
   return {
     id: utilService.makeId(),
     title: "New group",
+    isCollapsed: false,
     style: { color: utilService.getRandomColor() },
     tasks: []
   }

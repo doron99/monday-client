@@ -51,7 +51,7 @@ export function DraggableTask({
       {cmpOrder.map((cmp, idx) => (
         <section
           className={`grid-item ${cmp}`}
-          key={`task-${task.id}-cmp-${idx}`}
+          key={`${task.id}-${cmp}-${task[cmp]}`}
         >
             
           <DynamicCmp

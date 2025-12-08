@@ -2,18 +2,19 @@
   display: flex;
   align-items: center;
   position: relative;
+  justify-content: flex-start !important;
   min-height: 48px;
 }
 
 .group-header-items {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
   flex: 1;
 }
 
 .three-dots-container {
-  width: 24px;
+  width: 2px;
   height: 24px;
   display: flex;
   align-items: center;
