@@ -47,7 +47,6 @@
 
 .sidebar-content {
   background: #f6f7fb;
-  border-radius: 20px;
   padding: 14px 10px 14px 12px;
   height: 100%;
   padding-left: 16px !important;
@@ -264,6 +263,15 @@
   display: flex;
   align-items: center;
   margin-left: auto;
+
+  opacity: 0;             
+  pointer-events: none;    
+  transition: opacity 0.15s ease;
+}
+
+.board-item:hover .board-actions {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .board-item button {
