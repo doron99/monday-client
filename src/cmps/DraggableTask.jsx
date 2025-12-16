@@ -3,6 +3,8 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { DynamicCmp } from "./DynamicCmp";
+import { useState } from "react";
+
 
 export function DraggableTask({
   task,
@@ -18,6 +20,8 @@ export function DraggableTask({
     transform,
     transition
   } = useSortable({ id: task.id });
+  const [isHover, setIsHover] = useState(false);
+
 
   const style = {
     transform: transform ? CSS.Transform.toString(transform) : undefined,
@@ -27,27 +31,33 @@ export function DraggableTask({
 
   return (
     <section
-      className="group grid"
-      ref={setNodeRef}
-      {...attributes}
-    //   {...listeners}
-      style={style}
-    >
-        <div 
-    {...listeners}
-    style={{
-      cursor: "grab",
-      padding: "4px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      position: 'absolute',
-      left: '-25px',
-      top:'5px'
-    }}
-  >
-    ⋮⋮
-  </div>
+  className="group grid task-row"
+  ref={setNodeRef}
+  {...attributes}
+  style={style}
+  onMouseEnter={() => setIsHover(true)}
+  onMouseLeave={() => setIsHover(false)}
+>
+
+        <div
+  {...listeners}
+  style={{
+    cursor: "grab",
+    padding: "4px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    left: "-25px",
+    top: "5px",
+    opacity: isHover ? 1 : 0,
+    pointerEvents: "auto",
+    transition: "opacity 0.15s ease"
+  }}
+>
+  ⋮⋮
+</div>
+
       {cmpOrder.map((cmp, idx) => (
         <section
           className={`grid-item ${cmp}`}

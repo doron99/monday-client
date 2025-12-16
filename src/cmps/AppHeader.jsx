@@ -65,8 +65,8 @@ export function AppHeader() {
                             <circle cx="10" cy="16" r="4" fill="#6161ff"/>
                         </svg>
                     </span>
-                    <span className="brand-text">monday</span>
-                    <span className="work-management">work management</span>
+                    <span className="brand-text">Workly</span>
+                    <span className="work-management">workspace</span>
                 </div>
                 <nav className="app-nav">
                     <MagnifyingGlassIcon className='navbarIcon' style={styles.navbarIconStyle}/>

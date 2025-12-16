@@ -47,11 +47,12 @@
 
 .sidebar-content {
   background: #f6f7fb;
-  border-radius: 20px;
   padding: 14px 10px 14px 12px;
   height: 100%;
   padding-left: 16px !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
 
 .sidebar.closed .sidebar-content {
@@ -264,6 +265,15 @@
   display: flex;
   align-items: center;
   margin-left: auto;
+
+  opacity: 0;             
+  pointer-events: none;    
+  transition: opacity 0.15s ease;
+}
+
+.board-item:hover .board-actions {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .board-item button {

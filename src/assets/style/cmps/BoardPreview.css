@@ -60,7 +60,7 @@
 
 .board-preview-title {
     font-weight: 500;
-    font-size: 12px;
+    font-size: 15px;
     color: #323338;
     white-space: nowrap;
     overflow: hidden;
@@ -103,4 +103,7 @@
 
 .board-breadcrumb span {
     display: inline-block;
+    font-size: 11px;
+    font-weight: 400;
+    color: #9699a6;
 }

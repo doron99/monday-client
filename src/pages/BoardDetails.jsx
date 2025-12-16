@@ -372,7 +372,9 @@ return (
     {isDev && JSON.stringify(filterBy, null, 2)}
     <div>
       <div>
+        <div className="board-header-wrapper">
         <BoardHeader board={board} onUpdateBoard={handleUpdateBoard} />
+        </div>
 
         <section className="group-list">
           <DndContext
