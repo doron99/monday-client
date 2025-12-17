@@ -46,20 +46,13 @@ export function loadFavorites() {
       store.dispatch({ type: SET_LOADING, isLoading: false })
     })
 }
+
 export async function loadBoardById(boardId) {
   store.dispatch({ type: SET_LOADING, isLoading: true })
   try {
     const board = await boardService.getById(boardId)
-    
-    const updatedBoard = {
-      ...board,
-      lastVisited: Date.now()
-    }
-    await boardService.save(updatedBoard)
-    store.dispatch({ type: SET_BOARD, board: updatedBoard })
-    await loadBoards()
-    
-    return updatedBoard
+    store.dispatch({ type: SET_BOARD, board })
+    return board
   } catch (err) {
     console.log('Cannot load board', err)
     throw err
@@ -67,6 +60,7 @@ export async function loadBoardById(boardId) {
     store.dispatch({ type: SET_LOADING, isLoading: false })
   }
 }
+
 
 export function removeBoard(boardId) {
   return boardService.remove(boardId)
@@ -123,8 +117,7 @@ export function saveBoard(board) {
 export async function addBoard() {
   store.dispatch({ type: SET_LOADING, isLoading: true })
   try {
-    const newBoard = boardService.getEmptyBoard()
-    const savedBoard = await boardService.save(newBoard)
+    const savedBoard = await boardService.save({ title: 'New Board' })
     store.dispatch({ type: SAVE_BOARD, board: savedBoard })
 
     await loadBoards()
@@ -143,7 +136,6 @@ export function setActiveBoard(board) {
 }
 
 
-// Replace the filterBoard function in board.actions.js
 
 function filterBoard(board, filterBy) {
   if (!board || !board.groups) return board;
