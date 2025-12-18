@@ -12,13 +12,13 @@ import { BoardFilter } from "../cmps/filters/BoardFilter.jsx"
 import { PopperBoardMenu } from "../cmps/contextMenuCmps/PopperBoardMenu.jsx"
 import {
   EllipsisHorizontalIcon,
-  CalendarDaysIcon,
-  HomeIcon,
   PlusIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   FolderOpenIcon,
 } from "@heroicons/react/24/outline";
+import { SvgIcon } from "../cmps/SvgIcon.jsx"
+
 
 export function AppSideBar() {
   const navigate = useNavigate()
@@ -104,7 +104,7 @@ export function AppSideBar() {
                 className={`nav-item ${pathname === "/" ? "active" : ""}`}
                 onClick={goToHome}
               >
-                <HomeIcon style={{ width: "16px", height: "16px" }} />
+                <SvgIcon icon="home" />
                 <span>Home</span>
               </div>
 
@@ -112,7 +112,7 @@ export function AppSideBar() {
                 className={`nav-item ${isBoardActive() ? "active" : ""}`}
                 onClick={goToBoard}
               >
-                <CalendarDaysIcon style={{ width: "16px", height: "16px" }} />
+                <SvgIcon icon="calendarCheck" />
                 <span>My work</span>
               </div>
             </nav>
@@ -133,7 +133,7 @@ export function AppSideBar() {
                     favorites.map(board => (
                       <li key={board._id} onClick={() => goToBoardDetails(board._id)}
                       className={currentBoardId === board._id ? "active-board" : ""}>
-                        <FolderOpenIcon style={{ width: "16px", height: "16px" }} />
+                        <SvgIcon icon="layout" />
                         {board.title}
                       </li>
                     ))
@@ -173,7 +173,7 @@ export function AppSideBar() {
     onClick={() => goToBoardDetails(board._id)}
     className="board-title-section"
   >
-    <FolderOpenIcon style={{ width: "16px", height: "16px" }} />
+    <SvgIcon icon="layout" />
     <span className="truncate">{board.title}</span>
   </div>
 
