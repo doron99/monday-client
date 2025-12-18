@@ -104,7 +104,7 @@ export function AppSideBar() {
                 className={`nav-item ${pathname === "/" ? "active" : ""}`}
                 onClick={goToHome}
               >
-                <SvgIcon icon="home" />
+                <SvgIcon icon="home" color="#6b6c72" />
                 <span>Home</span>
               </div>
 

@@ -54,7 +54,12 @@ const icons = {
   ),
 }
 
-export function SvgIcon({ icon, size = 16, className = '' }) {
+export function SvgIcon({
+  icon,
+  size = 16,
+  color = '#6b6c72',
+  className = '',
+}) {
   const Icon = icons[icon]
   if (!Icon) return null
 
@@ -67,9 +72,12 @@ export function SvgIcon({ icon, size = 16, className = '' }) {
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
+        color, 
       }}
     >
       <Icon size={size} />
     </span>
   )
 }
+
+
