@@ -43,7 +43,6 @@ async function save(board) {
 
 /**
  * PUT /api/board/:id/update
- * מיפוי ישיר ל־updateBoard בבאק
  */
 async function updateBoard(board, gid = null, tid = null, update) {
   const boardId = typeof board === 'string' ? board : board?._id

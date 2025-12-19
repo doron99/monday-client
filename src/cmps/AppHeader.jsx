@@ -34,7 +34,7 @@ export function AppHeader() {
     }
     const [isChecked, setIsChecked] = useState(false);
     const handleCheckboxChange = () => {
-        setIsChecked(!isChecked); // Toggle the state
+        setIsChecked(!isChecked);
         setDev(!isChecked);
     };
     return (

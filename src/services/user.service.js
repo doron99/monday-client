@@ -77,20 +77,14 @@ function getEmptyCredentials() {
 }
 
 function devAutoLogin() {
-    // Call the backend DEV auto-login endpoint with httpService (withCredentials enabled)
-    // The requireAuth middleware will auto-authenticate a real user in DEV mode
+
     return httpService.post('auth/dev-login', {})
 }
 
 function toggleBoardStar(boardId) {
-    // Call the backend endpoint to toggle board star for logged-in user
-    // Returns updated starredBoardIds array
+
     return httpService.put('user/star', { boardId })
 }
-
-// Test Data
-// userService.signup({username: 'bobo', password: 'bobo', fullname: 'Bobo McPopo'})
-// userService.login({username: 'bobo', password: 'bobo'})
 
 
 

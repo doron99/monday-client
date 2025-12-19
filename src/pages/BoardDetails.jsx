@@ -216,10 +216,6 @@ export function BoardDetails() {
         } else {
           currTask.isArchived = true;
         }
-        //this is the first logic was
-        // updatedGroups[groupIndex].tasks = updatedGroups[groupIndex].tasks.filter(
-        //   task => task.id !== selectedTask.taskId
-        // );
         console.log(`Removed task ${selectedTask.taskId} from group ${selectedTask.groupId}`);
       }
     });
@@ -250,8 +246,6 @@ export function BoardDetails() {
     
     console.log('Moving tasks:', selectedTasks);
     setShowMoveToModal(true);
-    // TODO: Implement task move logic (show group selector modal)
-    //alert(`Moving ${selectedTasks.length} task(s)`);
   }
 
   function toggleSelectedTask(groupId, taskId) {
@@ -305,17 +299,13 @@ export function BoardDetails() {
   const progress = [null, null, "status", "priority", null, "date"];
 
   const exportToExcel = (jsonData, fileName = "data.xlsx") => {
-    // המרה של אובייקטים ל־Sheet
     const worksheet = XLSX.utils.json_to_sheet(jsonData);
 
-    // יצירת Workbook
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
-    // המרה לבינארי
     const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
 
-    // הורדת הקובץ
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(blob, fileName);
   };

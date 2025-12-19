@@ -14,16 +14,13 @@ export function BoardPreview({ boardPreview }) {
         console.log('Toggle star for board:', boardPreview._id);
         
         try {
-            // Call the user action to toggle board star
             await toggleBoardStar(boardPreview._id)
-            // Reload boards to sync UI with backend state
             await loadBoards()
         } catch (err) {
             console.error('Failed to toggle favorite:', err)
         }
     };
 
-    // נתיב דינמי - אם יש לך מידע על workspace/team תוכל להוסיף כאן
     const breadcrumb = "monday dev > workspace";
 
     return (
