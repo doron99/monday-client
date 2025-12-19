@@ -1,4 +1,5 @@
 import { storageService } from './async-storage.service.js'
+import { httpService } from './http.service.js'
 
 const STORAGE_KEY = 'userDB'
 const STORAGE_KEY_LOGGEDIN = 'loggedinUser'
@@ -10,7 +11,8 @@ export const userService = {
     getById,
     getLoggedinUser,
     updateScore,
-    getEmptyCredentials
+    getEmptyCredentials,
+    devAutoLogin
 }
 
 
@@ -73,6 +75,11 @@ function getEmptyCredentials() {
     }
 }
 
+function devAutoLogin() {
+    // Call the backend DEV auto-login endpoint with httpService (withCredentials enabled)
+    // The requireAuth middleware will auto-authenticate a real user in DEV mode
+    return httpService.post('auth/dev-login', {})
+}
 
 // Test Data
 // userService.signup({username: 'bobo', password: 'bobo', fullname: 'Bobo McPopo'})

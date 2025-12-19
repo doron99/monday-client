@@ -36,6 +36,20 @@ export function logout(credentials) {
         })
 }
 
+export function devAutoLogin() {
+    console.log('DEV auto-login initiated')
+    return userService.devAutoLogin()
+        .then((user) => {
+            console.log('DEV auto-login successful:', user)
+            store.dispatch({ type: SET_USER, user })
+            return user
+        })
+        .catch((err) => {
+            console.log('user actions -> Cannot DEV auto-login', err)
+            throw err
+        })
+}
+
 // export function checkout(diff) {
 //     return userService.updateScore(-diff)
 //         .then((newScore) => {
