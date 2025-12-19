@@ -8,6 +8,7 @@ import {
   addBoard,
   updateBoard,
 } from "../store/actions/board.actions.js"
+import { toggleBoardStar } from "../store/actions/user.actions.js"
 import { BoardFilter } from "../cmps/filters/BoardFilter.jsx"
 import { PopperBoardMenu } from "../cmps/contextMenuCmps/PopperBoardMenu.jsx"
 import {
@@ -79,8 +80,23 @@ export function AppSideBar() {
     const board = boards.find(b => b._id === boardId)
     if (!board) return
 
-    const update = { key: "isStarred", value: !board.isStarred }
-    updateBoard(null, null, update)
+    // Optimistic UI update: toggle the star immediately
+    const boardsCopy = boards.map(b =>
+      b._id === boardId ? { ...b, isStarred: !b.isStarred } : b
+    )
+    // Note: In a real app, you might want to update Redux state here for immediate UI feedback
+    // For now, we rely on the backend response and Redux dispatch in the action
+
+    // Call the user action to toggle board star
+    toggleBoardStar(boardId)
+      .then(() => {
+        // Reload boards to sync with backend state
+        loadBoards()
+      })
+      .catch((err) => {
+        console.error('Failed to toggle favorite:', err)
+        // Optionally show error message to user
+      })
   }
 
   async function handleDelete(boardId) {
