@@ -562,12 +562,13 @@
 }
 
 .progress-grid.summary-row > div:nth-child(3) {
+  border-left: 1px solid #e6e9ef !important;
+  border-top-left-radius: 0;
   border-bottom-left-radius: 10px;
-
 }
 
 .progress-grid.summary-row > div:nth-child(2) {
-  border-bottom-left-radius: 10px;
+  border-bottom: none !important;
   border-right: none !important;
   background: #ffffff !important;
 }
