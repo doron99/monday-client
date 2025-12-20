@@ -38,7 +38,6 @@ export const PopperContentMember = ({ content, buttonRef, onSelect, onClose }) =
       console.log('members updated',selectedPeople,userIds)
       console.log('handleMembersSelect',content.groupId, content.taskId, { key:'members', value:userIds });
       updateBoard(content.groupId, content.taskId, { key:'members', value:userIds });
-      onClose();
   }, [selectedPeople])
 
   const devSection = isDev 
@@ -91,13 +90,12 @@ export const PopperContentMember = ({ content, buttonRef, onSelect, onClose }) =
                       <div 
                       onClick={() => handleAddPerson(person)} 
                       className="person-popper-suggested-row" key={index}>
-                          <img 
-                                  src={UserAvatarSvg} 
-                                  alt="no-members" 
-                                  style={{ fontSize: '1.5rem', height:'1.5rem',display:'block',marginRight:'3px' }} 
-                                />
-                          <span style={{ display:'block' }}>{person.name}</span>
-                          {/* <button onClick={() => handleAddPerson(person)}>Add</button> */}
+                          <div className="person-row-with-avatar">
+                            <div className="person-avatar">
+                              {person.name.charAt(0).toUpperCase()}
+                            </div>
+                            <span>{person.name}</span>
+                          </div>
                       </div>
                   )
               )}
