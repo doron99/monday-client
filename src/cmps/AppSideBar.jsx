@@ -149,7 +149,7 @@ export function AppSideBar() {
                     favorites.map(board => (
                       <li key={board._id} onClick={() => goToBoardDetails(board._id)}
                       className={currentBoardId === board._id ? "active-board" : ""}>
-                        <SvgIcon icon="layout" />
+                        <SvgIcon icon="layout" size={18} color="#1e1f21" />
                         {board.title}
                       </li>
                     ))
@@ -189,7 +189,7 @@ export function AppSideBar() {
     onClick={() => goToBoardDetails(board._id)}
     className="board-title-section"
   >
-    <SvgIcon icon="layout" />
+    <SvgIcon icon="layout" size={18} color="#1e1f21" />
     <span className="truncate">{board.title}</span>
   </div>
 
