@@ -10,10 +10,12 @@ export function PersonFilter() {
   const buttonRef = useRef(null);
 
   const allPeople = [
-    { _id: "u100", name: "Doron test" },
-    { _id: "u101", name: "Gil test" },
-    { _id: "u102", name: "Mira test" },
-  ];
+  { _id: "u100", name: "Doron Cohen" },
+  { _id: "u101", name: "Gil Levi" },
+  { _id: "u102", name: "Mira Ben David" },
+  { _id: "u103", name: "Noam Shahar" },
+  { _id: "u104", name: "Yael Rosen" },
+];
 
   function toggleMenu() {
     setIsOpen(prev => !prev);
