@@ -542,22 +542,20 @@
   position: relative;
   border-left: none !important;
   box-shadow: -4px 0 0 white;
+  width: 100%;
+  grid-template-columns: 40px 340px 190px 190px 190px 190px 190px 190px 190px 1fr;
+  border-top: 1px solid #e6e9ef !important;
+  border-bottom: 1px solid #e6e9ef !important;
 }
 
 .progress-grid.summary-row > div:first-child {
   border-left: none !important;
   box-shadow: none !important;
   background: transparent !important;
-  
-}
-
-.progress-grid.summary-row {
-  border-top: 1px solid #e6e9ef !important;
 }
 
 /* מחזיר בורדר תחתון לכל התאים חוץ מהראשון בשורה האחרונה */
 .progress-grid.summary-row > div:nth-child(n+3) {
-  border-bottom: 1px solid #e6e9ef !important;
   border-right: 1px solid #e6e9ef !important;
 }
 
@@ -571,4 +569,10 @@
   border-bottom: none !important;
   border-right: none !important;
   background: #ffffff !important;
+}
+
+.summary-filler {
+  grid-column: auto / span 1;
+  border: none !important;
+  background: transparent;
 }

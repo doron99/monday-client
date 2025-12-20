@@ -337,6 +337,7 @@ return (
               <div className={`${cmp} ${index === 0 ? 'first-summary-column' : ''}`} key={`progress-${cmp}`}></div>
             )
           )}
+          <div className="summary-filler"></div>
         </section>
       </section>
     )}
