@@ -26,7 +26,11 @@ export function AppSideBar() {
   const location = useLocation()
 
   const boards = useSelector(state => state.boardModule.boards)
-  const favorites = useSelector(state => state.boardModule.favorites)
+  const favorites = useSelector(state => {
+    const boards = state.boardModule.boards || [];
+    const starredIds = state.userModule.loggedInUser?.starredBoardIds || [];
+    return boards.filter(b => starredIds.includes(b._id));
+  })
 
   const [isOpen, setIsOpen] = useState(true)
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(true)
@@ -90,8 +94,9 @@ export function AppSideBar() {
     // Call the user action to toggle board star
     toggleBoardStar(boardId)
       .then(() => {
-        // Reload boards to sync with backend state
+        // Reload boards and favorites to sync with backend state
         loadBoards()
+        loadFavorites()
       })
       .catch((err) => {
         console.error('Failed to toggle favorite:', err)
