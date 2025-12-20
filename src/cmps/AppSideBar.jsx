@@ -26,7 +26,11 @@ export function AppSideBar() {
   const location = useLocation()
 
   const boards = useSelector(state => state.boardModule.boards)
-  const favorites = useSelector(state => state.boardModule.favorites)
+  const favorites = useSelector(state => {
+    const boards = state.boardModule.boards || [];
+    const starredIds = state.userModule.loggedInUser?.starredBoardIds || [];
+    return boards.filter(b => starredIds.includes(b._id));
+  })
 
   const [isOpen, setIsOpen] = useState(true)
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(true)
