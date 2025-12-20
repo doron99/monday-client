@@ -11,7 +11,6 @@ export function BoardList() {
     return <div className="empty-board-list">No boards found</div>
   }
 
-  // מיון לפי lastVisited ולקיחת 6 הראשונים
   const recentBoards = [...boards]
     .sort((a, b) => (b.lastVisited || 0) - (a.lastVisited || 0))
     .slice(0, 6)

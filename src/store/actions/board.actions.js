@@ -21,8 +21,18 @@ export function loadBoards(filterBy) {
   store.dispatch({ type: SET_LOADING, isLoading: true })
   return boardService.query(filterBy)
     .then(boards => {
-      store.dispatch({ type: SET_BOARDS, boards })
-      return boards
+      // Mark boards as starred based on logged-in user's starredBoardIds
+      const state = store.getState()
+      const loggedInUser = state.userModule.loggedInUser
+      const starredBoardIds = loggedInUser?.starredBoardIds || []
+      
+      const boardsWithStarred = boards.map(board => ({
+        ...board,
+        isStarred: starredBoardIds.includes(board._id)
+      }))
+      
+      store.dispatch({ type: SET_BOARDS, boards: boardsWithStarred })
+      return boardsWithStarred
     })
     .catch(err => {
       console.log('Cannot load boards', err)

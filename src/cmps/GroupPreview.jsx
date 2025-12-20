@@ -325,18 +325,19 @@ return (
   style={{ '--group-color': group.style.color }}
 >
 
-          {visibleCmpOrder.map((cmp) =>
+          {visibleCmpOrder.map((cmp, index) =>
             progressComponents.includes(cmp) ? (
-              <div className={`with-${cmp}`} key={`progress-${cmp}`}>
+              <div className={`with-${cmp} ${index === 0 ? 'first-summary-column' : ''}`} key={`progress-${cmp}`}>
                 <SummaryBar
                   tasks={group.tasks.filter(t => !t.isDeleted && !t.isArchived)}
                   cmp={cmp}
                 />
               </div>
             ) : (
-              <div className={cmp} key={`progress-${cmp}`}></div>
+              <div className={`${cmp} ${index === 0 ? 'first-summary-column' : ''}`} key={`progress-${cmp}`}></div>
             )
           )}
+          <div className="summary-filler"></div>
         </section>
       </section>
     )}

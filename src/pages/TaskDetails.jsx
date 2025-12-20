@@ -49,6 +49,20 @@ export function TaskDetails(){
 
         return () => clearTimeout(timer); // Cleanup timer if component unmounts
     }, []);
+
+    // Make board remain interactive by giving the board container right padding
+    useEffect(() => {
+        const boardContent = document.querySelector('.board-details > div:first-child');
+        if (!boardContent) return;
+        const origPaddingRight = boardContent.style.paddingRight || '';
+        // leave some gap for the panel
+        boardContent.style.paddingRight = '520px';
+        return () => {
+            boardContent.style.paddingRight = origPaddingRight;
+        }
+    }, []);
+
+    // No external visible scrollbar — board remains scrollable via mouse/trackpad
     const onClickX = () => {
         navigate(`/board/${boardId}`);//, { replace: true }); // Adjust the URL as needed
 
@@ -73,7 +87,7 @@ export function TaskDetails(){
                 "createdAt": new Date().getTime(),
                 "byMember": {
                   "_id": "u100",
-                  "name": "Doron test"
+                  "name": "Doron Cohen",
                 }
             }
             const newDetails = [...comments,newComment]

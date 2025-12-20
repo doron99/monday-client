@@ -2,18 +2,25 @@ import BoardPreviewSvg from '../assets/svgs/board-preview.svg';
 import { RiLayoutGridFill } from "react-icons/ri";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { useNavigate } from 'react-router';
+import { toggleBoardStar } from '../store/actions/user.actions.js'
+import { loadBoards } from '../store/actions/board.actions.js'
 
 export function BoardPreview({ boardPreview }) {
     const navigate = useNavigate();
     
-    const toggleStar = (ev) => {
+    const toggleStar = async (ev) => {
         ev.stopPropagation();
         ev.preventDefault();
         console.log('Toggle star for board:', boardPreview._id);
-        // כאן תוסיף את הלוגיקה לעדכון ה-store
+        
+        try {
+            await toggleBoardStar(boardPreview._id)
+            await loadBoards()
+        } catch (err) {
+            console.error('Failed to toggle favorite:', err)
+        }
     };
 
-    // נתיב דינמי - אם יש לך מידע על workspace/team תוכל להוסיף כאן
     const breadcrumb = "monday dev > workspace";
 
     return (

@@ -6,11 +6,12 @@ import { useEffectUpdate } from "../customHooks/useEffectUpdate";
 import UserAvatarSvg from '../../assets/svgs/user-avatar.svg';
 
  const allPeople = [
-        { _id: 'u100',name: 'Doron test' },
-        { _id: 'u101',name: 'Gil test' },
-        { _id: 'u102',name: 'Mira test' },
-        // Add more people as needed
-    ];
+  { _id: "u100", name: "Doron Cohen" },
+  { _id: "u101", name: "Gil Levi" },
+  { _id: "u102", name: "Mira Ben David" },
+  { _id: "u103", name: "Noam Shahar" },
+  { _id: "u104", name: "Yael Rosen" },
+];
 export const PopperContentMember = ({ content, buttonRef, onSelect, onClose }) => {
   console.log('PopperContentMember content',content)
   const isDev = useSelector(storeState => storeState.devToolModule.isDev)
@@ -37,7 +38,6 @@ export const PopperContentMember = ({ content, buttonRef, onSelect, onClose }) =
       console.log('members updated',selectedPeople,userIds)
       console.log('handleMembersSelect',content.groupId, content.taskId, { key:'members', value:userIds });
       updateBoard(content.groupId, content.taskId, { key:'members', value:userIds });
-      onClose();
   }, [selectedPeople])
 
   const devSection = isDev 
@@ -90,13 +90,12 @@ export const PopperContentMember = ({ content, buttonRef, onSelect, onClose }) =
                       <div 
                       onClick={() => handleAddPerson(person)} 
                       className="person-popper-suggested-row" key={index}>
-                          <img 
-                                  src={UserAvatarSvg} 
-                                  alt="no-members" 
-                                  style={{ fontSize: '1.5rem', height:'1.5rem',display:'block',marginRight:'3px' }} 
-                                />
-                          <span style={{ display:'block' }}>{person.name}</span>
-                          {/* <button onClick={() => handleAddPerson(person)}>Add</button> */}
+                          <div className="person-row-with-avatar">
+                            <div className="person-avatar">
+                              {person.name.charAt(0).toUpperCase()}
+                            </div>
+                            <span>{person.name}</span>
+                          </div>
                       </div>
                   )
               )}

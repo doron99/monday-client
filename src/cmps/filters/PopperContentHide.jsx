@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { setHiddenColumns } from "../../store/actions/board.actions";
+import { SvgIcon } from "../SvgIcon";
 
 const HIDEABLE_COLUMNS = [
-  { id: "status", label: "Status", color: "#00c875" },
-  { id: "members", label: "Member", color: "#00c0ff" },
-  { id: "date", label: "Date", color: "#a25ddc" },
-  { id: "priority", label: "Priority", color: "#fdab3d" },
+  { id: "status", label: "Status", icon: "status", color: "#00c875" },
+  { id: "members", label: "Member", icon: "people", color: "#00c0ff" },
+  { id: "date", label: "Date", icon: "date", color: "#a25ddc" },
+  { id: "priority", label: "Priority", icon: "status", color: "#fdab3d" },
 ];
 
 export function PopperContentHide() {
-  const hiddenColumns = useSelector(state => state.boardModule.hiddenColumns);
+  const hiddenColumns = useSelector(
+    state => state.boardModule.hiddenColumns
+  );
   const [search, setSearch] = useState("");
 
   const hideableIds = HIDEABLE_COLUMNS.map(c => c.id);
@@ -89,12 +92,16 @@ export function PopperContentHide() {
                 onChange={() => toggleColumn(col.id)}
               />
 
-              <span
+              <SvgIcon
+                icon={col.icon}
+                size={20}
+                color={col.color}
                 className="hide-column-icon"
-                style={{ backgroundColor: col.color }}
               />
 
-              <span className="hide-column-label">{col.label}</span>
+              <span className="hide-column-label">
+                {col.label}
+              </span>
             </label>
           );
         })}

@@ -1,5 +1,5 @@
 import { userService } from "../../services/user.service.js"
-import { SET_USER, SET_USER_SCORE } from "../reducers/user.reducer.js"
+import { SET_USER, SET_USER_SCORE, UPDATE_USER_STARRED_BOARDS } from "../reducers/user.reducer.js"
 import { store } from "../store.js"
 
 export function login(credentials) {
@@ -33,6 +33,34 @@ export function logout(credentials) {
         })
         .catch((err) => {
             console.log('user actions -> Cannot logout', err)
+        })
+}
+
+export function devAutoLogin() {
+    console.log('DEV auto-login initiated')
+    return userService.devAutoLogin()
+        .then((user) => {
+            console.log('DEV auto-login successful:', user)
+            store.dispatch({ type: SET_USER, user })
+            return user
+        })
+        .catch((err) => {
+            console.log('user actions -> Cannot DEV auto-login', err)
+            throw err
+        })
+}
+
+export function toggleBoardStar(boardId) {
+    console.log('Toggling board star:', boardId)
+    return userService.toggleBoardStar(boardId)
+        .then((starredBoardIds) => {
+            console.log('Board star toggled. Updated starred boards:', starredBoardIds)
+            store.dispatch({ type: UPDATE_USER_STARRED_BOARDS, starredBoardIds })
+            return starredBoardIds
+        })
+        .catch((err) => {
+            console.log('user actions -> Cannot toggle board star', err)
+            throw err
         })
 }
 

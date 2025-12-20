@@ -1,4 +1,5 @@
 import { storageService } from './async-storage.service.js'
+import { httpService } from './http.service.js'
 
 const STORAGE_KEY = 'userDB'
 const STORAGE_KEY_LOGGEDIN = 'loggedinUser'
@@ -10,7 +11,9 @@ export const userService = {
     getById,
     getLoggedinUser,
     updateScore,
-    getEmptyCredentials
+    getEmptyCredentials,
+    devAutoLogin,
+    toggleBoardStar
 }
 
 
@@ -73,10 +76,15 @@ function getEmptyCredentials() {
     }
 }
 
+function devAutoLogin() {
 
-// Test Data
-// userService.signup({username: 'bobo', password: 'bobo', fullname: 'Bobo McPopo'})
-// userService.login({username: 'bobo', password: 'bobo'})
+    return httpService.post('auth/dev-login', {})
+}
+
+function toggleBoardStar(boardId) {
+
+    return httpService.put('user/star', { boardId })
+}
 
 
 

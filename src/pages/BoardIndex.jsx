@@ -3,11 +3,12 @@ import { BoardList } from '../cmps/BoardList.jsx'
 import { BoardIndexHeader } from '../cmps/BoardIndexHeader.jsx'
 
 export function BoardIndex() {
-    const isDev = useSelector(storeState => storeState.devToolModule.isDev)
+    const loggedInUser = useSelector(storeState => storeState.userModule.loggedInUser)
+    const userName = loggedInUser?.fullname || 'User'
 
     return (
         <div className="board-index">
-            <BoardIndexHeader/>
+            <BoardIndexHeader userName={userName} />
             <BoardList />
         </div>
     )

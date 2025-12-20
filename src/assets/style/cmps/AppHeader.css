@@ -3,7 +3,11 @@
     background:#e2f0e7
 } */
 
-.app-header h5,svg {
+.app-header h5 {
+    color:black;
+}
+
+.app-header svg {
     color:black;
 }
 
