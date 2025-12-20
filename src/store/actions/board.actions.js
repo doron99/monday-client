@@ -42,19 +42,31 @@ export function loadBoards(filterBy) {
     })
 }
 
-export function loadFavorites() {
+export async function loadFavorites() {
   store.dispatch({ type: SET_LOADING, isLoading: true })
-  return boardService.getFavorites()
-    .then(favorites => {
-      store.dispatch({ type: SET_FAVORITES, favorites })
-      return favorites
-    })
-    .catch(err => {
-      console.log('Cannot load favorites', err)
-    })
-    .finally(() => {
-      store.dispatch({ type: SET_LOADING, isLoading: false })
-    })
+  try {
+    // Prefer deriving favorites from the current boards in state for immediate UI sync
+    const state = store.getState()
+    const loggedInUser = state.userModule.loggedInUser
+    const starredBoardIds = loggedInUser?.starredBoardIds || []
+
+    let boards = state.boardModule.boards
+    if (!boards || boards.length === 0) {
+      // Fallback to querying boards from the server
+      boards = await boardService.query()
+    }
+
+    const favorites = boards
+      .map(b => ({ ...b, isStarred: starredBoardIds.includes(b._id) }))
+      .filter(b => b.isStarred)
+
+    store.dispatch({ type: SET_FAVORITES, favorites })
+    return favorites
+  } catch (err) {
+    console.log('Cannot load favorites', err)
+  } finally {
+    store.dispatch({ type: SET_LOADING, isLoading: false })
+  }
 }
 
 export async function loadBoardById(boardId) {

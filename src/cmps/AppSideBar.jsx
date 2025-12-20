@@ -90,8 +90,9 @@ export function AppSideBar() {
     // Call the user action to toggle board star
     toggleBoardStar(boardId)
       .then(() => {
-        // Reload boards to sync with backend state
+        // Reload boards and favorites to sync with backend state
         loadBoards()
+        loadFavorites()
       })
       .catch((err) => {
         console.error('Failed to toggle favorite:', err)
