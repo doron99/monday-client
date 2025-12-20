@@ -87,7 +87,7 @@ export function TaskDetails(){
                 "createdAt": new Date().getTime(),
                 "byMember": {
                   "_id": "u100",
-                  "name": "Doron test"
+                  "name": "Doron Cohen",
                 }
             }
             const newDetails = [...comments,newComment]
