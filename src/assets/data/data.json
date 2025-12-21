@@ -110,7 +110,7 @@
       }
     ],
     "activities": [],
-    "cmpOrder": ["side", "taskTitle", "status", "priority", "date", "members","Files"]
+    "cmpOrder": ["side", "taskTitle", "status", "priority", "date", "members"]
   },
   {
     "_id": "b102",
@@ -209,6 +209,6 @@
       }
     ],
     "activities": [],
-    "cmpOrder": ["side", "taskTitle", "status", "priority", "members", "date","Files"]
+    "cmpOrder": ["side", "taskTitle", "status", "priority", "members", "date"]
   }
 ]

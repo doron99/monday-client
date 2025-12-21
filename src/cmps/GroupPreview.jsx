@@ -52,6 +52,11 @@ export function GroupPreview({
   cmp => cmp === "side" || cmp === "taskTitle" || !hiddenColumns.includes(cmp)
 );
 
+  function capitalizeFirst(str) {
+    if (!str) return str;
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
 
 
 
@@ -244,7 +249,7 @@ return (
           <div className="collapsed-headers">
             {visibleCmpOrder.slice(1).map((cmpName) => (
               <div key={cmpName} className="collapsed-header-item">
-                {labels[cmpOrder.indexOf(cmpName)] || cmpName}
+                {capitalizeFirst(labels[cmpOrder.indexOf(cmpName)] || cmpName)}
               </div>
             ))}
           </div>
@@ -275,7 +280,7 @@ return (
 
                 return (
                   <DraggableCmpHeader key={cmpName} id={cmpName}>
-                    {labels[cmpOrder.indexOf(cmpName)] || cmpName}
+                    {capitalizeFirst(labels[cmpOrder.indexOf(cmpName)] || cmpName)}
                   </DraggableCmpHeader>
                 );
               })}

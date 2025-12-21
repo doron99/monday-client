@@ -545,7 +545,6 @@
   width: 100%;
   grid-template-columns: 40px 340px 190px 190px 190px 190px 190px 190px 190px 1fr;
   border-top: 1px solid #e6e9ef !important;
-  border-bottom: 1px solid #e6e9ef !important;
 }
 
 .progress-grid.summary-row > div:first-child {
@@ -557,6 +556,8 @@
 /* מחזיר בורדר תחתון לכל התאים חוץ מהראשון בשורה האחרונה */
 .progress-grid.summary-row > div:nth-child(n+3) {
   border-right: 1px solid #e6e9ef !important;
+  border-bottom: 2px solid #e6e9ef !important;  
+
 }
 
 .progress-grid.summary-row > div:nth-child(3) {
