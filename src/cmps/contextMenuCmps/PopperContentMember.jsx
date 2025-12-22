@@ -57,6 +57,9 @@ export const PopperContentMember = ({ content, buttonRef, onSelect, onClose }) =
                     {selectedPeople.map((person, index) => (
                       // style={{margin: '5px', padding: '5px', border: '1px solid #ccc'}}
                         <span className="person-popper-badge" key={index} >
+                            <div className="person-avatar small">
+                                {person.name.charAt(0).toUpperCase()}
+                            </div>
                             {person.name}&nbsp;
                             <span
                              className="person-popper-remove" 
